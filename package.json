@@ -68,5 +68,8 @@
   "main": "next.config.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^5.0.0"
+  }
 }
