@@ -114,11 +114,15 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
   const [showOTP, setShowOTP] = React.useState(false);
   const [LoginOTPData, setLoginOTPData] = React.useState("");
   const [loginOTP, setLoginOTP] = React.useState("");
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = React.useState("GB");
   const [validateOTP, setValidateOTP] = React.useState(true);
   const [successMessage, setSuccessMessage] = React.useState(false);
   const [selectedCoutry, setSelectedCountry] = React.useState();
   const [showError, setShowError] = React.useState(false);
+
+  //ButtonDisabled
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+
   const customLabels = {
     GB: { primary: "UK", secondary: "+44" },
     IN: { primary: "IN", secondary: "+91" },
@@ -615,7 +619,9 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                     />
                   </Box>
 
-                  <Box sx={{ mt: 2, display: "flex" }}>
+                  
+           
+                  {/* <Box sx={{ mt: 2, display: "flex" }}>
                     <ReactFlagsSelect
                       selected={selected}
                       onSelect={handleSelect} // Use the handleSelect function
@@ -664,6 +670,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                       size={"small"}
                     />
                   </Box>
+
                   {formik.values.mobile.length < 10 && ( // Conditional rendering based on the length of the mobile number
                     <Box className="invalidNumber" mt={2} sx={{ color: "red" }}>
                       Please enter a valid phone number with 10 or fewer digits.
@@ -682,10 +689,97 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                       sx={{ width: "60%" }}
                       onClick={() => reformik.handleSubmit()}
                     >
-                      Send OTP
+                      Send OTP1
                     </Button>
                   </Box>
-                  }
+                  } */}
+
+
+<Box sx={{ display: "flex", alignItems: "baseline" }}>
+                    <div style={{ position: "relative", top: "-13px" }}>
+                      <ReactFlagsSelect
+                        selected={selected}
+                        onSelect={handleSelect}
+                        countries={["GB", "IN"]}
+                        customLabels={customLabels}
+                        selectedSize={10}
+                        className="menu-flags"
+                        components={{
+                          DropdownIndicator: () => null,
+                          IndicatorSeparator: () => null,
+                        }}
+                        selectButtonClassName="menu-flags-button"
+                        style={{
+                          border: "1px solid red",
+                          fontSize: "25px",
+                          borderRadius: "5px",
+                          width: "40px",
+                        }}
+                      />
+                    </div>
+
+                    <TextBox
+                      variant="standard"
+                      fullWidth
+                      name="mobile"
+                      label="Contact Number"
+                      value={formik.values.mobile}
+                      onChange={(e) => {
+                        const cleanedValue = e.target.value
+                          .replace(/\D/gm, "")
+                          .slice(0, 11);
+                        formik.setFieldValue("mobile", cleanedValue);
+                      }}
+                      helperText={formik.touched.mobile && formik.errors.mobile}
+                      placeholder={"Enter Your Contact Number"}
+                      size={"small"}
+                    />
+
+                    {successMessage && (
+                      // <Box className="numberVerifed" mt={2}>
+                      //   Number is verified.
+                      // </Box>
+
+                      <Box
+                        className="numberVerified"
+                        mt={2}
+                        sx={{
+                          position: "absolute",
+                          bottom: 240,
+                          zIndex: 999,
+                          marginLeft: "100px",
+                          color: "green",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Number is verified.
+                      </Box>
+                    )}
+
+                    {/* {validateOTP && ( */}
+                    {
+                      <Box className="otpButton" mt={2}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          ms={3}
+                          disabled={isButtonDisabled} // Set disabled state
+                          sx={{ width: "100px", marginLeft: "10px" }}
+                          onClick={() => {
+                            reformik.handleSubmit();
+                            setIsButtonDisabled(true); // Disable button after click
+                          }}
+                        >
+                          Send OTP
+                        </Button>
+                      </Box>
+                    }
+                  </Box>
+
+
+
+
+
                   {formik.values.user_type === "company" && (
                     <Box sx={{ mt: 2 }}>
                       <TextBox

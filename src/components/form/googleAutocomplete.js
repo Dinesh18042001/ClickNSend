@@ -101,7 +101,6 @@ const GoogleAutocomplete = (props) => {
         onSelect={(e) => handleSelect(e)}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => {
-         console.log("suggestions", suggestions)
 {/* 
           suggestions.push({
             description: "nfksdakj"

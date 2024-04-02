@@ -13,13 +13,13 @@ import {
   Stack,
   Modal,
   Typography,
-  List,
+  List
 } from "@mui/material";
 import React from "react";
 // import Modal from '@mui/joy/Modal';
-import ListItem from "@mui/joy/ListItem";
-import ModalDialog from "@mui/joy/ModalDialog";
-import ModalOverflow from "@mui/joy/ModalOverflow";
+import ListItem from '@mui/joy/ListItem';
+import ModalDialog from '@mui/joy/ModalDialog';
+import ModalOverflow from '@mui/joy/ModalOverflow';
 
 const DocumentModal = ({ formik }) => {
   const [open, setOpen] = React.useState(false);
@@ -99,7 +99,7 @@ const DocumentModal = ({ formik }) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        {/* <ModalOverflow>
+       {/* <ModalOverflow>
        <ModalDialog aria-labelledby="modal-dialog-overflow" > */}
         <Box
           sx={{
@@ -150,6 +150,7 @@ const DocumentModal = ({ formik }) => {
                         URL.createObjectURL(e.target.files[0])
                       );
                     }}
+                  
                   />
                 )}
 
@@ -181,33 +182,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.profile_img.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.profile_img_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.profile_img_url}
-                            alt={formik.values.profile_img.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.profile_img.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.profile_img_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.profile_img_url}
+                                    alt={formik.values.profile_img.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -242,6 +243,7 @@ const DocumentModal = ({ formik }) => {
                         URL.createObjectURL(e.target.files[0])
                       );
                     }}
+                   
                   />
                 )}
 
@@ -273,33 +275,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.licence_front.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.licence_front_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.licence_front_url}
-                            alt={formik.values.licence_front.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.licence_front.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.licence_front_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.licence_front_url}
+                                    alt={formik.values.licence_front.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -368,33 +370,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.licence_back.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.licence_back_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.licence_back_url}
-                            alt={formik.values.licence_back.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.licence_back.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.licence_back_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.licence_back_url}
+                                    alt={formik.values.licence_back.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -463,34 +465,34 @@ const DocumentModal = ({ formik }) => {
                             <Close fontSize="small" />
                           </IconButton>
                         </Card>
-                      </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.address_proof.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.address_proof_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.address_proof_url}
-                            alt={formik.values.address_proof.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                      </Box>                  
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.address_proof.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.address_proof_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.address_proof_url}
+                                    alt={formik.values.address_proof.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -560,33 +562,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.insurance_cert.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.insurance_cert_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.insurance_cert_url}
-                            alt={formik.values.insurance_cert.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.insurance_cert.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.insurance_cert_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.insurance_cert_url}
+                                    alt={formik.values.insurance_cert.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -655,33 +657,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.transit_cert.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.transit_cert_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.transit_cert_url}
-                            alt={formik.values.transit_cert.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.transit_cert.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.transit_cert_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.transit_cert_url}
+                                    alt={formik.values.transit_cert.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -751,33 +753,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.liability_cert.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.liability_cert_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.liability_cert_url}
-                            alt={formik.values.liability_cert.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.liability_cert.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                   src={formik.values.liability_cert_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                   src={formik.values.liability_cert_url}
+                                    alt={formik.values.liability_cert.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -846,33 +848,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.vehicle_cert.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.vehicle_cert_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.vehicle_cert_url}
-                            alt={formik.values.vehicle_cert.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.vehicle_cert.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.vehicle_cert_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.vehicle_cert_url}
+                                    alt={formik.values.vehicle_cert.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -941,33 +943,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.v5c_cert.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.v5c_cert_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.v5c_cert_url}
-                            alt={formik.values.v5c_cert.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.v5c_cert.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.v5c_cert_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.v5c_cert_url}
+                                    alt={formik.values.v5c_cert.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -1036,33 +1038,33 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.dvia_cert.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.dvia_cert_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.dvia_cert_url}
-                            alt={formik.values.dvia_cert.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                       <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.dvia_cert.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.dvia_cert_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.dvia_cert_url}
+                                    alt={formik.values.dvia_cert.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
                     </CardContent>
                   </Card>
                 )}
@@ -1135,33 +1137,34 @@ const DocumentModal = ({ formik }) => {
                           </IconButton>
                         </Card>
                       </Box>
-                      <Box
-                        style={{ margin: "10px" }}
-                        width="150px"
-                        height="150px"
-                        thumbnail
-                      >
-                        {formik.values.nationality_cert.name
-                          .toLowerCase()
-                          .endsWith(".pdf") ? (
-                          <embed
-                            src={formik.values.nationality_cert_url}
-                            type="application/pdf"
-                            width="100%"
-                            height="100%"
-                          />
-                        ) : (
-                          <img
-                            src={formik.values.nationality_cert_url}
-                            alt={formik.values.nationality_cert.name}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
-                      </Box>
+                     <Box
+                                style={{ margin: "10px" }}
+                                width="150px"
+                                height="150px"
+                                thumbnail
+                              >
+                                {formik.values.nationality_cert.name
+                                  .toLowerCase()
+                                  .endsWith(".pdf") ? (
+                                  <embed
+                                    src={formik.values.nationality_cert_url}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="100%"
+                                  />
+                                ) : (
+                                  <img
+                                    src={formik.values.nationality_cert_url}
+                                    alt={formik.values.nationality_cert.name}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                )}
+                              </Box>
+
                     </CardContent>
                   </Card>
                 )}

@@ -21,7 +21,8 @@
     background: #ff7533; 
   }
   .css-uwcd5u.SnackbarContainer-center{
-    top: 35%; 
+    top: 15%; 
+    left: 90%;
   }
   /* .css-1mn67p{
     display: none !important ; 
@@ -53,8 +54,8 @@
       }
     .menu-flags{
       /* border-bottom: 3px solid red; */
-      top: 1px  !important;
-      right: 11px;
+      top: 14px  !important;
+      right: 13px;
       /* width: 10px !important ; */
     }
     .otpButton{

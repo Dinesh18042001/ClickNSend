@@ -23,7 +23,8 @@ const JobPostForm = ({
   addProduct,
   removeProduct,
   addAddress,
-  removeAddress,
+  removesAddress,
+  addSingleAddress,
 }) => {
   const { value } = useContext(StepperContext);
   const isLastStep = value === 3 - 1;
@@ -51,6 +52,8 @@ const JobPostForm = ({
             id={id}
             removeProduct={removeProduct}
             addProduct={addProduct}
+            addSingleAddress={addSingleAddress}
+            removesAddress={removesAddress}
           />
         </>
       ),
@@ -138,6 +141,7 @@ const JobPostForm = ({
                             id={id}
                             removeProduct={removeProduct}
                             addProduct={addProduct}
+                            removesAddress={removesAddress}
                           />
                         </Grid>
                         <Grid  item md={12}>

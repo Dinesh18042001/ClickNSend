@@ -18,23 +18,20 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import PaymentPage from "./paymentPage";
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useState,useEffect } from "react";
-import { useRouter } from 'next/router';
-
-// import payment from "../payment"
-
-
+import CardPaymentForm from '../paymentPage/CardPaymentForm'
 
 const SubscriptionsPage = () => {
   const [hover, setHover] = useState(0);
-  const router = useRouter();
-
-  
-
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [stripePromise, setStripePromise] = useState(null);
+
+  const [paymentDetails, setPaymentDetails] = useState(null);
+  const [showPayment, setShowPayment] = useState(false); // State to control the display of PaymentPage
+
   // API FETCH LIST
 
 
@@ -59,8 +56,10 @@ const SubscriptionsPage = () => {
     fetchdata();
   }, []);
 
-  // const handleCheckout = async (elem) => {
-  //   console.log("elemx  ", elem);
+  const handleCheckout = async (elem) => {
+    setPaymentDetails(elem)
+    console.log("Selected Plan: ", elem);
+    setShowPayment(true); 
 
   //   const stripe = await loadStripe("pk_test_51LKfAOSJ8dZUi1GsNUiaUFRZ4wv8NIMfanCq6X9sQm9ekgREnQYVNid0ksBJL0PwLd75E9ASbQVptpqr21uNqMp000qtwcZJCV");
   //   // sk_test_51LKfAOSJ8dZUi1GsRwvDVKOZr0HzELRyQuV3UawLIoF8GXVNwPc3BA6x9XDnxB8oYy88or5hjxdsT7H5fPUiWQKC00jyJxfL1Z
@@ -74,7 +73,8 @@ const SubscriptionsPage = () => {
   //     method:"POST",
   //     headers:headers,
   //     body:JSON.stringify(body)
-  // });
+  // }
+  // );
   // const session = await response.json();
 
   // const result = stripe.redirectToCheckout({
@@ -84,15 +84,23 @@ const SubscriptionsPage = () => {
   //   if (result.error) {
   //     console.error(result.error);
   //   }
-  // };
-
-
+  };
   console.log("datadata", data);
- 
 
   return (
     <React.Fragment>
-      <Box
+     
+      {!showPayment ? (
+      <Box sx={{ backgroundColor: "#f5f5f5", pb: 6 }}>
+        {loading ? (
+          <>
+            <Container>
+              <SkeletonLoader />
+            </Container>
+          </>
+        ) : (
+          <>
+          <Box
         sx={{
           position: "relative",
           overflow: "hidden",
@@ -107,6 +115,17 @@ const SubscriptionsPage = () => {
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
+          // "&::before": {
+          //   content: '""',
+          //   backgroundImage:
+          //     "linear-gradient(to left, rgba(77,39,63,0) 0%, #463b46 160%)",
+          //   position: "absolute",
+          //   top: 0,
+          //   left: 0,
+          //   bottom: 0,
+          //   right: 0,
+          //   zIndex: 7,
+          // },
         }}
       >
         <Stack
@@ -175,14 +194,6 @@ const SubscriptionsPage = () => {
           </Stack>
         </CardContent>
       </Box>
-      <Box sx={{ backgroundColor: "#f5f5f5", pb: 6 }}>
-        {loading ? (
-          <>
-            <Container>
-              <SkeletonLoader />
-            </Container>
-          </>
-        ) : (
           <Box
           className='subscription_plan_box_stack_responsive'
             sx={{
@@ -193,6 +204,7 @@ const SubscriptionsPage = () => {
           >
             <Container>
               <Box pb={0}>
+              
                 <Grid  className="DashboardSubscritption_Grid_stack_responsive"  container spacing={6}>
                   {data &&
                     data?.length > 0 &&
@@ -330,12 +342,7 @@ const SubscriptionsPage = () => {
                                     variant="contained"
                                     width="min-content"
                                     sx={{ px: 5 }}
-
-                                    // onClick={() => handleCheckout(elem)}
-
-                                    
-                                      onClick={() => router.push("/dashboard/customer/PaymentPage/payment")}
-                                   
+                                    onClick={() => handleCheckout(elem)}
                                   >
                                     GET STARTED
                                   </Button>
@@ -350,8 +357,12 @@ const SubscriptionsPage = () => {
               </Box>
             </Container>
           </Box>
+          </>
         )}
       </Box>
+      ) : (
+        <CardPaymentForm paymentDetails={paymentDetails} setShowPayment={setShowPayment}  /> // Render the PaymentPage component when showPayment is true
+      )}
     </React.Fragment>
   );
 };

@@ -12,8 +12,6 @@ import {
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";  import Alert from '@mui/material/Alert';
 
-// import { Link } from "react-router-dom";
-
 const Subscribe = () => {
   const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({

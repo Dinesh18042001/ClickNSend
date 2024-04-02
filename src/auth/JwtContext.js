@@ -470,20 +470,18 @@ export function AuthProvider({ children }) {
         ...data,
       });
       const { access_token, user } = response.data;
-      
       enqueueSnackbar(
         <Alert
           style={{
-            width: "fit-content", // Adjust width dynamically based on content
-            padding: "10px 15px", // Adjust padding for a smaller alert
+            width: "230px",
+            padding: "10px",
             backdropFilter: "blur(8px)",
-            background: "#ff7533",
-            fontSize: "14px", // Reduce font size for a smaller alert
-            fontWeight: 600, // Adjust font weight as needed
-            lineHeight: "20px", // Adjust line height for better text alignment
-            width: "300px"
+            background: "#ff7533 ",
+            fontSize: "12px",
+            fontWeight: 600,
+            lineHeight: "3px"
           }}
-          icon={false}
+          icon={true}
           severity="success"
         >
           {response?.data?.message}
@@ -493,14 +491,10 @@ export function AuthProvider({ children }) {
           iconVariant: true,
           anchorOrigin: {
             vertical: "top",
-            horizontal: "right",
-          },
-          style: {
-            marginTop: "50px",
+            horizontal: "center",
           },
         }
       );
-      
       setSession(access_token);
 
       dispatch({
@@ -539,8 +533,6 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  
-
   // REGISTER
   const register = useCallback(async (data) => {
     const response = await axios.post("/api/account/register", {
@@ -565,16 +557,15 @@ export function AuthProvider({ children }) {
       enqueueSnackbar(
         <Alert
           style={{
-            width: "fit-content", // Adjust width dynamically based on content
-            padding: "10px 15px", // Adjust padding for a smaller alert
+            width: "230px",
+            padding: "10px",
             backdropFilter: "blur(8px)",
-            background: "#ff7533",
-            fontSize: "14px", // Reduce font size for a smaller alert
-            fontWeight: 600, // Adjust font weight as needed
-            lineHeight: "20px", // Adjust line height for better text alignment
-            width: "300px"
+            background: "#ff7533 ",
+            fontSize: "12px",
+            fontWeight: 600,
+            lineHeight: "3px"
           }}
-          icon={false}
+          icon={true}
           severity="success"
         >
           {response?.data?.message}
@@ -584,12 +575,7 @@ export function AuthProvider({ children }) {
           iconVariant: true,
           anchorOrigin: {
             vertical: "top",
-            horizontal: "right",
-          },
-          style: {
-            //marginTop: "50px",
-            marginTop: "180px",
-            marginRight: "300px"
+            horizontal: "center",
           },
         }
       );
@@ -615,8 +601,6 @@ export function AuthProvider({ children }) {
           type: "LOGOUT",
         });
       }
-
-
       enqueueSnackbar(
         <Alert
           style={{
@@ -642,7 +626,6 @@ export function AuthProvider({ children }) {
           },
         }
       );
-
     }
   }, []);
 

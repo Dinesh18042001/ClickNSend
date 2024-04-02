@@ -57,7 +57,6 @@ const firebaseApp = initializeApp(FIREBASE_API);
 console.log("firebaseApp", firebaseApp);
 
 const AUTH = getAuth(firebaseApp);
-console.log("AUTH", AUTH); // Check if AUTH is initialized correctly
 
 const GOOGLE_PROVIDER = new GoogleAuthProvider();
 

@@ -62,15 +62,15 @@ const UploadFileBox = (props) => {
           setError(data.message);
         }
       })
-      
       .catch((error) => {
+        console.log('error',error);
+
         const { response } = error;
         setLoading(false);
-        setError(response?.data.message);
-        console.log(error)
+        console.log('response',response);
+        // setError(response.data.message);
       });
   };
-
 
   return (
     <React.Fragment>
@@ -83,7 +83,6 @@ const UploadFileBox = (props) => {
           fileUpload(e);
           e.target.value = null;
         }}
-
       />
 
       <FormControl
@@ -176,175 +175,3 @@ const UploadFileBox = (props) => {
 };
 
 export default UploadFileBox;
-
-
-
-
-
-// import React, { useState } from "react";
-// import {
-//   Box,
-//   CircularProgress,
-//   FormHelperText,
-//   Icon,
-//   InputAdornment,
-//   Stack,
-//   TextField,
-//   alpha,
-// } from "@mui/material";
-// import axiosInstance from "@/utils/axios";
-// import { FormControl } from "./index";
-// import { green } from "@mui/material/colors";
-
-// const UploadFileBox = (props) => {
-//   const [loading, setLoading] = useState(false);
-//   const [message, setMessage] = useState("");
-//   const [error, setError] = useState("");
-
-//   const {
-//     name,
-//     label,
-//     accept,
-//     icon,
-//     value,
-//     size,
-//     required,
-//     inputAdornmentPosition,
-//     fullWidth,
-//     helperText,
-//     disabled,
-//     startIcon,
-//     endIcon,
-//   } = props;
-
-//   const fileUpload = async (e) => {
-//     props.onChange("");
-//     setMessage("");
-//     setError("");
-//     const file = e.target.files[0];
-//     const formData = new FormData();
-//     formData.append("item_image", file);
-//     setLoading(true);
-
-//     const config = {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     };
-
-//     try {
-//       const response = await axiosInstance.post(`/${props.url}`, formData, config);
-//       if (response && response.data) {
-//         setLoading(false);
-//         setMessage(response.data.message);
-//         props.onChange(response.data.image);
-//       } else {
-//         setLoading(false);
-//         setError("Failed to upload file. Please try again.");
-        
-//       }
-//     } catch (error) {
-//       setLoading(false);
-      
-//       setError(error.response?.data?.message || "An error occurred while uploading the file.");
-//     }
-//   };
-
-
-//   return (
-//     <React.Fragment>
-//       <input
-//         style={{ display: "none" }}
-//         id={`${name}-document-file`}
-//         type="file"
-//         accept={accept}
-//         onChange={(e) => {
-//           fileUpload(e);
-//           e.target.value = null;
-//         }}
-//       />
-
-//       <FormControl
-//         key={`${name}`}
-//         error={helperText || error ? true : false}
-//         fullWidth={fullWidth}
-//         required={required}
-//       >
-//         <Stack direction="row" width="100%">
-//           {startIcon && (
-//             <Box
-//               sx={{
-//                 ml: 0,
-//                 background: (theme) => theme.palette.grey[100],
-//                 border: "1px solid",
-//                 borderColor: (theme) => alpha(theme.palette.grey[500], 0.32),
-//                 padding: ".375rem .75rem",
-//                 borderRadius: ".25rem",
-//                 display: "flex",
-//                 alignItems: "center",
-//                 justifyContent: "center",
-//               }}
-//             >
-//               {startIcon}
-//             </Box>
-//           )}
-//           <TextField
-//             fullWidth={fullWidth}
-//             error={helperText || error ? true : false}
-//             success={!error}
-//             name={name}
-//             label={label}
-//             variant="standard"
-//             type="text"
-//             readOnly={disabled}
-//             size={size}
-//             required={required}
-//             disabled={disabled}
-//             value={value}
-//             onChange={(e) => props.onChange(e.target.value)}
-//             InputProps={{
-//               endAdornment: (
-//                 <InputAdornment position={inputAdornmentPosition}>
-//                   {loading ? (
-//                     <CircularProgress size={25} />
-//                   ) : (
-//                     <label htmlFor={`${name}-document-file`}>
-//                       <Icon>{icon}</Icon>
-//                     </label>
-//                   )}
-//                 </InputAdornment>
-//               ),
-//             }}
-//           />
-//           {endIcon && (
-//             <Box
-//               sx={{
-//                 ml: 0,
-//                 background: (theme) => theme.palette.grey[100],
-//                 border: "1px solid",
-//                 borderColor: (theme) => alpha(theme.palette.grey[500], 0.32),
-//                 padding: ".375rem .75rem",
-//                 borderRadius: ".25rem",
-//                 display: "flex",
-//                 alignItems: "center",
-//                 justifyContent: "center",
-//               }}
-//             >
-//               {endIcon}
-//             </Box>
-//           )}
-//         </Stack>
-
-//         {helperText && <FormHelperText>{helperText}</FormHelperText>}
-//         {error && <FormHelperText>{error}</FormHelperText>}
-//         {message && (
-//           <FormHelperText style={{ color: green[500] }}>
-//             {message}
-//           </FormHelperText>
-//         )}
-//       </FormControl>
-//     </React.Fragment>
-//   );
-// };
-
-// export default UploadFileBox;

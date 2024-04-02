@@ -84,8 +84,6 @@ export default function NavList({ item, isOffset }) {
                   items={list.items}
                   isDashboard={list.subheader === "Dashboard"}
                   onClose={handleCloseMenu}
-                  
-
                 />
               ))}
             </StyledMenu>

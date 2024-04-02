@@ -12,6 +12,7 @@ NavDesktop.propTypes = {
 };
 
 export default function NavDesktop({ isOffset, data }) {
+  console.log('data',data);
   return (
     <Stack component="nav" direction="row"  spacing={2.5} sx={{ mr: 1, height: 1,alignItems:'flex-start' }}>
       {data.map((link) => (

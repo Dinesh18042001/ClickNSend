@@ -128,7 +128,24 @@ const StepThree = ({ formik }) => {
             vehicle="small"
           />
         </Grid>
-        
+        {/* <Grid item md={12}>
+          <Box>
+            <TextBox
+              fullWidth
+              label="Job Budget"
+              name={`budget`}
+              value={`£${formik?.values?.budget}`}
+              onChange={(e) =>
+                formik.setFieldValue(
+                  "budget",
+                  e.target.value.replace(/\D/gm, "")
+                )
+              }
+              size={"small"}
+              helperText={formik.touched.budget && formik.errors.budget}
+            />
+          </Box>
+        </Grid> */}
         <Grid item md={12}>
           <Box>
             <TextBox

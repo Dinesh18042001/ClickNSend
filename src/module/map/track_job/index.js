@@ -22,7 +22,6 @@ const containerStyle = {
 // };
 
 function TrackGoogleMaps({ data = [] }) {
-  console.log("data", data);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY,
@@ -44,18 +43,12 @@ function TrackGoogleMaps({ data = [] }) {
   function calculateCenter(data) {
     if (data.length === 0) return { lat:  51.509865, lng: -0.118092 };
 
-    // Calculate the average position of all data points
-    const sumLat = data.reduce((acc, curr) => acc + parseFloat(curr.from.lat) + parseFloat(curr.to.lat), 0);
-    const sumLng = data.reduce((acc, curr) => acc + parseFloat(curr.from.lng) + parseFloat(curr.to.lng), 0);
+    const sumLat = data.reduce((acc, curr) => acc + parseFloat(curr?.from?.lat) + parseFloat(curr?.to?.lat), 0);
+    const sumLng = data.reduce((acc, curr) => acc + parseFloat(curr?.from?.lng) + parseFloat(curr?.to?.lng), 0);
     const avgLat = sumLat / (2 * data.length);
     const avgLng = sumLng / (2 * data.length);
     return { lat: avgLat, lng: avgLng };
   }
-
-
-  // const initialCenter = props.from.lat > props.to.lat ? props.from : props.to;
-  console.log("Stroke data:", initialCenter ); // Debugging
-
 
   return isLoaded ? (
     <GoogleMap
@@ -66,22 +59,22 @@ function TrackGoogleMaps({ data = [] }) {
     {data.map((elem, index) => (
       <React.Fragment key={index}>
         <DirectionRenderComponent
-          from={{ lat: parseFloat(elem.from.lat), lng: parseFloat(elem.from.lng) }}
-          to={{ lat: parseFloat(elem.to.lat), lng: parseFloat(elem.to.lng) }}
+          from={{ lat: parseFloat(elem?.from?.lat), lng: parseFloat(elem?.from?.lng) }}
+          to={{ lat: parseFloat(elem?.to?.lat), lng: parseFloat(elem?.to?.lng) }}
         />
         <Marker
-          position={{ lat: parseFloat(elem.from.lat), lng: parseFloat(elem.from.lng) }}
+          position={{ lat: parseFloat(elem?.from?.lat), lng: parseFloat(elem?.from?.lng) }}
           onClick={() => setShowPopUpIndex(index)}
            autoFocus={true}
         />
         <Marker
-          position={{ lat: parseFloat(elem.to.lat), lng: parseFloat(elem.to.lng) }}
+          position={{ lat: parseFloat(elem?.to?.lat), lng: parseFloat(elem?.to?.lng) }}
           onClick={() => setShowPopUpIndex(index)}
            autoFocus={true}
         />
         {showPopUpIndex === index && (
           <InfoWindow
-            position={{ lat: parseFloat(elem.from.lat), lng: parseFloat(elem.from.lng) }}
+            position={{ lat: parseFloat(elem?.from?.lat), lng: parseFloat(elem?.from?.lng) }}
             onCloseClick={() => setShowPopUpIndex(null)}
           >
             <div>

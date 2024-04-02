@@ -108,16 +108,11 @@ const PostJob = () => {
 
         itemObject["product"]["index"] = elementIndex;
 
-        // this  is for image validation
-
-
         if (!element?.product?.image) {
           itemObject["product"]["image"] = "Image is required";
         } else {
           itemObject["product"]["image"] = "";
         }
-
-
 
         if (!element?.product?.height) {
           itemObject["product"]["height"] = "Height is required";
@@ -225,8 +220,6 @@ const PostJob = () => {
       items: [product],
       // budget: "",
       description: "",
-      checked: false,
-      copyAvobe:false
     },
 
     validate: (values) => {
@@ -496,6 +489,47 @@ const PostJob = () => {
   const addProduct = () => {
     formik.setFieldValue("items", [...(formik.values.items || []), product]);
   };
+  const removesAddress = (productIndex) => {
+    // Clone the current items to avoid direct state mutation
+    const updatedItems = [...formik.values.items];
+    const product = updatedItems[productIndex];
+  
+    if (product && product.address) {
+      // Keep only addresses that are not marked as new
+      const retainedAddresses = product.address.filter(address => !address.isNew);
+  
+      // Update the product's addresses with those that are retained
+      product.address = retainedAddresses;
+  
+      // Update the items array with the modified product
+      formik.setFieldValue("items", updatedItems);
+    }
+  };
+  
+  
+  // const addSingleAddress = () => {
+  //   formik.setFieldValue("items", [...(formik.values.items || []),DropAddress]);
+  // };
+  const addSingleAddress = () => {
+    const updatedItems = formik.values.items.map(product => {
+      // Ensure the product has an initialized address array
+      if (!product.address) {
+        product.address = [];
+      }
+  
+      // Add both a pickup and a delivery address
+      const newPickupAddress = { ...PickupAddress,isNew: true };
+      const newDeliveryAddress = { ...DropAddress,isNew: true  };
+      product.address.push(newPickupAddress, newDeliveryAddress);
+  
+      return product;
+    });
+  
+    // Update the formik state with the updated items
+    formik.setFieldValue("items", updatedItems);
+  };
+  
+  
 
   const addAddress = ({ productItem, productIndex }) => {
   // console.log(productIndex,"productItem", productItem);
@@ -552,8 +586,9 @@ const PostJob = () => {
     <AuthGuard>
       <JobPostForm
         addProduct={addProduct}
+        addSingleAddress={addSingleAddress}
         removeProduct={removeProduct}
-        addAddress={addAddress}
+        removesAddress={removesAddress}
         removeAddress={removeAddress}
         formik={formik}
       />

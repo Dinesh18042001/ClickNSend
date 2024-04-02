@@ -43,6 +43,7 @@ import { useSnackbar } from "notistack";
 import Alert from "@mui/material/Alert";
 import React, { useState } from "react";
 import CountUp from "react-countup";
+import CustomerDashboard from "../../customerDashboard";
 const DashboardJobPost = ({ formik }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -52,6 +53,21 @@ const DashboardJobPost = ({ formik }) => {
   const [open, setOpen] = React.useState(false);
   const [select, setSelect] = React.useState("new");
   const [loader, setLoader] = React.useState(false);
+
+  // // const [date, setDate] = useState("");
+
+  // const handleDateChange = (e) => {
+  //   setDate(e.target.value);
+  // };
+
+  // // Get the current date in YYYY-MM-DD format
+  // const getCurrentDate = () => {
+  //   const today = new Date();
+  //   const year = today.getFullYear();
+  //   const month = String(today.getMonth() + 1).padStart(2, "0");
+  //   const day = String(today.getDate()).padStart(2, "0");
+  //   return `${year}-${month}-${day}`;
+  // };
 
   const {
     jobPost: { pageCount, data, page, pageSize,dataCount },
