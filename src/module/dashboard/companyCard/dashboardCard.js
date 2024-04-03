@@ -239,6 +239,7 @@ const DashboardCard = ({ jobPost }) => {
                       width={48}
                     />
                   </Box>
+
                   <Box>
                     <Typography variant="h6" fontWeight={300}>
                       SUBSCRIPTION
@@ -247,6 +248,8 @@ const DashboardCard = ({ jobPost }) => {
                       {subscription?.duration || 0} Month
                     </Typography>
                   </Box>
+
+
                 </Stack>
               </CardContent>
             </Card>

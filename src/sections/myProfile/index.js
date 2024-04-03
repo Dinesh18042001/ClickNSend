@@ -69,7 +69,7 @@ const Profile = ({ data, formik, loader, Content = null }) => {
                         borderRadius: "20px",
                         boxShadow: 0,
                         // width: "518px",
-                        // height: "560px",
+                        // height: "560px",`  
                         position: "relative",
                         background: (theme) => theme.palette.common.white,
                       }}
@@ -405,15 +405,18 @@ const Profile = ({ data, formik, loader, Content = null }) => {
                               <Box width="100%">
                                 <ChangePasswordModal />
                               </Box>
+
                               <Box width="100%">
                                 <Button
                                   fullWidth
                                   variant="contained"
+                            
                                   type="submit"
                                 >
                                   Update Profile
                                 </Button>
                               </Box>
+
                             </Stack>
                           </Stack>
                         </Stack>
@@ -562,8 +565,11 @@ const ChangePasswordModal = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
+
     <Box>
-      <Button
+
+      
+      {/* <Button
         // color="dark"
         fullWidth
         variant="outlined"
@@ -573,8 +579,27 @@ const ChangePasswordModal = () => {
           fontWeight: 500,
         }}
       >
-        Change Password
-      </Button>
+        Change Password1
+      </Button> */}
+
+<Button
+  fullWidth
+  variant="outlined"
+  startIcon={<Iconify icon="carbon:password" />}
+  onClick={handleOpen}
+  sx={{
+    fontWeight: 500,
+    whiteSpace: 'nowrap' // Keeps the text in a single line
+  }}
+>
+  Change Password
+</Button>
+
+
+
+
+
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -699,21 +724,13 @@ const ChangePasswordModal = () => {
                   helperText={formik?.errors?.new_password_confirmation}
                 />
               </Box>
-              {/* <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-              pb={2}
-            >
-              Are you sure you want to Change Password ?
-            </Typography> */}
+              
             </Stack>
             <Stack direction="row" mt={2}>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                // onClick={handleClose}
               >
                 Change Password
               </Button>
