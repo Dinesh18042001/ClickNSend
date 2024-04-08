@@ -140,7 +140,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
     try {
       if (signUpWithGoogle) {
         signUpWithGoogle(formik.values.user_type);
-      console.log("GOOGLE LOGIN",formik.values.user_type);
+        console.log("GOOGLE LOGIN", formik.values.user_type);
       }
       console.log("GOOGLE LOGIN");
     } catch (error) {
@@ -619,8 +619,6 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                     />
                   </Box>
 
-                  
-           
                   {/* <Box sx={{ mt: 2, display: "flex" }}>
                     <ReactFlagsSelect
                       selected={selected}
@@ -694,8 +692,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                   </Box>
                   } */}
 
-
-<Box sx={{ display: "flex", alignItems: "baseline" }}>
+                  <Box sx={{ display: "flex", alignItems: "baseline" }}>
                     <div style={{ position: "relative", top: "-13px" }}>
                       <ReactFlagsSelect
                         selected={selected}
@@ -745,7 +742,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                         mt={2}
                         sx={{
                           position: "absolute",
-                          bottom: 240,
+                          bottom: 290,
                           zIndex: 999,
                           marginLeft: "100px",
                           color: "green",
@@ -775,10 +772,6 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                       </Box>
                     }
                   </Box>
-
-
-
-
 
                   {formik.values.user_type === "company" && (
                     <Box sx={{ mt: 2 }}>
@@ -946,7 +939,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                                   </IconButton>
                                 </Card>
                               </Box>
-                               <Box
+                              <Box
                                 style={{ margin: "10px" }}
                                 width="150px"
                                 height="150px"

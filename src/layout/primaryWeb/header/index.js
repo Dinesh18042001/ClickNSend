@@ -1035,6 +1035,7 @@ const Header = (props) => {
                 </Typography>
               )}
 
+
               {isAuthenticated && (
                 <Typography
                   sx={{
@@ -1121,6 +1122,7 @@ const Header = (props) => {
                   </Button>
                 </div>
               )}
+              
               {isAuthenticated && (
                 <>
                   <Box
@@ -1211,6 +1213,7 @@ const Header = (props) => {
                       >
                         settings(my profile)
                       </MenuItem>
+
                     </Link>
 
                     <Link
@@ -1250,7 +1253,9 @@ const Header = (props) => {
                   </Menu>{" "}
                 </>
               )}
+              
             </Stack>
+
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -1260,6 +1265,7 @@ const Header = (props) => {
             >
               <MenuIcon />
             </IconButton>
+
           </Toolbar>
         </Container>
       </AppBar>

@@ -49,6 +49,7 @@ const Login = () => {
       console.error(error);
     }
   };
+
   const handleNotification = () => {
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");
@@ -240,6 +241,7 @@ const Login = () => {
                           </Typography>
                         </Box>
                       </Box>
+
                       <Box>
                         <Button
                           variant="contained"
@@ -250,9 +252,11 @@ const Login = () => {
                           <Typography fontSize={12}>Login Now</Typography>
                         </Button>
                       </Box>
-                    </Stack>
 
+
+                    </Stack>
                     <Box>
+
                       <Box textAlign={"center"} mt={4}>
                         <Typography variant="p" fontSize={12}>
                           Don{"’"}t have an account?

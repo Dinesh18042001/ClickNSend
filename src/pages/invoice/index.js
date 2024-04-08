@@ -223,6 +223,7 @@ const InvoicePage = () => {
   const invoiceData = [
     {
       sn: 1,
+      invoiceNo: "INV001", 
       jobId: "JOB001",
       jobTitle: "Software Developer",
       date: "Feb 21, 2024",
@@ -354,6 +355,7 @@ const InvoicePage = () => {
           <TableHead>
             <TableRow>
               <TableCell>SN</TableCell>
+              <TableCell>Invoice No</TableCell>
               <TableCell>Job ID</TableCell>
               <TableCell>Job Title</TableCell>
               <TableCell>Invoice Date</TableCell>
@@ -366,6 +368,7 @@ const InvoicePage = () => {
             {currentRows.map((row, index) => (
               <TableRow key={index}>
                 <TableCell>{row.sn}</TableCell>
+                <TableCell>{row.invoiceNo}</TableCell>
                 <TableCell>{row.jobId}</TableCell>
                 <TableCell>{row.jobTitle}</TableCell>
                 <TableCell>{row.date}</TableCell>
