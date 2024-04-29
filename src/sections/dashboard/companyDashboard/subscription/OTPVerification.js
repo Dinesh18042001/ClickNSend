@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography,Box , CardContent,Stack} from '@mui/material';
 import axios from 'axios';
+import SuccessMessage from './SuccessMessage'
+
 
 const OTPVerification = ({ setShowOTPVerification } ) => {
   const [otp, setOtp] = useState('');
@@ -64,7 +66,9 @@ const OTPVerification = ({ setShowOTPVerification } ) => {
       setLoading(false);
     }
   };
-
+  if (showSuccess) {
+    return <SuccessMessage setSuccess={setShowSuccess} />;
+  }
   return (
     <>
      <Box

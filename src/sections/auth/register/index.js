@@ -1361,7 +1361,7 @@ const Register = ({ formik, open, handleOpenClose }) => {
         signUpWithGoogle("customer");
         // window.location.reload();
       }
-      console.log("GOOGLE Register");
+      // console.log("GOOGLE Register");
     } catch (error) {
       console.error(error);
     }
@@ -1372,7 +1372,7 @@ const Register = ({ formik, open, handleOpenClose }) => {
       if (signUpWithFacebook) {
         signUpWithFacebook("customer");
       }
-      console.log("FACEBOOK Register");
+      // console.log("FACEBOOK Register");
     } catch (error) {
       console.error(error);
     }

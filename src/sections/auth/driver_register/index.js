@@ -88,6 +88,22 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
       label: "XLWB",
       value: "XLWB",
     },
+    {
+      label: "Moterbike",
+      value: "Moterbike",
+    },
+    {
+      label: "Car",
+      value: "Car",
+    },
+    {
+      label: "Drop side",
+      value: "Drop side",
+    },
+    {
+      label: "Curtain side",
+      value: "Curtain side",
+    },
   ];
   const VehicleType = [
     {
@@ -140,9 +156,8 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
     try {
       if (signUpWithGoogle) {
         signUpWithGoogle(formik.values.user_type);
-        console.log("GOOGLE LOGIN", formik.values.user_type);
       }
-      console.log("GOOGLE LOGIN");
+      // console.log("GOOGLE LOGIN");
     } catch (error) {
       console.error(error);
     }
@@ -153,7 +168,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
       if (signUpWithFacebook) {
         signUpWithFacebook(formik.values.user_type);
       }
-      console.log("FACEBOOK LOGIN");
+      // console.log("FACEBOOK LOGIN");
     } catch (error) {
       console.error(error);
     }

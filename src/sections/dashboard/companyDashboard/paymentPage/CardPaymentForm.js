@@ -17,13 +17,14 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import Link from "next/link";
 import * as Yup from "yup";
 import OTPVerification  from '../subscription/OTPVerification'
+import axiosInstance from "@/utils/axios";
 import { useAuthContext } from "@/auth/useAuthContext";
 
 import Header from "@/layout/primaryWeb/header";
 import Footer from "@/layout/primaryWeb/footer";
 
-const CardPaymentForm = ({ PaymentFormData, setShowPayment }) => {
-
+const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
+  console.log("object", paymentDetails, setShowPayment);
   const { user } = useAuthContext();
   console.log(" const { user } = useAuthContext();", user);
   // Define Yup validation schema
@@ -43,11 +44,17 @@ const CardPaymentForm = ({ PaymentFormData, setShowPayment }) => {
     expiryDate: "",
     cvv: "",
     nameOnCard: "",
+    email: "company@mailinator.com", 
+    expMonth: "", // Initialize expMonth
+  expYear: "",  
   });
   const [formErrors, setFormErrors] = useState({});
   const [showOTP, setShowOTP] = useState(false); // State to control the display of OTPVerification
 
+
   const handleChange = (e) => {
+    setFormErrors({}); // Clear any existing errors
+
     let { name, value } = e.target;
 
     if (name === "expiryDate") {
@@ -73,6 +80,15 @@ const CardPaymentForm = ({ PaymentFormData, setShowPayment }) => {
         // Remove the slash if the user hits backspace at position 3
         value = value.slice(0, -1);
       }
+     // Extract month and year
+     const [month, year] = value.split("/");
+     // Update separate state variables for month and year
+     setFormValues({
+       ...formValues,
+       [name]: value,
+       expMonth: month,
+       expYear: year || "", // Ensure expYear is not empty
+     }); 
     }
     if (name === "cvv") {
       value = value.replace(/\D/g, "").slice(0, 3); // Remove non-digits and limit length
@@ -155,8 +171,8 @@ const CardPaymentForm = ({ PaymentFormData, setShowPayment }) => {
       email:user?.email  , // Add other initial values here
       plan_id: user?.plan?.plan_id,
       number: formValues?.cardNumber,
-      exp_month:expMonth  ,
-      exp_year: expYear   ,
+      exp_month:expMonth,
+      exp_year: expYear,
       cvc:  formValues?.cvv,
       name: formValues?.nameOnCard
     };
@@ -196,26 +212,6 @@ const CardPaymentForm = ({ PaymentFormData, setShowPayment }) => {
   if (showOTP) {
     return <OTPVerification setShowOTPVerification={setShowOTP} />;
   }
-
-const originalAmount = PaymentFormData?.job_requests[0]?.ammount;
-let increasedAmount = null; 
-if (originalAmount !== undefined) {
-    const parsedAmount = parseFloat(originalAmount);
-    if (!isNaN(parsedAmount)) {
-        // Calculate the increased amount (original amount plus 10%)
-         increasedAmount = parsedAmount * 1.1;
-
-        const extraAmount = increasedAmount - parsedAmount;
-        // Log the increased amount
-        console.log("Increased amount:", increasedAmount);
-    } else {
-        console.log("Original amount is not a valid number");
-    }
-} else {
-    console.log("Original amount is undefined");
-}
-
-
   return (
     <Card sx={{ paddingBottom: "120px" }}>
       <Box
@@ -279,7 +275,7 @@ if (originalAmount !== undefined) {
               color="white"
               variant="h2"
             >
-              {PaymentFormData.name}
+              {paymentDetails.name}
             </Typography>
             {/* <Typography variant="body1" component="p" color="common.white">
               Choose the right plan made for you
@@ -315,7 +311,7 @@ if (originalAmount !== undefined) {
               {/* <AccountBalanceIcon fontSize="large" style={{ color: "#ff7533" }} /> */}
             </Box>
 
-            <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit} Validate>
               <Grid container spacing={2}>
                 {/* <Grid
                       item
@@ -325,7 +321,7 @@ if (originalAmount !== undefined) {
                       alignItems="center"
                     >
                       <Typography variant="h6" gutterBottom>
-                        Selected Plan Amount:{PaymentFormData.price}
+                        Selected Plan Amount:{paymentDetails.price}
                       </Typography>
                     </Grid> */}
 
@@ -342,49 +338,46 @@ if (originalAmount !== undefined) {
                       inputMode: "numeric",
                       pattern: "[0-9]*",
                     }}
-                    value={formValues.cardNumber}
+                    value={formValues?.cardNumber}
                     onChange={handleChange}
-                    error={!!formErrors.cardNumber}
-                    helperText={formErrors.cardNumber}
+                    error={!!formErrors?.cardNumber}
+                    helperText={formErrors?.cardNumber}
                   />
                 </Grid>
-
                 <Grid item xs={6}>
                   <TextField
                     label="Expiry Date (MM/YY)"
                     variant="outlined"
                     fullWidth
                     name="expiryDate"
-                    value={formValues.expiryDate}
+                    value={formValues?.expiryDate}
                     onChange={handleChange}
-                    error={!!formErrors.expiryDate}
-                    helperText={formErrors.expiryDate}
+                    error={!!formErrors?.expiryDate}
+                    helperText={formErrors?.expiryDate}
                   />
                 </Grid>
-
                 <Grid item xs={6}>
                   <TextField
                     label="CVV"
                     variant="outlined"
                     fullWidth
                     name="cvv"
-                    value={formValues.cvv}
+                    value={formValues?.cvv}
                     onChange={handleChange}
-                    error={!!formErrors.cvv}
-                    helperText={formErrors.cvv}
+                    error={!!formErrors?.cvv}
+                    helperText={formErrors?.cvv}
                   />
                 </Grid>
-
                 <Grid item xs={12}>
                   <TextField
                     label="Name on Card"
                     variant="outlined"
                     fullWidth
                     name="nameOnCard"
-                    value={formValues.nameOnCard}
+                    value={formValues?.nameOnCard}
                     onChange={handleChange}
-                    error={!!formErrors.nameOnCard}
-                    helperText={formErrors.nameOnCard || " "}
+                    error={!!formErrors?.nameOnCard}
+                    helperText={formErrors?.nameOnCard || " "}
                   />
                 </Grid>
 
@@ -398,11 +391,12 @@ if (originalAmount !== undefined) {
                       borderRadius: "8px",
                     }}
                     fullWidth
+                    // onClick={() => handlePaymentCheckout(elem)}
                   >
                     {/* {isSubmitting
                           ? "Processing..."
                           :` */}
-                          Get Started with ${increasedAmount}
+                          Get Started with ${paymentDetails.price}
                   </Button>
                 </Grid>
                 <Button fullWidth  variant="text" onClick={() => setShowPayment(false)}>

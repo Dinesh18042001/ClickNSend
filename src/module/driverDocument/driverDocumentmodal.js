@@ -978,7 +978,7 @@ const DocumentModal = ({ formik }) => {
             <Grid item md={4}>
               <Stack textAlign={"center"}>
                 <Typography textAlign="left" variant="p">
-                  Dvia Certificate
+                  Dvla license check code
                 </Typography>
                 {!formik.values.dvia_cert && (
                   <TextBox

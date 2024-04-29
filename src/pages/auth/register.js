@@ -110,6 +110,7 @@ const RegisterPage = () => {
         companyData.append("user_name", values?.user_name);
         companyData.append("user_type", values?.user_type);
         companyData.append("email", values?.email);
+        customerData.append("company_type", 'customer');
         companyData.append("mobile", values?.mobile);
         companyData.append("term", values?.term);
         companyData.append("password", values?.password);

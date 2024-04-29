@@ -70,11 +70,8 @@ const CustomerDashboard = () => {
                           elit. Sed pretium augue ac justo semper, vitae
                           ultrices velit cursus. Aenean tristique vel mi non
                           pulvinar.
-                        </Typography>             
-           
-           {/* remove this button because customer is not allowed to Add Driver */}
-
-                        {/* <Box>
+                        </Typography>
+                        <Box>
                           <Button
                             sx={{ fontSize: "14px" }}
                             variant="contained"
@@ -87,9 +84,7 @@ const CustomerDashboard = () => {
                           >
                             Add Driver
                           </Button>
-                        </Box> */}
-
-
+                        </Box>
                       </Stack>
                     </Stack>
                   </Grid>

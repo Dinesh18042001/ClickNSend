@@ -131,7 +131,7 @@ const DriverJob = () => {
           errors.v5c_cert = "V5C Certificate is required";
         }
         if (!values.dvia_cert) {
-          errors.dvia_cert = "Dvia Certificate is required";
+          errors.dvia_cert = "Dvla license check codeis required";
         }
         if (!values.nationality_cert) {
           errors.nationality_cert = "Nationality Proof is required";

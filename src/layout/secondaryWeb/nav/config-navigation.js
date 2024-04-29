@@ -2,6 +2,7 @@ const navConfig = [
   {
     title: "Home",
     path: "/",
+    sx: { fontSize: '5rem' }
   },
   {
     title: "About us",

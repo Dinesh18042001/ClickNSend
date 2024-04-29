@@ -212,6 +212,7 @@ const DriverPage = () => {
         formDatas.append("user_type", values?.user_type);
         formDatas.append("email", values?.email);
         formDatas.append("mobile", values?.mobile);
+        customerData.append("company_type", 'company');
         formDatas.append("term", values?.term);
         formDatas.append("password", values?.password);
         formDatas.append(

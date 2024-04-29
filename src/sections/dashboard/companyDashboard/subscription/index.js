@@ -18,11 +18,16 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import React, { useState } from "react";
+import CardPaymentForm from '../paymentPage/CardPaymentForm'
 
 const SubscriptionsPage = () => {
   const [hover, setHover] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+
+
+  const [paymentDetails, setPaymentDetails] = useState(null);
+  const [showPayment, setShowPayment] = useState(false);
   // API FETCH LIST
   const fetchdata = async (type = "company") => {
     setLoading(true);
@@ -44,9 +49,49 @@ const SubscriptionsPage = () => {
     fetchdata();
   }, []);
 
+  const handleCheckout = async (elem) => {
+    setPaymentDetails(elem)
+    console.log("Selected Plan: ", elem);
+    setShowPayment(true); 
+
+  //   const stripe = await loadStripe("pk_test_51LKfAOSJ8dZUi1GsNUiaUFRZ4wv8NIMfanCq6X9sQm9ekgREnQYVNid0ksBJL0PwLd75E9ASbQVptpqr21uNqMp000qtwcZJCV");
+  //   // sk_test_51LKfAOSJ8dZUi1GsRwvDVKOZr0HzELRyQuV3UawLIoF8GXVNwPc3BA6x9XDnxB8oYy88or5hjxdsT7H5fPUiWQKC00jyJxfL1Z
+  //   const body =  {
+  //    products: elem,
+  //   }
+  //   const headers =  {
+  //     "Content-Type": "application/json",
+  //    }
+  //    const response = await fetch("http://localhost:7000/api/create-checkout-session",{
+  //     method:"POST",
+  //     headers:headers,
+  //     body:JSON.stringify(body)
+  // }
+  // );
+  // const session = await response.json();
+
+  // const result = stripe.redirectToCheckout({
+  //     sessionId:session.id
+  // });;
+
+  //   if (result.error) {
+  //     console.error(result.error);
+  //   }
+  };
+
   return (
     <React.Fragment>
-      <Box
+     {!showPayment ? (
+      <Box sx={{ backgroundColor: "#f5f5f5", pb: 6 }}>
+        {loading ? (
+          <>
+            <Container>
+              <SkeletonLoader />
+            </Container>
+          </>
+        ) : (
+          <>
+          <Box
         sx={{
           position: "relative",
           overflow: "hidden",
@@ -128,14 +173,6 @@ const SubscriptionsPage = () => {
           </Stack>
         </CardContent>
       </Box>
-      <Box sx={{ backgroundColor: "#f5f5f5", pb: 6 }}>
-        {loading ? (
-          <>
-            <Container>
-              <SkeletonLoader />
-            </Container>
-          </>
-        ) : (
           <Box
                     className='subscription_plan_box_stack_responsive'
             sx={{
@@ -283,6 +320,7 @@ const SubscriptionsPage = () => {
                                     variant="contained"
                                     width="min-content"
                                     sx={{ px: 5 }}
+                                    onClick={() => handleCheckout(elem)}
                                   >
                                     GET STARTED
                                   </Button>
@@ -297,8 +335,12 @@ const SubscriptionsPage = () => {
               </Box>
             </Container>
           </Box>
+          </>
         )}
       </Box>
+      ) : (
+        <CardPaymentForm paymentDetails={paymentDetails} setShowPayment={setShowPayment}  /> // Render the PaymentPage component when showPayment is true
+      )}
     </React.Fragment>
   );
 };

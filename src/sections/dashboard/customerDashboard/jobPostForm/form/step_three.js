@@ -50,6 +50,23 @@ const VehicleTypeVan = [
     label: "XLWB",
     value: "XLWB",
   },
+  {
+    label: "Moterbike",
+    value: "Moterbike",
+  },
+  {
+    label: "Car",
+    value: "Car",
+  },
+  {
+    label: "Drop side",
+    value: "Drop side",
+  },
+  {
+    label: "Curtain side",
+    value: "Curtain side",
+  },
+  
 ];
 const VehicleType = [
   {

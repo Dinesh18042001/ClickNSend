@@ -139,7 +139,7 @@ const BidList = () => {
             } else if (newElement?.type == "pickup") {
               newArray[elementIndex - 1] = {
                 // data: { ...newArray[elementIndex - 1].data },
-                from: { ...newArray[elementIndex - 1].from },
+                from: { ...newArray[elementIndex - 1]?.from },
                 to: {
                   lat: newElement?.lat,
                   lng: newElement?.long,

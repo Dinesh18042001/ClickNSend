@@ -54,23 +54,21 @@ const DashboardJobPost = ({ formik }) => {
   const [select, setSelect] = React.useState("new");
   const [loader, setLoader] = React.useState(false);
 
-  // // const [date, setDate] = useState("");
+  // Add for filter
 
-  // const handleDateChange = (e) => {
-  //   setDate(e.target.value);
-  // };
-
-  // // Get the current date in YYYY-MM-DD format
-  // const getCurrentDate = () => {
-  //   const today = new Date();
-  //   const year = today.getFullYear();
-  //   const month = String(today.getMonth() + 1).padStart(2, "0");
-  //   const day = String(today.getDate()).padStart(2, "0");
-  //   return `${year}-${month}-${day}`;
-  // };
+  const addressDetail = {
+    address: [{ type: "pickup" }, { type: "delivery" }],
+  };
+  // Check if addressDetail is defined before accessing its properties.
+  const pickupAddresses = addressDetail?.address?.filter(
+    (addressItem) => addressItem.type === "pickup"
+  );
+  const dropAddresses = addressDetail?.address?.filter(
+    (addressItem) => addressItem.type === "drop"
+  );
 
   const {
-    jobPost: { pageCount, data, page, pageSize,dataCount },
+    jobPost: { pageCount, data, page, pageSize, dataCount },
   } = useSelector((state) => state.customerJob);
   const handlePageChange = (event, value) => {
     dispatch(setJobPostPage(value));
@@ -87,8 +85,7 @@ const DashboardJobPost = ({ formik }) => {
         date: date ? moment(date).format("YYYY-MM-DD h:mm:ss") : "",
       })
     ).then(() => {});
-  },  [page, pageSize, date]);
-
+  }, [page, pageSize, date]);
 
   return (
     <React.Fragment>
@@ -192,7 +189,6 @@ const DashboardJobPost = ({ formik }) => {
                           px={2}
                           py={1.4}
                           alignItems="center"
-                         
                         >
                           <Box sx={{ width: "90%" }}>
                             <Typography
@@ -478,6 +474,8 @@ const DashboardJobPost = ({ formik }) => {
                                 </Box>
                               </Stack>
                             </Grid>
+
+                            {/* change this grid  */}
                             <Grid item md={3}>
                               <Timeline
                                 sx={{
@@ -487,75 +485,142 @@ const DashboardJobPost = ({ formik }) => {
                                   },
                                 }}
                               >
-                                <TimelineItem
-                                  sx={{
-                                    "&.MuiTimelineItem-root": {
-                                      minHeight: "50px",
-                                    },
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
                                   }}
                                 >
-                                  <TimelineSeparator>
-                                    <Iconify
-                                      color={(theme) =>
-                                        theme.palette.primary.main
-                                      }
-                                      width={30}
-                                      icon="carbon:location-star-filled"
-                                    />
-                                    <TimelineConnector
-                                      sx={{
-                                        "&.MuiTimelineConnector-root": {
-                                          border: (theme) =>
-                                            `1px solid ${alpha(
-                                              theme.palette.common.black,
-                                              0.6
-                                            )}`,
-                                          width: "0px",
-                                          borderStyle: "dashed",
-                                          backgroundColor: "transparent",
-                                        },
-                                      }}
-                                    />
-                                  </TimelineSeparator>
-                                  <TimelineContent
-                                    sx={{ fontSize: 14, fontWeight: 600 }}
-                                  >
-                                    {addressDetail?.address[1]?.address}{" "}
-                                    <Typography
-                                      fontSize={10}
-                                      component="span"
-                                      color="primary"
-                                    >
-                                      {addressDetail?.address[1]?.type}
-                                    </Typography>
-                                  </TimelineContent>
-                                </TimelineItem>
-                                <TimelineItem
-                                  sx={{
-                                    "&.MuiTimelineItem-root": {
-                                      minHeight: "50px",
-                                    },
+                                  {console.log(addressDetail?.address, "sd")}
+                                  {addressDetail?.address
+                                    .filter((ds) => ds.type === "pickup")
+                                    ?.map((addressItem, index) => (
+                                      <TimelineItem
+                                        sx={{
+                                          "&.MuiTimelineItem-root": {
+                                            minHeight: "50px",
+                                          },
+                                        }}
+                                      >
+                                        <TimelineSeparator>
+                                          <Iconify
+                                            color={(theme) =>
+                                              theme.palette.primary.main
+                                            }
+                                            width={30}
+                                            icon="carbon:location-star-filled"
+                                          />
+
+                                          <TimelineConnector
+                                            sx={{
+                                              "&.MuiTimelineConnector-root": {
+                                                border: (theme) =>
+                                                  `1px solid ${alpha(
+                                                    theme.palette.common.black,
+                                                    0.6
+                                                  )}`,
+                                                width: "0px",
+                                                borderStyle: "dashed",
+                                                backgroundColor: "transparent",
+                                              },
+                                            }}
+                                          />
+                                        </TimelineSeparator>
+
+                                        {/* map the address hare */}
+
+                                        <TimelineContent
+                                          key={index}
+                                          sx={{ fontSize: 14, fontWeight: 600 }}
+                                        >
+                                          {addressItem.address}{" "}
+                                          <Typography
+                                            fontSize={10}
+                                            component="span"
+                                            color="primary"
+                                          >
+                                            {addressItem.type},
+                                          </Typography>
+                                        </TimelineContent>
+                                      </TimelineItem>
+                                    ))}
+                                </div>
+
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
                                   }}
                                 >
-                                  <TimelineSeparator>
-                                    <Iconify
-                                      width={30}
-                                      icon="carbon:location-star-filled"
-                                    />
-                                  </TimelineSeparator>
-                                  <TimelineContent
-                                    sx={{ fontSize: 14, fontWeight: 600 }}
-                                  >
-                                    {addressDetail?.address[0]?.address}{" "}
-                                    <Typography
-                                      fontSize={10}
-                                      component="span"
-                                      color="primary"
-                                    >
-                                      {addressDetail?.address[0]?.type}
-                                    </Typography>
-                                  </TimelineContent>
-                                </TimelineItem>
+                                  {/* {console.log(addressDetail?.address, "sd")}
+                                  {addressDetail?.address
+                                    .filter((ds) => ds.type === "drop")
+                                    ?.map((addressItem, index) => (
+                                      <TimelineItem
+                                        sx={{
+                                          "&.MuiTimelineItem-root": {
+                                            minHeight: "50px",
+                                          },
+                                        }}
+                                      >
+                                        <TimelineSeparator>
+                                          <Iconify
+                                            width={30}
+                                            icon="carbon:location-star-filled"
+                                          />
+                                        </TimelineSeparator>
+
+                                        <TimelineContent
+                                          sx={{ fontSize: 14, fontWeight: 600 }}
+                                        >
+                                          {addressDetail?.address[0]?.address}{" "}
+                                          <Typography
+                                            fontSize={10}
+                                            component="span"
+                                            color="primary"
+                                          >
+                                            {addressDetail?.address[0]?.type}
+                                          </Typography>
+                                        </TimelineContent>
+                                      </TimelineItem>
+                                    ))} */}
+
+                                  {console.log(addressDetail?.address, "sd")}
+                                  {addressDetail?.address
+                                    .filter((ds) => ds.type === "drop")
+                                    ?.map((addressItem, index) => (
+                                      <TimelineItem
+                                        key={index} // Remember to add a unique key prop when using map
+                                        sx={{
+                                          "&.MuiTimelineItem-root": {
+                                            minHeight: "50px",
+                                          },
+                                        }}
+                                      >
+                                        <TimelineSeparator>
+                                          <Iconify
+                                            width={30}
+                                            icon="carbon:location-star-filled"
+                                          />
+                                        </TimelineSeparator>
+
+                                        <TimelineContent
+                                          sx={{ fontSize: 14, fontWeight: 600 }}
+                                        >
+                                          {addressItem.address}{" "}
+                                          {/* Use addressItem instead of addressDetail?.address[0] */}
+                                          <Typography
+                                            fontSize={10}
+                                            component="span"
+                                            color="primary"
+                                          >
+                                            {addressItem.type}{" "}
+                                            {/* Use addressItem instead of addressDetail?.address[0] */}
+                                          </Typography>
+                                        </TimelineContent>
+                                      </TimelineItem>
+                                    ))}
+                                </div>
                               </Timeline>
                               <Box mt={4}>
                                 <Box>
@@ -609,6 +674,7 @@ const DashboardJobPost = ({ formik }) => {
                               alignItems="center"
                               justifyContent="space-between"
                             >
+
                               <Typography
                                 variant="subtitle2"
                                 sx={{
@@ -619,6 +685,9 @@ const DashboardJobPost = ({ formik }) => {
                                 Bid: <Iconify icon="bi:currency-pound" />
                                 {item?.budget}
                               </Typography>
+
+
+
                               <Stack direction="row" spacing={2}>
                                 <Box>
                                   <Badge

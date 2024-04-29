@@ -13,7 +13,8 @@ import {
   Card,
   CardHeader,
   Divider,
-  FormHelperText,TextField,
+  FormHelperText,
+  TextField,
   Grid,
   IconButton,
   Stack,
@@ -75,6 +76,7 @@ const StepTwo = ({
   addProduct,
   removeProduct,
   addSingleAddress,
+  addSingleAddress1,
   removesAddress,
 }) => {
   return (
@@ -93,116 +95,62 @@ const StepTwo = ({
                     boxShadow: "none",
                   }}
                 >
-                  {" "}
+                  {/* {" "}
                   <CardHeader
-                   key={productIndex}
+                    key={productIndex}
                     sx={{ mb: 3, p: 0 }}
                     action={
                       <IconButton onClick={() => removeProduct(productIndex)}>
                         <Close />
                       </IconButton>
                     }
-                  />
+                  /> */}
+
                   <Grid container spacing={3}>
                     {productIndex <= 0 && (
                       <>
                         <Grid item md={6}>
                           <Box>
-                            <FormControl
+                            <TextBox
                               fullWidth
-                              size="small"
-                              sx={{ marginTop: "5px", border: "none" }}
-                              error={
+                              type="date"
+                              label="Pickup Date"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              value={productItem?.product?.pickup_date}
+                              min={new Date().toISOString().split("T")[0]}
+                              name={`items[${productIndex}].product.pickup_date`}
+                              onChange={(e) => {
+                                formik.setFieldValue(
+                                  `items[${productIndex}].product.pickup_date`,
+                                  e.target.value
+                                );
+                                formik.setFieldValue(
+                                  `items[${productIndex}].product.pickup_time`,
+                                  ""
+                                );
+                                formik.setFieldValue(
+                                  `items[${productIndex}].product.drop_date`,
+                                  ""
+                                );
+                                formik.setFieldValue(
+                                  `items[${productIndex}].product.drop_time`,
+                                  ""
+                                );
+                              }}
+                              // onKeyDown={(event) => event.preventDefault()}
+                              size={"small"}
+                              helperText={
                                 !isEmpty(formik.touched) &&
                                 formik?.errors?.items &&
                                 formik?.errors?.items?.length > 0 &&
                                 formik?.errors?.items[productIndex]?.product
                                   ?.index === productIndex &&
-                                Boolean(
-                                  formik?.errors?.items[productIndex]?.product
-                                    ?.pickup_date
-                                )
+                                formik?.errors?.items[productIndex]?.product
+                                  ?.pickup_date
                               }
-                            >
-                              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <MobileDatePicker
-                                  sx={{
-                                    "& .MuiOutlinedInput-input": {
-                                      padding: "8.5px 14px !important",
-                                    },
-                                    "& .MuiOutlinedInput-notchedOutline": {
-                                      borderRight: "0px !important",
-                                      borderTop: "0px !important",
-                                      borderLeft: "0px !important",
-                                      borderRadius: "0px",
-                                    },
-                                  }}
-                                  fullWidth
-                                  variant="standard"
-                                  label="Pickup Date"
-                                  format="DD/MM/YYYY"
-                                  InputLabelProps={{ shrink: true }}
-                                  value={
-                                    productItem?.product?.pickup_date
-                                      ? dayjs(productItem.product.pickup_date)
-                                      : null
-                                  }
-                                  minDate={dayjs()}
-                                  name={`items[${productIndex}].product.pickup_date`}
-                                  onChange={(newValue) => {
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.pickup_date`,
-                                      newValue
-                                        ? newValue.format("YYYY-MM-DD")
-                                        : ""
-                                    );
-                                    // Assuming you want to reset these fields when the date changes
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.pickup_time`,
-                                      ""
-                                    );
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.drop_date`,
-                                      ""
-                                    );
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.drop_time`,
-                                      ""
-                                    );
-                                  }}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      {...params}
-                                      error={
-                                        formik.touched?.items?.[productIndex]
-                                          ?.product?.pickup_date &&
-                                        Boolean(
-                                          formik.errors?.items?.[productIndex]
-                                            ?.product?.pickup_date
-                                        )
-                                      }
-                                      helperText={
-                                        formik.touched?.items?.[productIndex]
-                                          ?.product?.pickup_date &&
-                                        formik.errors?.items?.[productIndex]
-                                          ?.product?.pickup_date
-                                      }
-                                    />
-                                  )}
-                                />
-                              </LocalizationProvider>
-                              {formik.touched?.items?.[productIndex]?.product
-                                ?.pickup_date &&
-                                formik.errors?.items?.[productIndex]?.product
-                                  ?.pickup_date && (
-                                  <FormHelperText>
-                                    {
-                                      formik.errors?.items?.[productIndex]
-                                        ?.product?.pickup_date
-                                    }
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
+                            />
                           </Box>
                         </Grid>
 
@@ -299,104 +247,44 @@ const StepTwo = ({
                             </FormControl>
                           </Box>
                         </Grid>
+
                         <Grid item md={6}>
                           <Box>
-                            <FormControl
+                            <TextBox
                               fullWidth
-                              size="small"
-                              // sx={{ marginTop: "5px" }}
-                              error={
+                              type="date"
+                              label="Delivery Date"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              value={productItem?.product?.drop_date}
+                              min={
+                                productItem?.product?.pickup_date ||
+                                new Date().toISOString().split("T")[0]
+                              }
+                              name={`items[${productIndex}].product.drop_date`}
+                              onChange={(e) => {
+                                formik.setFieldValue(
+                                  `items[${productIndex}].product.drop_time`,
+                                  ""
+                                );
+                                formik.setFieldValue(
+                                  `items[${productIndex}].product.drop_date`,
+                                  e.target.value
+                                );
+                              }}
+                              // onKeyDown={(event) => event.preventDefault()}
+                              size={"small"}
+                              helperText={
                                 !isEmpty(formik.touched) &&
                                 formik?.errors?.items &&
                                 formik?.errors?.items?.length > 0 &&
                                 formik?.errors?.items[productIndex]?.product
                                   ?.index === productIndex &&
-                                Boolean(
-                                  formik?.errors?.items[productIndex]?.product
-                                    ?.drop_date
-                                )
+                                formik?.errors?.items[productIndex]?.product
+                                  ?.drop_date
                               }
-                            >
-                              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <MobileDatePicker
-                                  sx={{
-                                    "& .MuiOutlinedInput-input": {
-                                      padding: "8.5px 14px !important",
-                                    },
-                                    "& .MuiOutlinedInput-notchedOutline": {
-                                      borderRight: "0px !important",
-                                      borderTop: "0px !important",
-                                      borderLeft: "0px !important",
-                                      borderRadius: "0px",
-                                    },
-                                  }}
-                                minDate={productItem?.product?.pickup_date ? dayjs(productItem.product.pickup_date) : dayjs()}
-                                  variant="standard"
-                                  fullWidth
-                                  label="Delivery Date"
-                                  format="DD/MM/YYYY"
-                                  InputLabelProps={{ shrink: true }}
-                                  value={
-                                    productItem?.product?.drop_date
-                                      ? dayjs(productItem.product.drop_date)
-                                      : null
-                                  }
-                                  
-                                  name={`items[${productIndex}].product.drop_date`}
-                                  onChange={(newValue) => {
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.drop_date`,
-                                      newValue
-                                        ? newValue.format("YYYY-MM-DD")
-                                        : ""
-                                    );
-                                    // Assuming you want to reset these fields when the date changes
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.pickup_time`,
-                                      ""
-                                    );
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.drop_date`,
-                                      ""
-                                    );
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].product.drop_time`,
-                                      ""
-                                    );
-                                  }}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      {...params}
-                                      error={
-                                        formik.touched?.items?.[productIndex]
-                                          ?.product?.drop_date &&
-                                        Boolean(
-                                          formik.errors?.items?.[productIndex]
-                                            ?.product?.drop_date
-                                        )
-                                      }
-                                      helperText={
-                                        formik.touched?.items?.[productIndex]
-                                          ?.product?.drop_date &&
-                                        formik.errors?.items?.[productIndex]
-                                          ?.product?.drop_date
-                                      }
-                                    />
-                                  )}
-                                />
-                              </LocalizationProvider>
-                              {formik.touched?.items?.[productIndex]?.product
-                                ?.drop_date &&
-                                formik.errors?.items?.[productIndex]?.product
-                                  ?.drop_date && (
-                                  <FormHelperText>
-                                    {
-                                      formik.errors?.items?.[productIndex]
-                                        ?.product?.drop_date
-                                    }
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
+                            />
                           </Box>
                         </Grid>
 
@@ -694,178 +582,221 @@ const StepTwo = ({
                       fontSize={15}
                       fontWeight={400}
                     >
-                      Add Delivery Address
+                      Add Address Details
                     </Typography>
                   </Box>
                   <Box sx={{ my: 4 }}>
                     {productItem?.address &&
                       productItem?.address?.length > 0 &&
-                      productItem?.address.map((addressItem, addressIndex) => (
-                        <Box key={productIndex} sx={{ mt: 4 }}>
-                          <Card
-                            sx={{
-                              borderRadius: "0px",
-                              border: "0px",
-                              boxShadow: "none",
-                            }}
-                          >
-                            {" "}
-                            <CardHeader
-                              action={
-                                addressItem.isNew ? ( // Only show the close icon for new addresses
-                                  <IconButton
-                                    onClick={() =>
-                                      removesAddress(
-                                        productIndex,
-                                        productIndex + 1
+                      productItem?.address
+                        .sort((a, b) => {
+                          
+                          // Sorting logic: "drop" type comes first
+                          if (a.type !== "drop" && b.type === "drop") {
+                            return -1; // a comes first
+                          } else if (a.type === "drop" && b.type !== "drop") {
+                            return 1; // b comes first
+                          } else {
+                            return 0; // no change in order
+                          }
+                        })
+                        .map((addressItem, addressIndex) => (
+                          <Box key={productIndex} sx={{ mt: 4 }}>
+                            {console.log(productItem,addressItem,"df")}
+                            <Card
+                              sx={{
+                                borderRadius: "0px",
+                                border: "0px",
+                                boxShadow: "none",
+                              }}
+                            >
+                              {" "}
+                              <CardHeader
+                                action={
+                                  addressItem.isNew ? ( // Only show the close icon for new addresses
+                                    <IconButton
+                                      onClick={() =>
+                                        removesAddress(
+                                          productIndex,
+                                          addressItem.id
+                                        )
+                                      }
+                                    >
+                                      <Close />
+                                    </IconButton>
+                                  ) : null
+                                }
+                                sx={{ mb: 3, p: 0 }}
+                              />
+                              <Grid container spacing={3}>
+                                <Grid item md={12}>
+                                  <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    alignItems="center"
+                                    className="flexDirection"
+                                  >
+                                    <Typography fontSize={16}>
+                                      Address Type :
+                                    </Typography>
+                                    <Typography
+                                      fontSize={14}
+                                      sx={{ textTransform: "capitalize" }}
+                                    >
+                                      {addressItem?.type == "drop"
+                                        ? "Delivery"
+                                        : addressItem?.type}
+                                    </Typography>
+                                  </Stack>
+                                </Grid>
+                                <Grid item md={12}>
+                                  <Box>
+                                    <TextBox
+                                      fullWidth
+                                      label="Post Code"
+                                      placeholder="Enter Post Code"
+                                      value={addressItem?.pin_code}
+                                      name={`items[${productIndex}].address[${addressIndex}].pin_code`}
+                                      onChange={(e) => {
+                                        const enteredPostalCode =
+                                          e.target.value.toUpperCase();
+
+                                        if (
+                                          enteredPostalCode.length <= 8 ||
+                                          enteredPostalCode.length === 0
+                                        ) {
+                                          formik.setFieldValue(
+                                            `items[${productIndex}].address[${addressIndex}].pin_code`,
+                                            enteredPostalCode
+                                          );
+                                        }
+                                      }}
+                                      size="small"
+                                      helperText={
+                                        !isEmpty(formik.touched) &&
+                                        formik?.errors?.items &&
+                                        formik?.errors?.items[productIndex]
+                                          ?.address[addressIndex]?.pin_code
+                                      }
+                                    />
+                                  </Box>
+                                </Grid>
+
+                                <Grid item md={12}>
+                                  <GoogleAutocomplete
+                                    fullWidth
+                                    size="small"
+                                    labelname="Address"
+                                    name={`items[${productIndex}].address[${addressIndex}].address`}
+                                    value={addressItem?.address}
+                                    onSelect={(address, lat, long) => {
+                                      formik.setFieldValue(
+                                        `items[${productIndex}].address[${addressIndex}].address`,
+                                        address
+                                      );
+                                      formik.setFieldValue(
+                                        `items[${productIndex}].address[${addressIndex}].lat`,
+                                        lat
+                                      );
+                                      formik.setFieldValue(
+                                        `items[${productIndex}].address[${addressIndex}].long`,
+                                        long
+                                      );
+                                    }}
+                                    onChange={(e) => {
+                                      formik.setFieldValue(
+                                        `items[${productIndex}].address[${addressIndex}].address`,
+                                        e
+                                      );
+                                    }}
+                                    endIcon={
+                                      addressItem?.address && (
+                                        <IconButton
+                                          size="small"
+                                          inputEndAdornmentPosition="end"
+                                          onClick={() => {
+                                            formik.setFieldValue(
+                                              `items[${productIndex}].address[${addressIndex}].address`,
+                                              ""
+                                            );
+                                            formik.setFieldValue(
+                                              `items[${productIndex}].address[${addressIndex}].lat`,
+                                              ""
+                                            );
+                                            formik.setFieldValue(
+                                              `items[${productIndex}].address[${addressIndex}].long`,
+                                              ""
+                                            );
+                                          }}
+                                        >
+                                          <Close fontSize="small" />
+                                        </IconButton>
                                       )
                                     }
-                                  >
-                                    <Close />
-                                  </IconButton>
-                                ) : null
-                              }
-                              sx={{ mb: 3, p: 0 }}
-                            />
-                            <Grid container spacing={3}>
-                              <Grid item md={12}>
-                                <Stack
-                                  direction="row"
-                                  spacing={2}
-                                  alignItems="center"
-                                  className="flexDirection"
-                                >
-                                  <Typography fontSize={16}>
-                                    Address Type :
-                                  </Typography>
-                                  <Typography
-                                    fontSize={14}
-                                    sx={{ textTransform: "capitalize" }}
-                                  >
-                                    {addressItem?.type == "drop"
-                                      ? "Delivery"
-                                      : addressItem?.type}
-                                  </Typography>
-                                </Stack>
-                              </Grid>
-                              <Grid item md={12}>
-                                <Box>
-                                  <TextBox
-                                    fullWidth
-                                    label="Post Code"
-                                    placeholder="Enter Post Code"
-                                    value={addressItem?.pin_code}
-                                    name={`items[${productIndex}].address[${addressIndex}].pin_code`}
-                                    onChange={(e) => {
-                                      const enteredPostalCode =
-                                        e.target.value.toUpperCase();
-
-                                      if (
-                                        enteredPostalCode.length <= 8 ||
-                                        enteredPostalCode.length === 0
-                                      ) {
-                                        formik.setFieldValue(
-                                          `items[${productIndex}].address[${addressIndex}].pin_code`,
-                                          enteredPostalCode
-                                        );
-                                      }
-                                    }}
-                                    size="small"
                                     helperText={
                                       !isEmpty(formik.touched) &&
                                       formik?.errors?.items &&
                                       formik?.errors?.items[productIndex]
-                                        ?.address[addressIndex]?.pin_code
+                                        ?.address[addressIndex]?.address
                                     }
                                   />
-                                </Box>
+                                </Grid>
                               </Grid>
-                              <Grid item md={12}>
-                                <GoogleAutocomplete
-                                  fullWidth
-                                  size="small"
-                                  labelname="Address"
-                                  name={`items[${productIndex}].address[${addressIndex}].address`}
-                                  value={addressItem?.address}
-                                  onSelect={(address, lat, long) => {
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].address[${addressIndex}].address`,
-                                      address
-                                    );
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].address[${addressIndex}].lat`,
-                                      lat
-                                    );
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].address[${addressIndex}].long`,
-                                      long
-                                    );
+                              {addressItem?.type == "drop" && (productItem?.address?.length-1 === addressIndex) ? (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    addSingleAddress1();
                                   }}
-                                  onChange={(e) => {
-                                    formik.setFieldValue(
-                                      `items[${productIndex}].address[${addressIndex}].address`,
-                                      e
-                                    );
+                                >
+                                  Add Delivery Address
+                                </Button>
+                              ) : (
+                                addressItem?.null
+                              )}
+                              {addressItem?.type == "pickup"&&((productItem?.address?.filter(flr=>flr.type==="pickup").length-1 === addressIndex))  ? (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => {
+                                    addSingleAddress();
                                   }}
-                                  endIcon={
-                                    addressItem?.address && (
-                                      <IconButton
-                                        size="small"
-                                        inputEndAdornmentPosition="end"
-                                        onClick={() => {
-                                          formik.setFieldValue(
-                                            `items[${productIndex}].address[${addressIndex}].address`,
-                                            ""
-                                          );
-                                          formik.setFieldValue(
-                                            `items[${productIndex}].address[${addressIndex}].lat`,
-                                            ""
-                                          );
-                                          formik.setFieldValue(
-                                            `items[${productIndex}].address[${addressIndex}].long`,
-                                            ""
-                                          );
-                                        }}
-                                      >
-                                        <Close fontSize="small" />
-                                      </IconButton>
-                                    )
-                                  }
-                                  helperText={
-                                    !isEmpty(formik.touched) &&
-                                    formik?.errors?.items &&
-                                    formik?.errors?.items[productIndex]
-                                      ?.address[addressIndex]?.address
-                                  }
-                                />
-                              </Grid>
-                            </Grid>
-                          </Card>
-                        </Box>
-                      ))}
+                                >
+                                  Add Pickup Address
+                                </Button>
+                              ) : (
+                                addressItem?.null
+                              )}
+                            </Card>
+                          </Box>
+                        ))}
                   </Box>
-                  <Button
+
+                  {/* <Button
                     variant="contained"
                     onClick={() => {
                       addSingleAddress();
                       // setShowAddressForms(true);
                     }}
                   >
-                    Add Addresses
-                  </Button>
+                    Add Addresses1
+                  </Button> */}
                 </Card>
               </Box>
             );
           })}
       </Box>
-      <Button
+
+      {/* <Button
         variant="outlined"
         onClick={() => addProduct()}
         startIcon={<Add />}
         color="primary"
       >
         Add Another Address
-      </Button>
+      </Button> */}
+
       <Divider sx={{ my: 3 }} />
     </>
   );

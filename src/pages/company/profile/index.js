@@ -29,7 +29,7 @@ const MyProfilePage = () => {
       user_type: "company",
       email: "",
       mobile: "",
-      profile_img: "",
+      // profile_img: "",
       profile_img_url: "",
       company_certificate: "",
       company_vat: "",
@@ -43,7 +43,7 @@ const MyProfilePage = () => {
       formData.append("user_name", values?.user_name);
       formData.append("email", values?.email);
       formData.append("mobile", values?.mobile);
-      formData.append("profile_img", values?.profile_img);
+      // formData.append("profile_img", values?.profile_img);
       formData.append("company_certificate", values?.company_certificate);
       formData.append("company_vat", values?.company_vat);
 
@@ -268,8 +268,10 @@ const MyProfilePage = () => {
                 <Box
                   component="img"
                   style={{ margin: "10px" }}
+
                   src={formik.values.company_certificate_url}
-                  alt={formik.values.company_certificate.name}
+                  alt={formik.values?.company_certificate?.name}
+
                   width="150px"
                   height="150px"
                   thumbnail
@@ -345,7 +347,7 @@ const MyProfilePage = () => {
                   component="img"
                   style={{ margin: "10px" }}
                   src={formik.values.company_vat_url}
-                  alt={formik.values.company_vat.name}
+                  alt={formik.values.company_vat?.name}
                   width="150px"
                   height="150px"
                   thumbnail

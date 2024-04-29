@@ -489,14 +489,15 @@ const PostJob = () => {
   const addProduct = () => {
     formik.setFieldValue("items", [...(formik.values.items || []), product]);
   };
-  const removesAddress = (productIndex) => {
+  const removesAddress = (productIndex,id) => {
+    console.log(formik.values.items[productIndex].address,id,"sdfa")
     // Clone the current items to avoid direct state mutation
     const updatedItems = [...formik.values.items];
     const product = updatedItems[productIndex];
   
     if (product && product.address) {
       // Keep only addresses that are not marked as new
-      const retainedAddresses = product.address.filter(address => !address.isNew);
+      const retainedAddresses = product.address.filter(address => address.id!==id);
   
       // Update the product's addresses with those that are retained
       product.address = retainedAddresses;
@@ -518,9 +519,27 @@ const PostJob = () => {
       }
   
       // Add both a pickup and a delivery address
-      const newPickupAddress = { ...PickupAddress,isNew: true };
-      const newDeliveryAddress = { ...DropAddress,isNew: true  };
-      product.address.push(newPickupAddress, newDeliveryAddress);
+      const newPickupAddress = { ...PickupAddress,isNew: true,id: product.address.length+1 };
+      product.address.push(newPickupAddress);
+  
+      return product;
+    });
+  
+    // Update the formik state with the updated items
+    formik.setFieldValue("items", updatedItems,);
+  };
+
+  const addSingleAddress1 = () => {
+    const updatedItems = formik.values.items.map(product => {
+      // Ensure the product has an initialized address array
+      if (!product.address) {
+        product.address = [];
+      }
+  
+      // Add both a pickup and a delivery address
+      //const newPickupAddress = { ...PickupAddress,isNew: true };
+      const newDeliveryAddress = { ...DropAddress,isNew: true , id:product.address.length+1};
+      product.address.push(newDeliveryAddress);
   
       return product;
     });
@@ -539,6 +558,7 @@ const PostJob = () => {
       address,
     ]);
   };
+  
   const removeProduct = (index) => {
     if (formik?.values?.items) {
       const data = formik.values.items.splice(index, 1);
@@ -558,6 +578,7 @@ const PostJob = () => {
       );
     }
   };
+
 
   const bindData = async () => {
     await axiosInstance
@@ -587,6 +608,7 @@ const PostJob = () => {
       <JobPostForm
         addProduct={addProduct}
         addSingleAddress={addSingleAddress}
+        addSingleAddress1={addSingleAddress1}
         removeProduct={removeProduct}
         removesAddress={removesAddress}
         removeAddress={removeAddress}
