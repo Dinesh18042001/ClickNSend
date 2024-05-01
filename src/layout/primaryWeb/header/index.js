@@ -208,6 +208,7 @@ const Header = (props) => {
                   backgroundColor: "transparent",
                   backgroundSize: "cover",
                   marginLeft: "-50px",
+                  marginTop:"3px"
                 }}
               />
             </Box>
@@ -235,7 +236,7 @@ const Header = (props) => {
               )}
 
               {isAuthenticated &&
-                (user?.user_type !== "driver" ? (
+                (user?.user_type == "driver" ? (
                   <Typography
                     sx={{
                       mx: 1,
@@ -303,6 +304,77 @@ const Header = (props) => {
                   </Typography>
                 ))}
 
+
+{/* {isAuthenticated && (  
+  user?.user_type !== "driver" ? (  
+    <Typography
+      sx={{
+        mx: 1,
+        borderBottom: (theme) =>
+          router.asPath.startsWith("/dashboard")
+            ? "2px solid"
+            : "none",
+        color: (theme) =>
+          router.asPath.startsWith("/dashboard")
+            ? theme.palette.primary.main
+            : theme.palette.text.primary,
+        borderColor: (theme) =>
+          router.asPath.startsWith("/dashboard")
+            ? theme.palette.primary.main
+            : theme.palette.text.primary,
+        borderBottom: router.asPath.startsWith("/dashboard")
+          ? "2px solid"
+          : "",
+        ...theme.typography.subtitle2,
+        textDecoration: "none",
+        fontSize: "1rem",
+      }}
+      component={Link}
+      href={
+        user?.user_type === "driver"
+          ? `/dashboard/${user?.user_type}/active_jobs`
+          : `/dashboard/${user?.user_type}/job_posted`
+      }
+    >
+      Dashboard1
+    </Typography>
+  ) : (  // Otherwise, if the user's type is not "driver"
+      user?.user_type == "customer" ? (  // If the user's type is not "customer"
+        <Typography
+          sx={{
+            mx: 1,
+            borderBottom: (theme) =>
+              router.asPath.startsWith("/dashboard")
+                ? "2px solid"
+                : "none",
+            color: (theme) =>
+              router.asPath.startsWith("/dashboard")
+                ? theme.palette.primary.main
+                : theme.palette.text.primary,
+            borderColor: (theme) =>
+              router.asPath.startsWith("/dashboard")
+                ? theme.palette.primary.main
+                : theme.palette.text.primary,
+            borderBottom: router.asPath.startsWith("/dashboard")
+              ? "2px solid"
+              : "",
+            ...theme.typography.subtitle2,
+            textDecoration: "none",
+            fontSize: "1rem",
+          }}
+          component={Link}
+          href={
+            user?.user_type === "driver"
+              ? `/dashboard/${user?.user_type}/active_jobs`
+              : `/dashboard/${user?.user_type}`
+          }
+        >
+          Dashboard2
+        </Typography>
+      ) : null  // Otherwise, render nothing
+  )
+)} */}
+
               {/* add by me  */}
 
               {isAuthenticated &&
@@ -312,28 +384,29 @@ const Header = (props) => {
                       mx: 1.5,
                       pr: 1,
                       borderBottom: (theme) =>
-                        router.asPath === `/profile` ? "2px solid" : "none",
+                        router.asPath === `/dashboard/customer/job_posted` ? "2px solid" : "none",
 
                       color: (theme) =>
-                        router.asPath === `/profile`
+                        router.asPath === `/dashboard/customer/job_posted`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderColor: (theme) =>
-                        router.asPath === `/profile`
+                        router.asPath === `/dashboard/customer/job_posted`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderBottom:
-                        router.asPath === `/profile` ? "2px solid" : "",
+                        router.asPath === `/dashboard/customer/job_posted` ? "2px solid" : "",
                       ...theme.typography.subtitle2,
                       textDecoration: "none",
                       fontSize: "1rem",
                     }}
                     component={Link}
-                    href={`/profile`}
+                    href={`/dashboard/customer/job_posted`}
                   >
-                    Jobs
+                    Active Jobs
                   </Typography>
                 ) : null)}
+
 
               {isAuthenticated &&
                 (user?.user_type == "company" ? (

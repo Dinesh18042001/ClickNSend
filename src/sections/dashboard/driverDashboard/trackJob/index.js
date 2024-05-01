@@ -64,7 +64,7 @@ const TrackJob = () => {
             };
           } else if (newElement?.type == "pickup") {
             newArray[elementIndex - 1] = {
-              from: { ...newArray[elementIndex - 1].from },
+              from: { ...newArray[elementIndex - 1]?.from },
               to: {
                 lat: newElement?.lat,
                 lng: newElement?.long,

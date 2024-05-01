@@ -73,7 +73,7 @@ const DashboardJobPost = ({ formik }) => {
   const handlePageChange = (event, value) => {
     dispatch(setJobPostPage(value));
   };
-
+  
   React.useEffect(() => {
     dispatch(
       getJobPost({
@@ -463,6 +463,8 @@ const DashboardJobPost = ({ formik }) => {
                                     icon="majesticons:calendar-line"
                                   />
                                 </Box>
+
+
                                 <Box>
                                   <Typography
                                     color="grey"
@@ -544,6 +546,8 @@ const DashboardJobPost = ({ formik }) => {
                                         </TimelineContent>
                                       </TimelineItem>
                                     ))}
+
+                                    
                                 </div>
 
                                 <div
@@ -685,8 +689,6 @@ const DashboardJobPost = ({ formik }) => {
                                 Bid: <Iconify icon="bi:currency-pound" />
                                 {item?.budget}
                               </Typography>
-
-
 
                               <Stack direction="row" spacing={2}>
                                 <Box>

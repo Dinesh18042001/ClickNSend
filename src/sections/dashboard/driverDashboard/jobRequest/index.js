@@ -80,6 +80,20 @@ const DashboardJobRequest = () => {
     dispatch(setJobAlertPage(value));
   };
 
+
+  // Add for filter
+
+  const addressDetail = {
+    address: [{ type: "pickup" }, { type: "delivery" }],
+  };
+  // Check if addressDetail is defined before accessing its properties.
+  const pickupAddresses = addressDetail?.address?.filter(
+    (addressItem) => addressItem.type === "pickup"
+  );
+  const dropAddresses = addressDetail?.address?.filter(
+    (addressItem) => addressItem.type === "drop"
+  );
+
   // const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
@@ -514,6 +528,7 @@ const DashboardJobRequest = () => {
                                           icon="majesticons:calendar-line"
                                         />
                                       </Box>
+
                                       <Box>
                                         <Typography
                                           color="grey"
@@ -620,6 +635,7 @@ const DashboardJobRequest = () => {
                                           },
                                       }}
                                     >
+
                                       <TimelineItem
                                         sx={{
                                           "&.MuiTimelineItem-root": {
@@ -666,6 +682,9 @@ const DashboardJobRequest = () => {
                                           </Typography>
                                         </TimelineContent>
                                       </TimelineItem>
+
+
+
                                       {/* <TimelineItem
                                   sx={{
                                     "&.MuiTimelineItem-root": {
@@ -855,6 +874,9 @@ const DashboardJobRequest = () => {
                                           </Typography>
                                         </TimelineContent>
                                       </TimelineItem>
+
+
+                                      
                                     </Timeline>
                                   </Grid>
                                 </Grid>

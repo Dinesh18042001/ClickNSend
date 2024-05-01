@@ -506,7 +506,7 @@ password_confirmation: values?.password_confirmation
       >
         {/* <Box component="form" onSubmit={formik.handleSubmit}> */}
         <DialogHeader
-          onClose={onClose}
+          onClose={()=>onClose()}
           title={`${!showResend ? title : "OTP Verification"}`}
           showResend={showResend}
           handleClose={handleClose}
@@ -538,6 +538,7 @@ password_confirmation: values?.password_confirmation
           ) : (
             <ForgetForm formik={formik}  selected={selected}  handleSelect={handleSelect}  customLabels={customLabels} />
           )}
+          
           {showResend && (
             <Box>
               <Typography sx={{ fontSize: "16px" }}>

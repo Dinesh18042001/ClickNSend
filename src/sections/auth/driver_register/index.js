@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuthContext } from "@/auth/useAuthContext";
 import OTPDialogBox from "@/components/dialog/otpModal";
 import { PasswordBox, SelectBox, TextBox } from "@/components/form";
@@ -27,6 +28,7 @@ import {
   Radio,
   Stack,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
@@ -138,6 +140,12 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
 
   //ButtonDisabled
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  //use for show timeing
+  const [showResendLink, setShowResendLink] = React.useState(false);
+  const [secondsRemaining, setSecondsRemaining] = React.useState(60);
+
 
   const customLabels = {
     GB: { primary: "UK", secondary: "+44" },
@@ -150,6 +158,36 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
     // console.log("Secondary:", secondary);
     setSelectedCountry(secondary);
     setSelected(selectedCountry);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowResendLink(true);
+    }, 60000); // 60000 milliseconds = 1 minute
+
+    const interval = setInterval(() => {
+      setSecondsRemaining((prevSeconds) => prevSeconds - 1);
+    }, 1000);
+
+    // Clear timeouts and intervals when component unmounts to prevent memory leaks
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const handleClick = () => {
+    setIsLoading(true); // Set loading state to true
+    // Perform any action here (e.g., form submission)
+    setTimeout(() => {
+      // Simulate API call or form submission
+      setIsLoading(false); // Set loading state to false after the action is completed
+      setIsButtonDisabled(true); // Disable button after click
+    }, 2000); // Simulate a delay of 2 seconds
+  };
+
+  const handleReSendLoginOTP1 = () => {
+    // Your resend OTP logic here
   };
 
   const handleGoogleLogin = async () => {
@@ -769,23 +807,27 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
                     )}
 
                     {/* {validateOTP && ( */}
-                    {
-                      <Box className="otpButton" mt={2}>
+                    <Box className="otpButton" mt={2}>
                         <Button
                           variant="contained"
                           color="primary"
-                          ms={3}
                           disabled={isButtonDisabled} // Set disabled state
                           sx={{ width: "100px", marginLeft: "10px" }}
                           onClick={() => {
                             reformik.handleSubmit();
                             setIsButtonDisabled(true); // Disable button after click
+                            handleClick()
                           }}
                         >
-                          Send OTP
+                          {isLoading ? (
+                            <CircularProgress size={24} />
+                          ) : (
+                            "Send OTP"
+                          )}
                         </Button>
-                      </Box>
-                    }
+                      </Box> 
+
+
                   </Box>
 
                   {formik.values.user_type === "company" && (
@@ -1257,20 +1299,37 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
               </Typography>
             </Stack>
             <OTPForm formik={reformik} showOTP={showOTP} />
+     
+     {/* change this */}
             <Box>
               <Typography sx={{ fontSize: "16px" }}>
-                Didn{"'"}t receive OTP ?{" "}
-                <Typography
-                  color="primary"
-                  component="span"
-                  fontWeight={500}
-                  sx={{ cursor: "pointer", fontSize: "15px" }}
-                  onClick={() => handleReSendLoginOTP()}
-                >
-                  Resend OTP
-                </Typography>
+                Didn't receive OTP?{" "}
+                {!showResendLink && (
+                  <Typography
+                    color="primary"
+                    component="span"
+                    fontWeight={500}
+                    sx={{ cursor: "pointer", fontSize: "15px" }}
+                  >
+                    Resend OTP in {secondsRemaining} seconds
+                  </Typography>
+                )}
+                {showResendLink && (
+                  <Typography
+                    color="primary"
+                    component="span"
+                    fontWeight={500}
+                    sx={{ cursor: "pointer", fontSize: "15px" }}
+                    onClick={handleReSendLoginOTP1}
+                  >
+                    Resend OTP
+                  </Typography>
+                )}
               </Typography>
             </Box>
+
+
+
           </DialogContent>
           <Divider />
           <DialogActions>
