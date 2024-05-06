@@ -55,7 +55,6 @@ const DashboardJobPost = ({ formik }) => {
   const [loader, setLoader] = React.useState(false);
 
   // Add for filter
-
   const addressDetail = {
     address: [{ type: "pickup" }, { type: "delivery" }],
   };
@@ -478,6 +477,7 @@ const DashboardJobPost = ({ formik }) => {
                             </Grid>
 
                             {/* change this grid  */}
+
                             <Grid item md={3}>
                               <Timeline
                                 sx={{
@@ -556,38 +556,7 @@ const DashboardJobPost = ({ formik }) => {
                                     flexDirection: "column",
                                   }}
                                 >
-                                  {/* {console.log(addressDetail?.address, "sd")}
-                                  {addressDetail?.address
-                                    .filter((ds) => ds.type === "drop")
-                                    ?.map((addressItem, index) => (
-                                      <TimelineItem
-                                        sx={{
-                                          "&.MuiTimelineItem-root": {
-                                            minHeight: "50px",
-                                          },
-                                        }}
-                                      >
-                                        <TimelineSeparator>
-                                          <Iconify
-                                            width={30}
-                                            icon="carbon:location-star-filled"
-                                          />
-                                        </TimelineSeparator>
-
-                                        <TimelineContent
-                                          sx={{ fontSize: 14, fontWeight: 600 }}
-                                        >
-                                          {addressDetail?.address[0]?.address}{" "}
-                                          <Typography
-                                            fontSize={10}
-                                            component="span"
-                                            color="primary"
-                                          >
-                                            {addressDetail?.address[0]?.type}
-                                          </Typography>
-                                        </TimelineContent>
-                                      </TimelineItem>
-                                    ))} */}
+                          
 
                                   {console.log(addressDetail?.address, "sd")}
                                   {addressDetail?.address
@@ -669,6 +638,7 @@ const DashboardJobPost = ({ formik }) => {
                                 </Stack>
                               </Box>
                             </Grid>
+
                           </Grid>
                           <Divider sx={{ my: 2 }} />
                           <Box>
@@ -827,6 +797,8 @@ const DashboardJobPost = ({ formik }) => {
               </Box>
             )}
           </Box>
+
+          
         </Container>
       </Box>
     </React.Fragment>

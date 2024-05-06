@@ -270,6 +270,7 @@ const Header = (props) => {
                     Dashboard
                   </Typography>
                 ) : (
+
                   <Typography
                     sx={{
                       mx: 1,
@@ -304,6 +305,78 @@ const Header = (props) => {
                   </Typography>
                 ))}
 
+
+{/* {isAuthenticated &&
+                (user?.user_type == "driver" ? (
+                  <Typography
+                    sx={{
+                      mx: 1,
+                      borderBottom: (theme) =>
+                        router.asPath.startsWith("/dashboard")
+                          ? "2px solid"
+                          : "none",
+
+                      color: (theme) =>
+                        router.asPath.startsWith("/dashboard")
+                          ? theme.palette.primary.main
+                          : theme.palette.text.primary,
+                      borderColor: (theme) =>
+                        router.asPath.startsWith("/dashboard")
+                          ? theme.palette.primary.main
+                          : theme.palette.text.primary,
+                      borderBottom: router.asPath.startsWith("/dashboard")
+                        ? "2px solid"
+                        : "",
+                      ...theme.typography.subtitle2,
+                      textDecoration: "none",
+                      fontSize: "1rem",
+                    }}
+                    component={Link}
+                    href={
+                      user?.user_type === "driver"
+                        ? `/dashboard/${user?.user_type}/active_jobs`
+                        : `/dashboard/${user?.user_type}/job_posted`
+                    }
+                  >
+                    Dashboard
+                  </Typography>
+                ) : (
+
+                  <Typography
+                    sx={{
+                      mx: 1,
+                      borderBottom: (theme) =>
+                        router.asPath.startsWith("/dashboard")
+                          ? "2px solid"
+                          : "none",
+
+                      color: (theme) =>
+                        router.asPath.startsWith("/dashboard")
+                          ? theme.palette.primary.main
+                          : theme.palette.text.primary,
+                      borderColor: (theme) =>
+                        router.asPath.startsWith("/dashboard")
+                          ? theme.palette.primary.main
+                          : theme.palette.text.primary,
+                      borderBottom: router.asPath.startsWith("/dashboard")
+                        ? "2px solid"
+                        : "",
+                      ...theme.typography.subtitle2,
+                      textDecoration: "none",
+                      fontSize: "1rem",
+                    }}
+                    component={Link}
+                    href={
+                      user?.user_type === "driver"
+                        ? `/dashboard/${user?.user_type}/active_jobs`
+                        : `/dashboard/${user?.user_type}`
+                    }
+                  >
+                    Dashboard
+                  </Typography>
+                ))} */}
+
+
               {isAuthenticated &&
                 (user?.user_type == "customer" ? (
                   <Typography
@@ -336,7 +409,6 @@ const Header = (props) => {
 
                 
 
-
               {isAuthenticated &&
                 (user?.user_type == "company" ? (
                   <Typography
@@ -344,23 +416,23 @@ const Header = (props) => {
                       mx: 1.5,
                       pr: 1,
                       borderBottom: (theme) =>
-                        router.asPath === `/profile` ? "2px solid" : "none",
+                        router.asPath === `#` ? "2px solid" : "none",
                       color: (theme) =>
-                        router.asPath === `/profile`
+                        router.asPath === `#`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderColor: (theme) =>
-                        router.asPath === `/profile`
+                        router.asPath === `#`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderBottom:
-                        router.asPath === `/profile` ? "2px solid" : "",
+                        router.asPath === `#` ? "2px solid" : "",
                       ...theme.typography.subtitle2,
                       textDecoration: "none",
                       fontSize: "1rem",
                     }}
                     component={Link}
-                    href={`/profile`}
+                    href={`#`}
                   >
                     Drivers Jobs
                   </Typography>
@@ -412,22 +484,22 @@ const Header = (props) => {
                       pr: 1,
                       borderBottom: (theme) =>
                         router.asPath ===
-                        `/dashboard/driver/job_request`
+                        `#`
                           ? "2px solid"
                           : "none",
                       color: (theme) =>
                         router.asPath ===
-                        `/dashboard/driver/job_request`
+                        `#`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderColor: (theme) =>
                         router.asPath ===
-                        `/dashboard/driver/job_request`
+                        `#`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderBottom:
                         router.asPath ===
-                        `/dashboard/driver/job_request`
+                        `#`
                           ? "2px solid"
                           : "",
                       ...theme.typography.subtitle2,
@@ -435,7 +507,7 @@ const Header = (props) => {
                       fontSize: "1rem",
                     }}
                     component={Link}
-                    href={`/dashboard/driver/job_request`}
+                    href={`#`}
                   >
                     View Jobs
                   </Typography>
@@ -548,6 +620,7 @@ const Header = (props) => {
                   Profile
                 </Typography>
               )}
+              
               {isAuthenticated && 
               (user?.user_type == "driver" ? (
                 <Typography

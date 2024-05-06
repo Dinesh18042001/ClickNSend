@@ -18,6 +18,7 @@ const CustomerDashboard = () => {
 
   return (
     <React.Fragment>
+      <div style={{marginTop:"150px", marginBottom:"80px"}}>
       <Container sx={{ my: 2, }}>
         <Stack spacing={4}>
            <Box>
@@ -49,14 +50,9 @@ const CustomerDashboard = () => {
                   }}
                 />
               </Box>
+
               <CardContent sx={{height:"100%", px:10}}>
                 <Grid container alignItems="center" sx={{height:"inherit"}}>
-                  {/* <Grid item md={7}>
-                    <Box
-                      component={"img"}
-                      src="/assets/images/dashboard/logistic.png"
-                    />
-                  </Grid> */}
                   <Grid item md={5}>
                     <Stack direction={"row"} alignItems="center" height="100%">
                       <Stack spacing={2}>
@@ -83,7 +79,7 @@ const CustomerDashboard = () => {
                             variant="contained"
                             onClick={() =>
                               router.push(
-                                "/dashboard/customer/job_post_form/create"
+                                "/dashboard/customer/job_posted"
                               )
                             }
                             color="dark"
@@ -97,7 +93,7 @@ const CustomerDashboard = () => {
                             //   },
                             // }}
                           >
-                            POST YOUR FIRST JOB
+                            POST YOUR JOB
                           </Button>
                         </Box>
                       </Stack>
@@ -105,12 +101,15 @@ const CustomerDashboard = () => {
                   </Grid>
                 </Grid>
               </CardContent>
+              
             </Card>
           </Box>
-           {/* } */}
+        
          
         </Stack>
       </Container>
+      </div>
+
     </React.Fragment>
   );
 };
