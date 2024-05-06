@@ -16,7 +16,7 @@ export const DialogHeader = ({ onClose, title, handleClose }) => {
         >
           {title}
         </DialogTitle>
-        <Box mr={1}>
+        {/* <Box mr={1}>
           <IconButton
             onClick={() => {
               onClose();
@@ -25,7 +25,8 @@ export const DialogHeader = ({ onClose, title, handleClose }) => {
           >
             <Close />
           </IconButton>
-        </Box>
+        </Box> */}
+
       </Stack>
       <Divider />
     </Box>

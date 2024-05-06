@@ -597,7 +597,7 @@ const DocumentModal = ({ formik }) => {
             <Grid item md={4}>
               <Stack textAlign={"center"}>
                 <Typography textAlign="left" variant="p">
-                  Transit Certificate
+                  Good in Transit Certificate
                 </Typography>
                 {!formik.values.transit_cert && (
                   <TextBox
@@ -692,7 +692,7 @@ const DocumentModal = ({ formik }) => {
             <Grid item md={4}>
               <Stack textAlign={"center"}>
                 <Typography textAlign="left" variant="p">
-                  Liability Certificate
+                 Good in Liability Certificate
                 </Typography>
                 {!formik.values.liability_cert && (
                   <TextBox
@@ -785,7 +785,8 @@ const DocumentModal = ({ formik }) => {
                 )}
               </Stack>
             </Grid>{" "}
-            <Grid item md={4}>
+
+            {/* <Grid item md={4}>
               <Stack textAlign={"center"}>
                 <Typography textAlign="left" variant="p">
                   Vehicle Certificate
@@ -879,7 +880,9 @@ const DocumentModal = ({ formik }) => {
                   </Card>
                 )}
               </Stack>
-            </Grid>{" "}
+            </Grid>{" "} */}
+
+
             <Grid item md={4}>
               <Stack textAlign={"center"}>
                 <Typography textAlign="left" variant="p">
