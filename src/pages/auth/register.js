@@ -16,7 +16,7 @@ const RegisterPage = () => {
   const handleOpenClose = () => {
     setOpen(!open);
   };
-  
+
   const formik = useFormik({
     initialValues: {
       user_name: "",
@@ -235,3 +235,137 @@ RegisterPage.getLayout = function getLayout(page) {
   return <PrimaryWebLayout>{page}</PrimaryWebLayout>;
 };
 export default RegisterPage;
+
+
+
+
+// import GuestGuard from "@/auth/GuestGuard";
+// import { useSnackbar } from "notistack";
+// import Alert from "@mui/material/Alert";
+// import React from "react";
+// import { useFormik } from "formik";
+// import { useRouter } from "next/router";
+// import axiosInstance from "@/utils/axios";
+// import Register from "@/sections/auth/register";
+// import { PrimaryWebLayout } from "@/layout";
+
+// const RegisterPage = () => {
+//   const router = useRouter();
+//   const { enqueueSnackbar } = useSnackbar();
+//   const [open, setOpen] = React.useState(false);
+//   const handleOpenClose = () => {
+//     setOpen(!open);
+//   };
+
+//   const formik = useFormik({
+//     initialValues: {
+//       user_name: "",
+//       user_type: "customer",
+//       email: "",
+//       mobile: "",
+//       term: "no",
+//       password: "",
+//       password_confirmation: "",
+//       company_certificate: null, // Changed to null
+//       company_vat: null, // Changed to null
+//     },
+//     validate: (values) => {
+//       // Validation logic
+//     },
+//     onSubmit: async (values, { setErrors }) => {
+//       const formData = new FormData();
+//       Object.entries(values).forEach(([key, value]) => {
+//         // Append each key-value pair to FormData
+//         formData.append(key, value);
+//       });
+
+//       try {
+//         const response = await axiosInstance.post(
+//           values.user_type === "customer"
+//             ? "/api/user/cust-register"
+//             : "/api/user/company-register",
+//           formData
+//         );
+//         if (response?.status === 200) {
+//           formik.resetForm();
+//           router.push("/auth/login");
+//           enqueueSnackbar(
+//             <Alert
+//               style={{
+//                 width: "100%",
+//                 padding: "30px",
+//                 backdropFilter: "blur(8px)",
+//                 background: "#ff7533",
+//                 fontSize: "19px",
+//                 fontWeight: 800,
+//                 lineHeight: "30px",
+//               }}
+//               icon={false}
+//               severity="success"
+//             >
+//               {response?.data?.message}
+//             </Alert>,
+//             {
+//               variant: "success",
+//               iconVariant: true,
+//               anchorOrigin: {
+//                 vertical: "top",
+//                 horizontal: "center",
+//               },
+//             }
+//           );
+//         } else {
+//           // Handle error
+//           handleErrorResponse(response);
+//         }
+//       } catch (error) {
+//         // Handle error
+//         handleErrorResponse(error.response);
+//       }
+//     },
+//   });
+
+//   const handleErrorResponse = (response) => {
+//     enqueueSnackbar(
+//       <Alert
+//         style={{
+//           width: "100%",
+//           padding: "30px",
+//           backdropFilter: "blur(8px)",
+//           background: "#ff7533",
+//           fontSize: "19px",
+//           fontWeight: 800,
+//           lineHeight: "30px",
+//         }}
+//         icon={false}
+//         severity="error"
+//       >
+//         {response?.data?.message || "An error occurred"}
+//       </Alert>,
+//       {
+//         variant: "error",
+//         iconVariant: true,
+//         anchorOrigin: {
+//           vertical: "top",
+//           horizontal: "center",
+//         },
+//       }
+//     );
+//   };
+
+//   return (
+//     <GuestGuard>
+//       <Register
+//         open={open}
+//         handleOpenClose={handleOpenClose}
+//         formik={formik}
+//       />
+//     </GuestGuard>
+//   );
+// };
+
+// RegisterPage.getLayout = function getLayout(page) {
+//   return <PrimaryWebLayout>{page}</PrimaryWebLayout>;
+// };
+
+// export default RegisterPage;
