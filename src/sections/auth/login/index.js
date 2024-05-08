@@ -150,6 +150,7 @@ const Login = () => {
                     </Button>
                   </Box>
                   <Box>
+
                      <Button
                       fullWidth
                       sx={{
@@ -164,7 +165,7 @@ const Login = () => {
                         },
                       }}
                       startIcon={<Iconify icon="logos:facebook" />}
-                      // onClick={() => handleFacebookLogin()}
+                      onClick={() => handleFacebookLogin()}
                     >  <Typography
                         fontSize={9}
                         color={(theme) => theme.palette.grey[600]}
