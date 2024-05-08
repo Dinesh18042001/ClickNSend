@@ -148,7 +148,7 @@ const Register = ({ formik, open, handleOpenClose }) => {
     },
     validate: (values) => {},
     onSubmit: async (values) => {
-      // console.log("formik.values formik.values formik.values :", formik.values.mobile);
+      console.log("formik.values formik.values formik.values :", formik.values);
 
       try {
         let newPhoneNumber = formik?.values?.mobile?.replace(/^0+/, '');
