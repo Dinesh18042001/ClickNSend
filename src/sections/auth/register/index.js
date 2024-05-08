@@ -151,8 +151,8 @@ const Register = ({ formik, open, handleOpenClose }) => {
       console.log("formik.values formik.values formik.values :", formik.values);
 
       try {
-        let newPhoneNumber = formik?.values?.mobile?.replace(/^0+/, '');
-console.log(newPhoneNumber);
+        let newPhoneNumber = formik?.values?.mobile?.replace(/^0+/, "");
+        console.log(newPhoneNumber);
 
         const url = "/api/user/send-otp";
         const formData = {
@@ -255,7 +255,7 @@ console.log(newPhoneNumber);
     try {
 
       // let newPhoneNumber = formik?.values?.mobile?.replace('0', '');
-      //   console.log(newPhoneNumber);
+      // console.log(newPhoneNumber);
 
       const response = await axiosInstance.post(apiEndpoint, formData);
 
@@ -286,7 +286,7 @@ console.log(newPhoneNumber);
           }
         );
         setShowResend(false);
-        setOpens(false); // Open the dialog when response status is 200
+        setOpens(false);  // Open the dialog when response status is 200
         setValidateOTP(false);
         setLoginOTPData(response);
         setSuccessMessage(true);
@@ -294,7 +294,7 @@ console.log(newPhoneNumber);
         // formik.setFieldValue("otp", response?.data?.verification_code);
         // Resetformik.setFieldValue("otp", values?.otp);
         // Resetformik.setFieldValue("email", values?.email);
-        
+
       } else {
         enqueueSnackbar(
           <Alert
@@ -336,6 +336,7 @@ console.log(newPhoneNumber);
       type: "mobile",
       logged: "no",
     };
+
     // console.log("formData handleReSendLoginOTP", formData);
 
     await axiosInstance
@@ -440,12 +441,13 @@ console.log(newPhoneNumber);
       <Box sx={{ pb: 4, py: 12 }}>
         <Container>
           <Grid sx={{ justifyContent: "center" }} spacing={0} container>
-
-            <Grid item md={6} >
-              <Box sx={{marginTop: "60px"}} style={{position: "sticky", top:"100px"}}>
+            <Grid item md={6}>
+              <Box
+                sx={{ marginTop: "60px" }}
+                style={{ position: "sticky", top: "100px" }}
+              >
                 <Box src="/login/bro.png" component="img" />
               </Box>
-              
             </Grid>
 
             <Grid item md={5} sm={12} xs={12}>
@@ -665,7 +667,6 @@ console.log(newPhoneNumber);
                       size={"small"}
                     /> */}
 
-
                     <TextBox
                       variant="standard"
                       fullWidth
@@ -689,7 +690,6 @@ console.log(newPhoneNumber);
                       placeholder={"Enter Your Contact Number"}
                       size={"small"}
                     />
-                    
 
                     {successMessage && (
                       <Box
@@ -728,7 +728,6 @@ console.log(newPhoneNumber);
                           )}
                         </Button>
                       </Box>
-
                     }
                   </Box>
 
@@ -764,7 +763,6 @@ console.log(newPhoneNumber);
                     />
                   </Box>
                   {formik.values.user_type === "company" && (
-
                     // <Box>
                     //   <Stack textAlign={"center"} sx={{ mt: 2 }}>
                     //     <Typography textAlign="left" variant="p">
@@ -977,7 +975,6 @@ console.log(newPhoneNumber);
                       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                         {/* Company Certificate */}
                         <Stack textAlign="center">
-
                           <Typography textAlign="left" variant="p">
                             Company Certificate
                           </Typography>
@@ -1016,7 +1013,6 @@ console.log(newPhoneNumber);
                               }}
                             />
                           )}
-
 
                           {formik.values.company_certificate_url && (
                             <Card sx={{ width: "max-content" }}>
@@ -1273,7 +1269,6 @@ console.log(newPhoneNumber);
                 </Box>
               </Stack>
             </Grid>
-
           </Grid>
         </Container>
       </Box>
@@ -1375,7 +1370,6 @@ console.log(newPhoneNumber);
             >
               Close
             </Button> */}
-
           </DialogActions>
           {/* </Box> */}
         </Dialog>

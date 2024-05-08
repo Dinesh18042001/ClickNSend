@@ -77,6 +77,7 @@ const SubscriptionsPage = () => {
   //   if (result.error) {
   //     console.error(result.error);
   //   }
+
   };
 
   return (

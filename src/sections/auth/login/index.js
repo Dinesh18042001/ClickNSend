@@ -16,6 +16,7 @@ import {
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+
 // import  { FacebookLoginButton } from 'react-social-login-buttons'
 // import  { LoginSocialFacebook } from 'reactjs-social-login'
 
@@ -124,6 +125,7 @@ const Login = () => {
                   alignItems="center"
                   justifyContent="center"
                 >
+
                   <Box>
                     <Button
                       fullWidth
@@ -149,8 +151,8 @@ const Login = () => {
                       </Typography>
                     </Button>
                   </Box>
-                  <Box>
 
+                  <Box>
                      <Button
                       fullWidth
                       sx={{
@@ -175,6 +177,8 @@ const Login = () => {
                       </Button> 
                     
                   </Box>
+
+
                 </Stack>
                 <Stack spacing={1} py={1}>
                   <Box

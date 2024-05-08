@@ -166,6 +166,7 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
     const errors = validate(formValues);
     if (Object.keys(errors).length === 0) {
       const [expMonth, expYear] = formValues.expiryDate.split("/");
+
     const initialValues = {
       user_id: user?.id  , // Adjust according to your logic
       email:user?.email  , // Add other initial values here
@@ -176,6 +177,8 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
       cvc:  formValues?.cvv,
       name: formValues?.nameOnCard
     };
+
+    
     try {
       const response =  await axiosInstance.post(`api/auth/payment/purchase-plan/new`, initialValues)
     if (response?.status === 200) {
