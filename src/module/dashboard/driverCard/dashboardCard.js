@@ -84,7 +84,7 @@ const DashboardCard = () => {
           <Grid item md={3}>
             <Card
               sx={{
-                p: 1.5,
+                p: 3,
                 backgroundColor:
                   router.pathname === "/dashboard/driver/job_request"
                     ? "#145365"
@@ -118,7 +118,7 @@ const DashboardCard = () => {
                   }}
                   height="auto"
                   py={1}
-                  borderRadius={2}
+                  borderRadius={5}
                   component="div"
                 >
                   <Iconify icon="fluent:alert-48-regular" width={45} />
@@ -138,7 +138,7 @@ const DashboardCard = () => {
           <Grid item md={3}>
             <Card
               sx={{
-                p: 1.5,
+                p: 3,
                 backgroundColor:
                   router.pathname === "/dashboard/driver/active_jobs"
                     ? "#ff7533"
@@ -168,7 +168,7 @@ const DashboardCard = () => {
                   height="60px"
                   py={0.5}
                   px={1}
-                  borderRadius={2}
+                  borderRadius={5}
                   component="div"
                 >
                   <Iconify icon="solar:user-linear" width={45} />
@@ -188,7 +188,7 @@ const DashboardCard = () => {
           <Grid item md={3}>
             <Card
               sx={{
-                p: 1.5,
+                p: 3,
                 backgroundColor:
                   router.pathname === "/dashboard/driver/job_history"
                     ? "#FD9B3D"
@@ -218,7 +218,7 @@ const DashboardCard = () => {
                   height="60px"
                   py={0.5}
                   px={1}
-                  borderRadius={2}
+                  borderRadius={5}
                   component="div"
                 >
                   <Iconify icon="ri:history-fill" width={48} />{" "}
@@ -238,7 +238,7 @@ const DashboardCard = () => {
           <Grid item md={3}>
             <Card
               sx={{
-                p: 1.5,
+                p: 3,
                 backgroundColor:
                   router.pathname === "/dashboard/driver/subscription"
                     ? "#FECA3C"
@@ -268,7 +268,7 @@ const DashboardCard = () => {
                   height="60px"
                   py={0.5}
                   px={1}
-                  borderRadius={2}
+                  borderRadius={5}
                   component="div"
                 >
                   <Iconify

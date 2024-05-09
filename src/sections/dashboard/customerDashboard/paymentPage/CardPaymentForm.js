@@ -161,7 +161,7 @@ const CardPaymentForm = ({ PaymentFormData, setShowPayment }) => {
       name: formValues?.nameOnCard
     };
     try {
-      const response =  await axiosInstance.post(`api/auth/payment/purchase-plan/new`, initialValues)
+      const response =  await axiosInstance.post(`api/auth/payment/purchase-plan/${user?.id}`, initialValues)
     if (response?.status === 200) {
       console.log(response);
       // Optionally, you can handle success response here

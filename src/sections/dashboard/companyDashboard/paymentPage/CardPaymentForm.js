@@ -105,19 +105,19 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
     }
     setFormValues({ ...formValues, [name]: value });
   };
-  const luhnCheck = (num) => {
-    let arr = (num + "")
-      .split("")
-      .reverse()
-      .map((x) => parseInt(x));
-    let lastDigit = arr.splice(0, 1)[0];
-    let sum = arr.reduce(
-      (acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val * 2) % 9) || 9),
-      0
-    );
-    sum += lastDigit;
-    return sum % 10 === 0;
-  };
+  // const luhnCheck = (num) => {
+  //   let arr = (num + "")
+  //     .split("")
+  //     .reverse()
+  //     .map((x) => parseInt(x));
+  //   let lastDigit = arr.splice(0, 1)[0];
+  //   let sum = arr.reduce(
+  //     (acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val * 2) % 9) || 9),
+  //     0
+  //   );
+  //   sum += lastDigit;
+  //   return sum % 10 === 0;
+  // };
 
   const validate = (values) => {
     const errors = {};
@@ -129,9 +129,10 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
         errors.cardNumber = 'Card number is required!';
       } else if (cardNumberContinuous.length !== 16) {
         errors.cardNumber = 'Card number must be 16 digits!';
-      } else if (!luhnCheck(cardNumberContinuous)) {
-        errors.cardNumber = 'Invalid card number!';
-      }
+      }  
+      // else if  (!luhnCheck(cardNumberContinuous)) {
+      //   errors.cardNumber = 'Invalid card number!';
+      // }
     if (!values.cardNumber) {
       errors.cardNumber = "Card number is required!";
     }
@@ -161,6 +162,7 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
     return errors;
   };
 
+  console.log(user)
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validate(formValues);
@@ -170,7 +172,8 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
     const initialValues = {
       user_id: user?.id  , // Adjust according to your logic
       email:user?.email  , // Add other initial values here
-      plan_id: user?.plan?.plan_id,
+      // plan_id: user?.plan?.plan_id,
+      plan_id: 14,
       number: formValues?.cardNumber,
       exp_month:expMonth,
       exp_year: expYear,
@@ -180,7 +183,7 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
 
     
     try {
-      const response =  await axiosInstance.post(`api/auth/payment/purchase-plan/new`, initialValues)
+      const response =  await axiosInstance.post(`api/auth/payment/purchase-plan/${user?.id}`, initialValues)
     if (response?.status === 200) {
       console.log(response);
       // Optionally, you can handle success response here

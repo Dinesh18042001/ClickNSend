@@ -729,6 +729,7 @@ const Register = ({ formik, open, handleOpenClose }) => {
                         </Button>
                       </Box>
                     }
+                    
                   </Box>
 
                   <Box>
