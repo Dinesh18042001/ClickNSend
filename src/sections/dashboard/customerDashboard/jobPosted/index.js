@@ -66,6 +66,7 @@ const DashboardJobPost = ({ formik }) => {
     (addressItem) => addressItem.type === "drop"
   );
 
+  
   const {
     jobPost: { pageCount, data, page, pageSize, dataCount },
   } = useSelector((state) => state.customerJob);
