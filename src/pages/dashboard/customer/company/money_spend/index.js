@@ -11,6 +11,7 @@ const MoneySpendList = () => {
       <Container >
         <Box py={5}>
           <DashboardCard />
+        
         <SubscriptionDialog />
         </Box>
         <Card>

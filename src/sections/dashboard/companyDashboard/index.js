@@ -19,7 +19,11 @@ const CustomerDashboard = () => {
     <React.Fragment>
       <Container sx={{ my: 4, py: 10 }}>
         <Stack spacing={4}>
+          
           <DashboardCard />
+          
+          {/* <CustomerDashboard/> */}
+          
           <Box>
             <Card
               sx={{
@@ -71,20 +75,22 @@ const CustomerDashboard = () => {
                           ultrices velit cursus. Aenean tristique vel mi non
                           pulvinar.
                         </Typography>
-                        <Box>
+
+                        {/* <Box>
                           <Button
                             sx={{ fontSize: "14px" }}
                             variant="contained"
                             onClick={() =>
                               router.push(
-                                "/dashboard/company/driver/form/create"
+                                "/dashboard/customer/job_post_form/create"
                               )
                             }
                             color="dark"
                           >
-                            Add Driver
+                            Add Job
                           </Button>
-                        </Box>
+                        </Box> */}
+
                       </Stack>
                     </Stack>
                   </Grid>

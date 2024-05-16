@@ -45,7 +45,9 @@ const drawerWidth = 240;
 const Header = (props) => {
   const router = useRouter();
   const token = isAccessToken();
+
   const { user, isAuthenticated, logout } = useAuthContext();
+  
   const isMobile = useResponsive("down", "md");
   const value = useOffSetTop(10, {
     offset: ["start end", "end end"],
@@ -76,7 +78,6 @@ const Header = (props) => {
   };
 
   // Function to apply conditional styling
-
   const handleAuth = () => {
     if (isAuthenticated) {
       logout();
@@ -84,6 +85,7 @@ const Header = (props) => {
       router.push("/auth/login");
     }
   };
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -434,7 +436,7 @@ const Header = (props) => {
                     component={Link}
                     href={`#`}
                   >
-                    Drivers Jobs
+                    Job list
                   </Typography>
                 ) : null)}
 
@@ -659,6 +661,44 @@ const Header = (props) => {
                 </Typography>
               ) : null )}
 
+{/* {isAuthenticated && 
+              (user?.user_type == "company" ? (
+                <Typography
+                  sx={{
+                    // mx: 1.5,
+                    pr: 1,
+                    borderBottom: (theme) =>
+                      router.asPath ===
+                      `/dashboard/${user?.user_type}/subscription`
+                        ? "2px solid"
+                        : "none",
+
+                    color: (theme) =>
+                      router.asPath ===
+                      `/dashboard/${user?.user_type}/subscription`
+                        ? theme.palette.primary.main
+                        : theme.palette.text.primary,
+                    borderColor: (theme) =>
+                      router.asPath ===
+                      `/dashboard/${user?.user_type}/subscription`
+                        ? theme.palette.primary.main
+                        : theme.palette.text.primary,
+                    borderBottom:
+                      router.asPath ===
+                      `/dashboard/${user?.user_type}/subscription`
+                        ? "2px solid"
+                        : "",
+                    ...theme.typography.subtitle2,
+                    textDecoration: "none",
+                    fontSize: "1rem",
+                  }}
+                  component={Link}
+                  href={`/dashboard/${user?.user_type}/subscription`}
+                >
+                  Invoice
+                </Typography>
+              ) : null )} */}
+
               {isAuthenticated && 
               (user?.user_type == "company" ? (
                 <Typography
@@ -707,7 +747,7 @@ const Header = (props) => {
                     aria-label="show 17 new notifications"
                     color="inherit"
                   >
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={0} color="error">
                       <NotificationsIcon
                         sx={{
                           fontSize: "32px",

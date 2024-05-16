@@ -354,6 +354,9 @@
 
 
 
+
+
+
 import GuestGuard from "@/auth/GuestGuard";
 import { PrimaryWebLayout } from "@/layout";
 import DriverRegister from "@/sections/auth/driver_register";
@@ -460,57 +463,7 @@ const DriverPage = () => {
       ) {
         errors.password_confirmation = "Password didn't match.";
       }
-      // if (values?.user_type === "driver") {
-      //   if (!values.profile_img) {
-      //     errors.profile_img = "Driver Photo is required";
-      //   }
-      //   if (!values.licence_front) {
-      //     errors.licence_front = "Driver Licence is required";
-      //   }
-      //   if (!values.licence_back) {
-      //     errors.licence_back = "Driver Licence is required";
-      //   }
-      //   if (!values.address_proof) {
-      //     errors.address_proof = "Address proof is required";
-      //   }
-      //   if (!values.insurance_cert) {
-      //     errors.insurance_cert = "Insurance Certificate is required";
-      //   }
-      //   if (!values.transit_cert) {
-      //     errors.transit_cert = "Transit Certificate is required";
-      //   }
-      //   if (!values.liability_cert) {
-      //     errors.liability_cert = "Liability Certificate is required";
-      //   }
-      //   if (!values.vehicle_cert) {
-      //     errors.vehicle_cert = "Vehicle Certificate is required";
-      //   }
-      //   if (!values.v5c_cert) {
-      //     errors.v5c_cert = "V5C Certificate is required";
-      //   }
-      //   if (!values.dvia_cert) {
-      //     errors.dvia_cert = "Dvia Certificate is required";
-      //   }
-      //   if (!values.nationality_cert) {
-      //     errors.nationality_cert = "Nationality Proof is required";
-      //   }
 
-      //   if (
-      //     !values.profile_img ||
-      //     !values.licence_front ||
-      //     !values.licence_back ||
-      //     !values.address_proof ||
-      //     !values.insurance_cert ||
-      //     !values.transit_cert ||
-      //     !values.liability_cert ||
-      //     !values.vehicle_cert ||
-      //     !values.v5c_cert ||
-      //     !values.dvia_cert ||
-      //     !values.nationality_cert
-      //   ) {
-      //     errors.document = "Document is required";
-      //   }
-      // }
 
       if (values?.user_type === "company") {
         if (!values.company_certificate) {
@@ -531,164 +484,15 @@ const DriverPage = () => {
       return errors;
     },
 
-    // onSubmit: async (values, { setErrors }) => {
-    //   setLoading(true); 
-    //   let url, formData;
-      
-    //   if (values.user_type === "driver") {
-    //     url = "api/user/driver-register";
-    //     let driverFormData = new FormData();
-    //     driverFormData.append("user_name", values?.user_name);
-    //     driverFormData.append("user_type", values?.user_type);
-    //     driverFormData.append("email", values?.email);
-    //     driverFormData.append("mobile", values?.mobile);
-    //     driverFormData.append("term", values?.term);
-    //     driverFormData.append("password", values?.password);
-    //     driverFormData.append("driver_type", values?.driver_type);
-    //     driverFormData.append("register_type", 'web');
-    //     driverFormData.append(
-    //       "password_confirmation",
-    //       values?.password_confirmation
-    //     );
-    //     driverFormData.append("profile_img", values?.profile_img);
-    //     driverFormData.append("licence_front", values?.licence_front);
-    //     driverFormData.append("licence_back", values?.licence_back);
-    //     driverFormData.append("address_proof", values?.address_proof);
-    //     driverFormData.append("insurance_cert", values?.insurance_cert);
-    //     driverFormData.append("transit_cert", values?.transit_cert);
-    //     driverFormData.append("liability_cert", values?.liability_cert);
-    //     driverFormData.append("vehicle_cert", values?.vehicle_cert);
-    //     driverFormData.append("v5c_cert", values?.v5c_cert);
-    //     driverFormData.append("dvia_cert", values?.dvia_cert);
-    //     driverFormData.append("nationality_cert", values?.nationality_cert);
-    //     formData = driverFormData;
-    //   } else {
-    //     url = "/api/user/company-register";
-    //     let formDatas = new FormData();
-    //     formDatas.append("user_name", values?.user_name);
-    //     formDatas.append("user_type", values?.user_type);
-    //     formDatas.append("email", values?.email);
-    //     formDatas.append("mobile", values?.mobile);
-    //     customerData.append("company_type", 'company');
-    //     formDatas.append("term", values?.term);
-    //     formDatas.append("password", values?.password);
-    //     formDatas.append(
-    //       "password_confirmation",
-    //       values?.password_confirmation
-    //     );
-    //     formDatas.append("company_certificate", values?.company_certificate);
-    //     formDatas.append("company_vat", values?.company_vat);
-    //     formData = formDatas;
-    //   }
-    //   await axiosInstance
-    //     .post(url, formData, { setErrors })
-    //     .then((response) => {
-    //       setLoading(false);
-    //       if (response?.status === 200) {
-    //         enqueueSnackbar(
-    //         <Alert
-    //           style={{
-    //             width: "100%",
-    //             padding: "30px",
-    //             backdropFilter: "blur(8px)",
-    //             background: "#ff7533 ",
-    //             fontSize: "19px",
-    //             fontWeight: 800,
-    //             lineHeight: "30px"
-    //           }}
-    //           icon={false}
-    //           severity="success"
-    //         >
-    //           {response?.data?.message}
-    //         </Alert>,
-    //         {
-    //           variant: "success",
-    //           iconVariant: true,
-    //           anchorOrigin: {
-    //             vertical: "top",
-    //             horizontal: "center",
-    //           },
-    //         }
-    //       );
-    //         // handleOpenClose();
-    //         formik.resetForm();
-    //         router.push("/auth/login");
-    //       } else {
-    //          // error
-    //     enqueueSnackbar(
-    //       <Alert
-    //         style={{
-    //           width: "100%",
-    //           padding: "30px",
-    //           filter: blur("8px"),
-    //           background: "#ffe9d5 ",
-    //           fontSize: "19px",
-    //           fontWeight: 800,
-    //           lineHeight: "30px",
-    //         }}
-    //         icon={false}
-    //         severity="error"
-    //       >
-    //         {response?.data?.error}
-    //       </Alert>,
-    //       {
-    //         variant: "error",
-    //         iconVariant: true,
-    //         anchorOrigin: {
-    //           vertical: "top",
-    //           horizontal: "center",
-    //         },
-    //       }
-    //     );
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       const { response } = error;
-    //       if (response.status === 422) {
-    //         // eslint-disable-next-line no-unused-vars
-    //         for (const [key, value] of Object.entries(values)) {
-    //           if (response.data.error[key]) {
-    //             setErrors({ [key]: response.data.error[key][0] });
-    //           }
-    //         }
-    //       }
-    //       if (response?.data?.status === 406) {
-    //          // error
-    //     enqueueSnackbar(
-    //       <Alert
-    //         style={{
-    //           width: "100%",
-    //           padding: "30px",
-    //           filter: blur("8px"),
-    //           background: "#ffe9d5 ",
-    //           fontSize: "19px",
-    //           fontWeight: 800,
-    //           lineHeight: "30px",
-    //         }}
-    //         icon={false}
-    //         severity="error"
-    //       >
-    //         {response?.data?.error}
-    //       </Alert>,
-    //       {
-    //         variant: "error",
-    //         iconVariant: true,
-    //         anchorOrigin: {
-    //           vertical: "top",
-    //           horizontal: "center",
-    //         },
-    //       }
-    //     );
-    //       }
-    //     });
-    // },
 
     onSubmit: async (values, { setErrors }) => {
       setLoading(true); 
       let url, formData;
       
       if (values.user_type === "driver") {
+
         url = "api/user/driver-register";
+
         let driverFormData = new FormData();
         driverFormData.append("user_name", values?.user_name);
         driverFormData.append("user_type", values?.user_type);
@@ -724,13 +528,22 @@ const DriverPage = () => {
         url = "/api/user/company-register";
         let formDatas = new FormData();
         formDatas.append("user_name", values?.user_name);
+
         formDatas.append("user_type", values?.user_type);
+        // formDatas.append("user_type", 'company Driver');
+
         formDatas.append("email", values?.email);
         formDatas.append("mobile", values?.mobile);
+
         // Corrected line
-        formDatas.append("company_type", 'company');
+        // formDatas.append("company_type", 'company'); 
+        
+        formDatas.append("company_type", 'driver');
+
+
         formDatas.append("term", values?.term);
         formDatas.append("password", values?.password);
+
         formDatas.append(
           "password_confirmation",
           values?.password_confirmation
