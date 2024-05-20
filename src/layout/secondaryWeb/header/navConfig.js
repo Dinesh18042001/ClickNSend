@@ -25,6 +25,6 @@ export const navItems = [
   },
   {
     name: "Contact us",
-    link: "/contact",
+    link: "/contact1",
   },
 ];

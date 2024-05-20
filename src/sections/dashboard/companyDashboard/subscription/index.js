@@ -340,7 +340,7 @@ const SubscriptionsPage = () => {
         )}
       </Box>
       ) : (
-        <CardPaymentForm paymentDetails={paymentDetails} setShowPayment={setShowPayment}  /> // Render the PaymentPage component when showPayment is true
+        <CardPaymentForm paymentDetails={paymentDetails} setShowPayment={setShowPayment} /> // Render the PaymentPage component when showPayment is true
       )}
     </React.Fragment>
   );

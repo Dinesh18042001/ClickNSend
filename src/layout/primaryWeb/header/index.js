@@ -78,6 +78,8 @@ const Header = (props) => {
   };
 
   // Function to apply conditional styling
+
+
   const handleAuth = () => {
     if (isAuthenticated) {
       logout();

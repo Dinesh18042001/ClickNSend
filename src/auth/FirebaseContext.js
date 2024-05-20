@@ -148,6 +148,7 @@ export function AuthFirebaseProvider({ children }) {
 
  
   // LOGOUT
+  
   const logout = useCallback(() => {
     signOut(AUTH)
       .then((response) => {

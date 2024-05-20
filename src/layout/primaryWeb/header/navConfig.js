@@ -44,11 +44,21 @@ export const navItems = [
 
 ];
 
+
 export const navItemsLogout = [
   {
     name: "Logout",
     link: "/contact",
     isArrow: false,
   },
-
 ];
+
+
+
+// export const navItemsLogout = [
+//   {
+//     name: "Logout",
+//     link: "/auth/login",
+//     isArrow: false,
+//   },
+//  ];
