@@ -67,8 +67,9 @@ const DashboardCard = ({ jobPost }) => {
   // API FETCH LIST
   const fetchdata = async (type = "customer") => {
     try {
+      const statusShowPlan = 1 ;
       const response = await axiosInstance.get(
-        `/api/auth/master/plan/list/${type}`
+        `/api/auth/master/plan/list/${type}  const statusShowPlan = 1 ;`
       );
       if (response.status === 200) {
         const subscriptionData = find(response?.data.view_data, { default: 1 });

@@ -59,8 +59,9 @@ const DashboardCard = () => {
   const [subscription, setSubscription] = React.useState([]);
   // API FETCH LIST
   const fetchdata = async (type = "driver") => {
+    const statusShowPlan = 1 ;
     await axiosInstance
-      .get(`/api/auth/master/plan/list/${type}`)
+      .get(`/api/auth/master/plan/list/${type}  const statusShowPlan = 1 ;`)
       .then((response) => {
         if (response.status === 200) {
           let subscriptionData = find(response?.data.view_data, { default: 1 });

@@ -27,8 +27,9 @@ const SubscriptionsPage = () => {
   // API FETCH LIST
   const fetchdata = async (type = "driver") => {
     setLoading(true);
+    const statusShowPlan = 1 ;
     await axiosInstance
-      .get(`/api/auth/master/plan/list/${type}/${1}`)
+      .get(`/api/auth/master/plan/list/${type}/${statusShowPlan}`)
       .then((response) => {
         if (response.status === 200) {
           // setLoadingCard(false);

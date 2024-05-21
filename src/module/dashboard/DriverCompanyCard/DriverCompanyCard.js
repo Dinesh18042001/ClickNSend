@@ -18,8 +18,9 @@ const DashboardCard = () => {
   // API FETCH LIST
   const fetchdata = async (type = "company") => {
     try {
+      const statusShowPlan = 1 ;
       const response = await axiosInstance.get(
-        `/api/auth/master/plan/list/${type}`
+        `/api/auth/master/plan/list/${type}/${statusShowPlan}`
       );
       if (response.status === 200) {
         const subscriptionData = response.data.view_data.find(
@@ -223,7 +224,7 @@ const DashboardCard = () => {
                     </Box>
                     <Box>
                       <Typography variant="h6" fontWeight={300}>
-                        Subscription
+                        Subscription   
                       </Typography>
                     </Box>
                   </Stack>

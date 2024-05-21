@@ -78,8 +78,6 @@ const Header = (props) => {
   };
 
   // Function to apply conditional styling
-
-
   const handleAuth = () => {
     if (isAuthenticated) {
       logout();
@@ -863,7 +861,7 @@ const Header = (props) => {
                         }}
                         onClick={() => handleMenuItemClick("invoice")}
                       >
-                        Invoice
+                        Invoice p
                       </MenuItem>
                     </Link>
 

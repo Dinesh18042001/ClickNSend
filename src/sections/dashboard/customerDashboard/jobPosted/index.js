@@ -66,14 +66,13 @@ const DashboardJobPost = ({ formik }) => {
     (addressItem) => addressItem.type === "drop"
   );
 
-  
   const {
     jobPost: { pageCount, data, page, pageSize, dataCount },
   } = useSelector((state) => state.customerJob);
   const handlePageChange = (event, value) => {
     dispatch(setJobPostPage(value));
   };
-  
+
   React.useEffect(() => {
     dispatch(
       getJobPost({
@@ -86,6 +85,20 @@ const DashboardJobPost = ({ formik }) => {
       })
     ).then(() => {});
   }, [page, pageSize, date]);
+
+  const calculateAmounts = (jobAmount) => {
+    const extra = (10 / 100) * jobAmount;
+    const finalAmount = jobAmount + extra;
+    const vat = (20 / 100) * finalAmount;
+    const total = finalAmount + vat;
+
+    setResults({
+      extra,
+      finalAmount,
+      vat,
+      total,
+    });
+  };
 
   return (
     <React.Fragment>
@@ -464,7 +477,6 @@ const DashboardJobPost = ({ formik }) => {
                                   />
                                 </Box>
 
-
                                 <Box>
                                   <Typography
                                     color="grey"
@@ -547,8 +559,6 @@ const DashboardJobPost = ({ formik }) => {
                                         </TimelineContent>
                                       </TimelineItem>
                                     ))}
-
-                                    
                                 </div>
 
                                 <div
@@ -557,8 +567,6 @@ const DashboardJobPost = ({ formik }) => {
                                     flexDirection: "column",
                                   }}
                                 >
-                          
-
                                   {console.log(addressDetail?.address, "sd")}
                                   {addressDetail?.address
                                     .filter((ds) => ds.type === "drop")
@@ -639,7 +647,6 @@ const DashboardJobPost = ({ formik }) => {
                                 </Stack>
                               </Box>
                             </Grid>
-
                           </Grid>
                           <Divider sx={{ my: 2 }} />
                           <Box>
@@ -649,7 +656,6 @@ const DashboardJobPost = ({ formik }) => {
                               alignItems="center"
                               justifyContent="space-between"
                             >
-
                               <Typography
                                 variant="subtitle2"
                                 sx={{
@@ -798,8 +804,6 @@ const DashboardJobPost = ({ formik }) => {
               </Box>
             )}
           </Box>
-
-          
         </Container>
       </Box>
     </React.Fragment>

@@ -551,7 +551,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   // LOGOUT
-  
   const logout = useCallback(async () => {
     try {
       const response = await axios.post("api/auth/logout");

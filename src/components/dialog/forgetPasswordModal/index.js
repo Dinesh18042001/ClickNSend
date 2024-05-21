@@ -511,7 +511,6 @@ password_confirmation: values?.password_confirmation
           showResend={showResend}
           handleClose={handleClose}
         />
-
         <DialogContent dividers={"paper"}>
           <Stack textAlign={"center"} mt={2}>
             {!showResend && (
@@ -557,7 +556,6 @@ password_confirmation: values?.password_confirmation
             </Box>
           )}
         </DialogContent>
-
         <Divider />
         <DialogActions>
           <Button
@@ -567,7 +565,6 @@ password_confirmation: values?.password_confirmation
           >
             Verify
           </Button>
-          
           <Button
             variant="contained"
             color="dark"
@@ -578,7 +575,6 @@ password_confirmation: values?.password_confirmation
           >
             Close
           </Button>
-
         </DialogActions>
         {/* </Box> */}
       </Dialog>

@@ -31,8 +31,9 @@ const SubscriptionsPage = () => {
   // API FETCH LIST
   const fetchdata = async (type = "company") => {
     setLoading(true);
+    const statusShowPlan = 1 ;
     await axiosInstance
-      .get(`/api/auth/master/plan/list/${type}/{1}`)
+      .get(`/api/auth/master/plan/list/${type}/${statusShowPlan}`)
       .then((response) => {
         if (response.status === 200) {
           setLoading(false);
@@ -340,7 +341,7 @@ const SubscriptionsPage = () => {
         )}
       </Box>
       ) : (
-        <CardPaymentForm paymentDetails={paymentDetails} setShowPayment={setShowPayment} /> // Render the PaymentPage component when showPayment is true
+        <CardPaymentForm paymentDetails={paymentDetails} setShowPayment={setShowPayment}  /> // Render the PaymentPage component when showPayment is true
       )}
     </React.Fragment>
   );

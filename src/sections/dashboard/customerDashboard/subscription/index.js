@@ -38,8 +38,9 @@ const SubscriptionsPage = () => {
 
   const fetchdata = async (type = "customer") => {
     setLoading(true);
+    const statusShowPlan = 1 ;
     await axiosInstance
-      .get(`/api/auth/master/plan/list/${type}`)
+      .get(`/api/auth/master/plan/list/${type}/${statusShowPlan}`)
       .then((response) => {
         if (response.status === 200) {
           setLoading(false);

@@ -42,7 +42,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const DriverRegister = ({ formik, open, handleOpenClose }) => {
+const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) => {
   const VehicleTypeTruck = [
     {
       label: "7.5t",
@@ -136,13 +136,10 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
   const [validateOTP, setValidateOTP] = React.useState(true);
   const [successMessage, setSuccessMessage] = React.useState(false);
   const [selectedCoutry, setSelectedCountry] = React.useState();
-  const [showError, setShowError] = React.useState(false);
 
   //ButtonDisabled
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-
-  //use for show timeing
   const [showResendLink, setShowResendLink] = React.useState(false);
   const [secondsRemaining, setSecondsRemaining] = React.useState(60);
 
@@ -241,12 +238,11 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
 
       try {
         let newPhoneNumber = formik?.values?.mobile?.replace("0", "");
-        console.log(newPhoneNumber);
-
+        console.log('newPhoneNumber',newPhoneNumber);
         const url = "/api/user/send-otp";
         const formData = {
-          email: `${selectedCoutry}${newPhoneNumber}`,
-          // mobile: values?.mobile,
+          email: `${newPhoneNumber}`,
+          dial_code: `${selectedCoutry}`,
           type: "mobile",
           logged: "no",
         };
@@ -256,6 +252,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
 
         if (response?.status === 200) {
           // Handle successful response
+          setOTPSubmitVerified (true) 
           enqueueSnackbar(
             <Alert
               style={{
@@ -270,6 +267,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
               icon={false}
               severity="success"
             >
+            
               {response?.data?.message}
             </Alert>,
             {
@@ -335,7 +333,7 @@ const DriverRegister = ({ formik, open, handleOpenClose }) => {
     //   `${selectedCoutry}${formik.values.mobile}`
     // );
     const formData = {
-      email: mobileValue,
+      email: formik.values.mobile,
       otp: formik?.values?.otp,
     };
     const apiEndpoint = "api/user/validate-otp";

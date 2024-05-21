@@ -374,6 +374,7 @@ const DriverPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] =React.useState(false);
+  const [OTPSubmitVerifed, setOTPSubmitVerified] = React.useState(false);
 
   
   const handleOpenClose = () => {
@@ -483,16 +484,42 @@ const DriverPage = () => {
 
       return errors;
     },
-
-
     onSubmit: async (values, { setErrors }) => {
+
+      if (!OTPSubmitVerified) {
+        enqueueSnackbar(
+          <Alert
+            style={{
+              width: '100%',
+              padding: '30px',
+              backdropFilter: 'blur(8px)',
+              background: '#ffe9d5',
+              fontSize: '19px',
+              fontWeight: 800,
+              lineHeight: '30px',
+            }}
+            icon={false}
+            severity="error"
+          >
+            Please verify your number.
+          </Alert>,
+          {
+            variant: 'error',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+          }
+        );
+        return;
+      }
+
+      
       setLoading(true); 
       let url, formData;
       
       if (values.user_type === "driver") {
-
         url = "api/user/driver-register";
-
         let driverFormData = new FormData();
         driverFormData.append("user_name", values?.user_name);
         driverFormData.append("user_type", values?.user_type);
@@ -502,11 +529,7 @@ const DriverPage = () => {
         driverFormData.append("password", values?.password);
         driverFormData.append("driver_type", values?.driver_type);
         driverFormData.append("register_type", 'web');
-    
-        // Add this
         driverFormData.append("company_type", 'driver');
-    
-    
         driverFormData.append(
           "password_confirmation",
           values?.password_confirmation
@@ -522,28 +545,17 @@ const DriverPage = () => {
         driverFormData.append("v5c_cert", values?.v5c_cert);
         driverFormData.append("dvia_cert", values?.dvia_cert);
         driverFormData.append("nationality_cert", values?.nationality_cert);
-    
         formData = driverFormData;
       } else {
         url = "/api/user/company-register";
         let formDatas = new FormData();
         formDatas.append("user_name", values?.user_name);
-
         formDatas.append("user_type", values?.user_type);
-        // formDatas.append("user_type", 'company Driver');
-
         formDatas.append("email", values?.email);
         formDatas.append("mobile", values?.mobile);
-
-        // Corrected line
-        // formDatas.append("company_type", 'company'); 
-        
         formDatas.append("company_type", 'driver');
-
-
         formDatas.append("term", values?.term);
         formDatas.append("password", values?.password);
-
         formDatas.append(
           "password_confirmation",
           values?.password_confirmation
@@ -654,8 +666,6 @@ const DriverPage = () => {
           }
         });
     },
-    
-
   });
 
   return (
@@ -664,6 +674,7 @@ const DriverPage = () => {
         open={open}
         handleOpenClose={handleOpenClose}
         formik={formik}
+      setOTPSubmitVerified={setOTPSubmitVerified}
       />
         {loading && (
         <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
