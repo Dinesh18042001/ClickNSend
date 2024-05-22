@@ -30,7 +30,8 @@ import DashboardCard from "@/module/dashboard/driverCard/dashboardCard";
 import axiosInstance from "@/utils/axios";
 import { useAuthContext } from "@/auth/useAuthContext";
 import { useFormik } from "formik";
-import { useSnackbar } from "notistack";  import Alert from '@mui/material/Alert';
+import { useSnackbar } from "notistack";
+import Alert from "@mui/material/Alert";
 import { PDFViewer } from "@react-pdf/renderer";
 import InvoicePDF from "./InvoicePDF";
 import { useDispatch, useSelector } from "@/redux/store";
@@ -54,7 +55,12 @@ const DashboardJobPost = () => {
 
   React.useEffect(() => {
     dispatch(
-      getJobActive({ user_id: user?.id,type:user?.user_type  ,lat:0,long:0 })
+      getJobActive({
+        user_id: user?.id,
+        type: user?.user_type,
+        lat: 0,
+        long: 0,
+      })
     );
   }, [page]);
   const router = useRouter();
@@ -99,32 +105,32 @@ const DashboardJobPost = () => {
       .post("api/auth/jobs/confirm-job", formData.values)
       .then((response) => {
         if (response.status === 200) {
-        // succes
-        enqueueSnackbar(
-          <Alert
-            style={{
-              width: "100%",
-              padding: "30px",
-              backdropFilter: "blur(8px)",
-              background: "#ff7533 ",
-              fontSize: "19px",
-              fontWeight: 800,
-              lineHeight: "30px"
-            }}
-            icon={false}
-            severity="success"
-          >
-            {response?.data?.message}
-          </Alert>,
-          {
-            variant: "success",
-            iconVariant: true,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "center",
-            },
-          }
-        );
+          // succes
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                backdropFilter: "blur(8px)",
+                background: "#ff7533 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="success"
+            >
+              {response?.data?.message}
+            </Alert>,
+            {
+              variant: "success",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
           setConfirmOpen(false);
           dispatch(
             getJobActive({
@@ -147,13 +153,13 @@ const DashboardJobPost = () => {
       });
   };
 
-    // Start Job Api
-    const startJobApi = async () => {
-      await axiosInstance
-        .post("api/auth/jobs/start-job", formData.values)
-        .then((response) => {
-          if (response.status === 200) {
-            enqueueSnackbar(
+  // Start Job Api
+  const startJobApi = async () => {
+    await axiosInstance
+      .post("api/auth/jobs/start-job", formData.values)
+      .then((response) => {
+        if (response.status === 200) {
+          enqueueSnackbar(
             <Alert
               style={{
                 width: "100%",
@@ -162,7 +168,7 @@ const DashboardJobPost = () => {
                 background: "#ff7533 ",
                 fontSize: "19px",
                 fontWeight: 800,
-                lineHeight: "30px"
+                lineHeight: "30px",
               }}
               icon={false}
               severity="success"
@@ -178,28 +184,27 @@ const DashboardJobPost = () => {
               },
             }
           );
-            setStartOpen(false);
-            dispatch(
-              getJobActive({
-                user_id: user?.id,
-                type: user?.user_type,
-                lat: 0,
-                long: 0,
-              })
-            );
-            handleClose(true);
-          }
-        })
-        .catch((error) => {
-          const { response } = error;
-  
-          // enqueueSnackbar(response.data.error, {
-          //   variant: "error",
-          // });
-          console.log(error);
-        });
-    };
+          setStartOpen(false);
+          dispatch(
+            getJobActive({
+              user_id: user?.id,
+              type: user?.user_type,
+              lat: 0,
+              long: 0,
+            })
+          );
+          handleClose(true);
+        }
+      })
+      .catch((error) => {
+        const { response } = error;
 
+        // enqueueSnackbar(response.data.error, {
+        //   variant: "error",
+        // });
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     formik.setFieldValue("user_id", user?.id);
@@ -214,15 +219,23 @@ const DashboardJobPost = () => {
           setCompleteOpen(false);
           setReviewOpen(true);
           dispatch(
-            getJobActive({ user_id: user?.id,type:user?.user_type  ,lat:0,long:0})
+            getJobActive({
+              user_id: user?.id,
+              type: user?.user_type,
+              lat: 0,
+              long: 0,
+            })
           );
           dispatch(
             getJobHistory({
-              user_id: user?.id,type:user?.user_type  ,lat:0,long:0
+              user_id: user?.id,
+              type: user?.user_type,
+              lat: 0,
+              long: 0,
             })
           );
-           // succes
-           enqueueSnackbar(
+          // succes
+          enqueueSnackbar(
             <Alert
               style={{
                 width: "100%",
@@ -231,7 +244,7 @@ const DashboardJobPost = () => {
                 background: "#ff7533 ",
                 fontSize: "19px",
                 fontWeight: 800,
-                lineHeight: "30px"
+                lineHeight: "30px",
               }}
               icon={false}
               severity="success"
@@ -278,36 +291,38 @@ const DashboardJobPost = () => {
         .post("api/auth/rating/add", formik.values)
         .then((response) => {
           if (response.status === 200) {
-            
             setReviewOpen(false);
             enqueueSnackbar(
-            <Alert
-              style={{
-                width: "100%",
-                padding: "30px",
-                backdropFilter: "blur(8px)",
-                background: "#ff7533 ",
-                fontSize: "19px",
-                fontWeight: 800,
-                lineHeight: "30px"
-              }}
-              icon={false}
-              severity="success"
-            >
-              {response?.data?.message}
-            </Alert>,
-            {
-              variant: "success",
-              iconVariant: true,
-              anchorOrigin: {
-                vertical: "top",
-                horizontal: "center",
-              },
-            }
-          );
+              <Alert
+                style={{
+                  width: "100%",
+                  padding: "30px",
+                  backdropFilter: "blur(8px)",
+                  background: "#ff7533 ",
+                  fontSize: "19px",
+                  fontWeight: 800,
+                  lineHeight: "30px",
+                }}
+                icon={false}
+                severity="success"
+              >
+                {response?.data?.message}
+              </Alert>,
+              {
+                variant: "success",
+                iconVariant: true,
+                anchorOrigin: {
+                  vertical: "top",
+                  horizontal: "center",
+                },
+              }
+            );
             dispatch(
               getJobActive({
-                user_id: user?.id,type:user?.user_type  ,lat:0,long:0
+                user_id: user?.id,
+                type: user?.user_type,
+                lat: 0,
+                long: 0,
               })
             );
             handleClose(true);
@@ -728,70 +743,97 @@ const DashboardJobPost = () => {
                                 <Stack spacing={1}>
                                   <Box>
                                     {elem.status === 1 ? (
-                                      <Button
-                                        color="success"
-                                        fullWidth
-                                        variant="outlined"
-                                        startIcon={
-                                          <Iconify icon="icon-park:check-correct" />
-                                        }
-                                        onClick={() => {
-                                          formData.setFieldValue(
-                                            "id",
-                                            elem?.bid_id
-                                          );
-                                          setConfirmOpen(true);
-                                        }}
-                                        sx={{
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        Confirm Job
-                                      </Button>
+                                      <>
+                                        <Button
+                                          color="success"
+                                          fullWidth
+                                          variant="outlined"
+                                          startIcon={
+                                            <Iconify icon="icon-park:check-correct" />
+                                          }
+                                          onClick={() => {
+                                            formData.setFieldValue(
+                                              "id",
+                                              elem?.bid_id
+                                            );
+                                            setConfirmOpen(true);
+                                          }}
+                                          sx={{
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          Confirm Job
+                                        </Button>
+                                        {/* {elem.is_paid === 0 && (
+                                          <Button
+                                            fullWidth
+                                            color="info"
+                                            variant="outlined"
+                                            disabled
+                                          >
+                                            Wait Please
+                                          </Button>
+                                        )} */}
+                                      </>
                                     ) : elem.status === 2 ? (
-                                      <Button
-                                        color="success"
-                                        fullWidth
-                                        variant="outlined"
-                                        startIcon={
-                                          <Iconify icon="icon-park:check-correct" />
-                                        }
-                                        onClick={() => {
-                                          formData.setFieldValue(
-                                            "id",
-                                            elem?.bid_id
-                                          );
-                                          setStartOpen(true);
-                                        }}
-                                        sx={{
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        Start Job
-                                      </Button>
+                                      <>
+                                        {elem.is_paid === 0 ? (
+                                          <Button
+                                            fullWidth
+                                            color="info"
+                                            variant="outlined"
+                                            disabled
+                                          >
+                                            Wait Please
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            color="success"
+                                            fullWidth
+                                            variant="outlined"
+                                            startIcon={
+                                              <Iconify icon="icon-park:check-correct" />
+                                            }
+                                            onClick={() => {
+                                              formData.setFieldValue(
+                                                "id",
+                                                elem?.bid_id
+                                              );
+                                              setStartOpen(true);
+                                            }}
+                                            sx={{
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            Start Job
+                                          </Button>
+                                        )}
+                                      </>
                                     ) : (
-                                      <Button
-                                        sx={{ fontWeight: 500 }}
-                                        fullWidth
-                                        color="success"
-                                        variant="outlined"
-                                        startIcon={
-                                          <Iconify icon="carbon:task-complete" />
-                                        }
-                                        onClick={() => {
-                                          formData.setFieldValue(
-                                            "id",
-                                            elem?.bid_id
-                                          );
-                                          formik.setFieldValue(
-                                            "job_id",
-                                            elem?.id
-                                          );
-                                          setCompleteOpen(true);
-                                        }}
-                                      >
-                                        Complete Job
-                                      </Button>
+                                      <>
+                                        <Button
+                                          sx={{ fontWeight: 500 }}
+                                          fullWidth
+                                          color="success"
+                                          variant="outlined"
+                                          startIcon={
+                                            <Iconify icon="carbon:task-complete" />
+                                          }
+                                          onClick={() => {
+                                            formData.setFieldValue(
+                                              "id",
+                                              elem?.bid_id
+                                            );
+                                            formik.setFieldValue(
+                                              "job_id",
+                                              elem?.id
+                                            );
+                                            setCompleteOpen(true);
+                                          }}
+                                        >
+                                          Complete Job
+                                        </Button>
+                                      </>
                                     )}
                                   </Box>
 
@@ -1109,173 +1151,169 @@ const DashboardJobPost = () => {
                     onSubmit={formik.handleSubmit}
                   >
                     <Stack spacing={2}>
-                  
-                        <Typography textAlign="left" variant="p">
-                         Image of the item
-                        </Typography>
-                        {!formik.values.company_certificate && (
-                          <TextBox
-                            variant="standard"
-                            fullWidth
-                            type="file"
-                            size="small"
-                            value=""
-                            name="company_certificate"
-                            onChange={(e) => {
-                              formik.setFieldValue(
-                                "company_certificate",
-                                e.target.files[0]
-                              );
-                              formik.setFieldValue(
-                                "company_certificate_url",
-                                URL.createObjectURL(e.target.files[0])
-                              );
-                            }}
-                            helperText={
-                              formik.touched.company_certificate &&
-                              formik.errors.company_certificate
-                            }
-                            isAdditional={true}
-                            textBoxSx={{
-                              "& .MuiInput-root:after": {
-                                borderBottom: "0px !important",
-                              },
-                              "& .MuiInput-root:before": {
-                                borderBottom: "0px !important",
-                                content: '""',
-                              },
-                            }}
-                          />
-                        )}
+                      <Typography textAlign="left" variant="p">
+                        Image of the item
+                      </Typography>
+                      {!formik.values.company_certificate && (
+                        <TextBox
+                          variant="standard"
+                          fullWidth
+                          type="file"
+                          size="small"
+                          value=""
+                          name="company_certificate"
+                          onChange={(e) => {
+                            formik.setFieldValue(
+                              "company_certificate",
+                              e.target.files[0]
+                            );
+                            formik.setFieldValue(
+                              "company_certificate_url",
+                              URL.createObjectURL(e.target.files[0])
+                            );
+                          }}
+                          helperText={
+                            formik.touched.company_certificate &&
+                            formik.errors.company_certificate
+                          }
+                          isAdditional={true}
+                          textBoxSx={{
+                            "& .MuiInput-root:after": {
+                              borderBottom: "0px !important",
+                            },
+                            "& .MuiInput-root:before": {
+                              borderBottom: "0px !important",
+                              content: '""',
+                            },
+                          }}
+                        />
+                      )}
 
-                        {formik.values.company_certificate_url && (
-                          <Card sx={{ width: "max-content" }}>
-                            <CardContent
+                      {formik.values.company_certificate_url && (
+                        <Card sx={{ width: "max-content" }}>
+                          <CardContent
+                            sx={{
+                              pb: "10px !important",
+                              pt: "30px !important",
+                              px: "10px !important",
+                            }}
+                          >
+                            <Box
                               sx={{
-                                pb: "10px !important",
-                                pt: "30px !important",
-                                px: "10px !important",
+                                position: "absolute",
+                                top: 5,
+                                right: 6,
                               }}
                             >
-                              <Box
-                                sx={{
-                                  position: "absolute",
-                                  top: 5,
-                                  right: 6,
-                                }}
-                              >
-                                <Card sx={{ borderRadius: "50%" }}>
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => {
-                                      formik.setFieldValue(
-                                        "company_certificate",
-                                        ""
-                                      );
-                                      formik.setFieldValue(
-                                        "company_certificate_url",
-                                        ""
-                                      );
-                                    }}
-                                  >
-                                    <Close fontSize="small" />
-                                  </IconButton>
-                                </Card>
-                              </Box>
-                              <Box
-                                component="img"
-                                style={{ margin: "10px" }}
-                                src={formik.values.company_certificate_url}
-                                alt={formik.values.company_certificate.name}
-                                width="150px"
-                                height="150px"
-                                thumbnail
-                              />
-                            </CardContent>
-                          </Card>
-                        )}
+                              <Card sx={{ borderRadius: "50%" }}>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    formik.setFieldValue(
+                                      "company_certificate",
+                                      ""
+                                    );
+                                    formik.setFieldValue(
+                                      "company_certificate_url",
+                                      ""
+                                    );
+                                  }}
+                                >
+                                  <Close fontSize="small" />
+                                </IconButton>
+                              </Card>
+                            </Box>
+                            <Box
+                              component="img"
+                              style={{ margin: "10px" }}
+                              src={formik.values.company_certificate_url}
+                              alt={formik.values.company_certificate.name}
+                              width="150px"
+                              height="150px"
+                              thumbnail
+                            />
+                          </CardContent>
+                        </Card>
+                      )}
 
-                        <Typography textAlign="left" variant="p">
+                      <Typography textAlign="left" variant="p">
                         Sign Image
-                        </Typography>
-                        {!formik.values.company_vat && (
-                          <TextBox
-                            variant="standard"
-                            fullWidth
-                            type="file"
-                            size="small"
-                            value=""
-                            name="company_vat"
-                            onChange={(e) => {
-                              formik.setFieldValue(
-                                "company_vat",
-                                e.target.files[0]
-                              );
-                              formik.setFieldValue(
-                                "company_vat_url",
-                                URL.createObjectURL(e.target.files[0])
-                              );
-                            }}
-                            helperText={
-                              formik.touched.company_vat &&
-                              formik.errors.company_vat
-                            }
-                            isAdditional={true}
-                            textBoxSx={{
-                              "& .MuiInput-root:after": {
-                                borderBottom: "0px !important",
-                              },
-                              "& .MuiInput-root:before": {
-                                borderBottom: "0px !important",
-                                content: '""',
-                              },
-                            }}
-                          />
-                        )}
+                      </Typography>
+                      {!formik.values.company_vat && (
+                        <TextBox
+                          variant="standard"
+                          fullWidth
+                          type="file"
+                          size="small"
+                          value=""
+                          name="company_vat"
+                          onChange={(e) => {
+                            formik.setFieldValue(
+                              "company_vat",
+                              e.target.files[0]
+                            );
+                            formik.setFieldValue(
+                              "company_vat_url",
+                              URL.createObjectURL(e.target.files[0])
+                            );
+                          }}
+                          helperText={
+                            formik.touched.company_vat &&
+                            formik.errors.company_vat
+                          }
+                          isAdditional={true}
+                          textBoxSx={{
+                            "& .MuiInput-root:after": {
+                              borderBottom: "0px !important",
+                            },
+                            "& .MuiInput-root:before": {
+                              borderBottom: "0px !important",
+                              content: '""',
+                            },
+                          }}
+                        />
+                      )}
 
-                        {formik.values.company_vat_url && (
-                          <Card sx={{ width: "max-content" }}>
-                            <CardContent
+                      {formik.values.company_vat_url && (
+                        <Card sx={{ width: "max-content" }}>
+                          <CardContent
+                            sx={{
+                              pb: "10px !important",
+                              pt: "30px !important",
+                              px: "10px !important",
+                            }}
+                          >
+                            <Box
                               sx={{
-                                pb: "10px !important",
-                                pt: "30px !important",
-                                px: "10px !important",
+                                position: "absolute",
+                                top: 5,
+                                right: 6,
                               }}
                             >
-                              <Box
-                                sx={{
-                                  position: "absolute",
-                                  top: 5,
-                                  right: 6,
-                                }}
-                              >
-                                <Card sx={{ borderRadius: "50%" }}>
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => {
-                                      formik.setFieldValue("company_vat", "");
-                                      formik.setFieldValue(
-                                        "company_vat_url",
-                                        ""
-                                      );
-                                    }}
-                                  >
-                                    <Close fontSize="small" />
-                                  </IconButton>
-                                </Card>
-                              </Box>
-                              <Box
-                                component="img"
-                                style={{ margin: "10px" }}
-                                src={formik.values.company_vat_url}
-                                alt={formik.values.company_vat.name}
-                                width="150px"
-                                height="150px"
-                                thumbnail
-                              />
-                            </CardContent>
-                          </Card>
-                        )}
+                              <Card sx={{ borderRadius: "50%" }}>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    formik.setFieldValue("company_vat", "");
+                                    formik.setFieldValue("company_vat_url", "");
+                                  }}
+                                >
+                                  <Close fontSize="small" />
+                                </IconButton>
+                              </Card>
+                            </Box>
+                            <Box
+                              component="img"
+                              style={{ margin: "10px" }}
+                              src={formik.values.company_vat_url}
+                              alt={formik.values.company_vat.name}
+                              width="150px"
+                              height="150px"
+                              thumbnail
+                            />
+                          </CardContent>
+                        </Card>
+                      )}
                       <Box>
                         <Rating
                           value={formik.values.rating}
@@ -1301,9 +1339,7 @@ const DashboardJobPost = () => {
                           }
                         />
                       </Box>
-                      <Box>
-                        
-                      </Box>
+                      <Box></Box>
                     </Stack>
                     <Stack direction="row" spacing={8}>
                       <Button fullWidth variant="outlined" type="submit">

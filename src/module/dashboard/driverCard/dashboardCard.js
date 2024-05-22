@@ -61,7 +61,7 @@ const DashboardCard = () => {
   const fetchdata = async (type = "driver") => {
     const statusShowPlan = 1 ;
     await axiosInstance
-      .get(`/api/auth/master/plan/list/${type}  const statusShowPlan = 1 ;`)
+      .get(`/api/auth/master/plan/list/${type}/${statusShowPlan}`)
       .then((response) => {
         if (response.status === 200) {
           let subscriptionData = find(response?.data.view_data, { default: 1 });

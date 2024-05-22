@@ -417,6 +417,11 @@ const BidList = () => {
                   <Box sx={{ flexGrow: data && data.length > 0 ? 1 : 0 }}>
                     {data && data.length > 0 ? (
                       data.map((elem, index) => {
+                        const amount = parseFloat(elem?.ammount)
+                        const extra = (10 / 100) * amount;
+                            const finalAmount =    amount + extra;
+                            const vat = (20 / 100) * finalAmount;
+                            const total = finalAmount + vat;
                         return (
                           <Box key={index}>
                             <Divider sx={{ my: 2 }} />
@@ -461,7 +466,7 @@ const BidList = () => {
                                           fontSize={16}
                                           fontWeight={600}
                                         >
-                                          £ {elem?.ammount}
+                                          £ {total}
                                         </Typography>
                                       </Box>
                                       <Stack direction="row" spacing={1}>

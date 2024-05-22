@@ -86,19 +86,12 @@ const DashboardJobPost = ({ formik }) => {
     ).then(() => {});
   }, [page, pageSize, date]);
 
-  const calculateAmounts = (jobAmount) => {
-    const extra = (10 / 100) * jobAmount;
-    const finalAmount = jobAmount + extra;
-    const vat = (20 / 100) * finalAmount;
-    const total = finalAmount + vat;
+  const handleCheckoutPayment = (item)  => {
 
-    setResults({
-      extra,
-      finalAmount,
-      vat,
-      total,
-    });
+console.log('',item)
+
   };
+
 
   return (
     <React.Fragment>
@@ -506,7 +499,6 @@ const DashboardJobPost = ({ formik }) => {
                                     flexDirection: "column",
                                   }}
                                 >
-                                  {console.log(addressDetail?.address, "sd")}
                                   {addressDetail?.address
                                     .filter((ds) => ds.type === "pickup")
                                     ?.map((addressItem, index) => (
@@ -567,7 +559,6 @@ const DashboardJobPost = ({ formik }) => {
                                     flexDirection: "column",
                                   }}
                                 >
-                                  {console.log(addressDetail?.address, "sd")}
                                   {addressDetail?.address
                                     .filter((ds) => ds.type === "drop")
                                     ?.map((addressItem, index) => (
@@ -668,6 +659,23 @@ const DashboardJobPost = ({ formik }) => {
                               </Typography>
 
                               <Stack direction="row" spacing={2}>
+                              {item?.bid_id &&
+                                  item?.bid_id !== null &&
+                                  item?.status !== 1 &&  item?.is_paid === 0 &&  (
+                                    <Box>
+                                      <Button
+                                        color="secondary"
+                                        fullWidth
+                                        variant="contained"
+                                        onClick={() => handleCheckoutPayment(item)}
+                                        sx={{
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Pay
+                                      </Button>
+                                    </Box>
+                                  )}
                                 <Box>
                                   <Badge
                                     badgeContent={item?.job_requests?.length}
@@ -744,6 +752,7 @@ const DashboardJobPost = ({ formik }) => {
                                       </Button>
                                     </Box>
                                   )}
+
                               </Stack>
                             </Stack>
                           </Box>

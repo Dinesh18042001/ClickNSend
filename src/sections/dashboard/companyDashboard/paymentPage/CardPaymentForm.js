@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState } from "react";
 import {
   Container,
@@ -10,179 +6,122 @@ import {
   TextField,
   Button,
   Card,
-  Breadcrumbs,
+  Snackbar,
   CardContent,
   Stack,
   Box,
-  Snackbar,
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import Link from "next/link";
-import * as Yup from "yup";
-import OTPVerification from "../subscription/OTPVerification";
+import { useRouter } from "next/router";
 import axiosInstance from "@/utils/axios";
 import { useAuthContext } from "@/auth/useAuthContext";
-
-import Header from "@/layout/primaryWeb/header";
-import Footer from "@/layout/primaryWeb/footer";
-import { Route } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
+import OTPVerification from "../subscription/OTPVerification";
 
 const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
-  console.log("object", paymentDetails, setShowPayment);
   const { user } = useAuthContext();
-  console.log(" const { user } = useAuthContext();", user);
-  // Define Yup validation schema
-  const validationSchema = Yup.object().shape({
-    cardNumber: Yup.string().required("Card Number is required"),
-    expiryDate: Yup.string().required("Expiration Date is required"),
-    cvCode: Yup.string().required("CVC Code is required"),
-    cardOwner: Yup.string().required("Card Owner is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-  });
-
-  // Inside your component function
+  const router = useRouter();
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  const [cardNumber, setCardNumber] = useState("");
   const [formValues, setFormValues] = useState({
     cardNumber: "",
     expiryDate: "",
     cvv: "",
     nameOnCard: "",
     email: "company@mailinator.com",
-    expMonth: "", // Initialize expMonth
+    expMonth: "",
     expYear: "",
   });
   const [formErrors, setFormErrors] = useState({});
-  const [showOTP, setShowOTP] = useState(false); // State to control the display of OTPVerification
-  const router = useRouter()
-  const handleChange = (e) => {
-    setFormErrors({}); // Clear any existing errors
+  const [showOTP, setShowOTP] = useState(false);
 
+  const handleChange = (e) => {
+    setFormErrors({});
     let { name, value } = e.target;
 
     if (name === "expiryDate") {
-      // Remove all non-digit characters except for the slash
       value = value.replace(/[^0-9/]/g, "");
-
-      // Only add slash if the length is 2 and the last character isn't already a slash
       if (value.length === 2 && value.indexOf("/") === -1) {
-        value = value + "/";
+        value += "/";
       } else if (value.length > 2) {
-        // Ensure the slash is properly placed at position 3
-        value =
-          value.substring(0, 2) +
-          "/" +
-          value.substring(2).replace(/[^\d]/g, "");
+        value = value.substring(0, 2) + "/" + value.substring(2).replace(/[^\d]/g, "");
       }
-
-      // Handling deletion of the slash
-      if (
-        value.length === 3 &&
-        e.nativeEvent.inputType === "deleteContentBackward"
-      ) {
-        // Remove the slash if the user hits backspace at position 3
+      if (value.length === 3 && e.nativeEvent.inputType === "deleteContentBackward") {
         value = value.slice(0, -1);
       }
-      // Extract month and year
       const [month, year] = value.split("/");
-      // Update separate state variables for month and year
       setFormValues({
         ...formValues,
         [name]: value,
         expMonth: month,
-        expYear: year || "", // Ensure expYear is not empty
+        expYear: year || "",
+      });
+    } else if (name === "cvv") {
+      value = value.replace(/\D/g, "").slice(0, 3);
+      setFormValues({
+        ...formValues,
+        [name]: value,
+      });
+    } else if (name === "cardNumber") {
+      value = value.replace(/\D/g, "").match(/.{1,4}/g)?.join(" ") || "";
+      setFormValues({
+        ...formValues,
+        [name]: value.slice(0, 19),
+      });
+    } else {
+      setFormValues({
+        ...formValues,
+        [name]: value,
       });
     }
-    if (name === "cvv") {
-      value = value.replace(/\D/g, "").slice(0, 3); // Remove non-digits and limit length
-    }
-    if (name === "cardNumber") {
-      // Allow numeric values and spaces
-      value = value.replace(/\D/g, "");
-
-      // Insert spaces after every 4 digits
-      value = value.match(/.{1,4}/g)?.join(" ") || "";
-
-      // Limit to 19 characters to account for spaces (16 digits + 3 spaces)
-      value = value.slice(0, 19);
-    }
-    setFormValues({ ...formValues, [name]: value });
   };
-  // const luhnCheck = (num) => {
-  //   let arr = (num + "")
-  //     .split("")
-  //     .reverse()
-  //     .map((x) => parseInt(x));
-  //   let lastDigit = arr.splice(0, 1)[0];
-  //   let sum = arr.reduce(
-  //     (acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val * 2) % 9) || 9),
-  //     0
-  //   );
-  //   sum += lastDigit;
-  //   return sum % 10 === 0;
-  // };
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const currentYear = new Date().getFullYear() % 100; // Get the last two digits of the current year
-    const currentMonth = new Date().getMonth() + 1; // Get the current month (1-12)
+    const currentYear = new Date().getFullYear() % 100;
+    const currentMonth = new Date().getMonth() + 1;
     const cardNumberContinuous = values.cardNumber.replace(/\s/g, "");
+
     if (!values.cardNumber) {
       errors.cardNumber = "Card number is required!";
     } else if (cardNumberContinuous.length !== 16) {
       errors.cardNumber = "Card number must be 16 digits!";
     }
-    // else if  (!luhnCheck(cardNumberContinuous)) {
-    //   errors.cardNumber = 'Invalid card number!';
-    // }
-    if (!values.cardNumber) {
-      errors.cardNumber = "Card number is required!";
-    }
+
     if (!values.expiryDate) {
       errors.expiryDate = "Expiry date is required!";
     } else {
-      const [expMonth, expYear] = values.expiryDate
-        .split("/")
-        .map((num) => parseInt(num, 10));
+      const [expMonth, expYear] = values.expiryDate.split("/").map((num) => parseInt(num, 10));
       if (isNaN(expMonth) || isNaN(expYear) || expMonth < 1 || expMonth > 12) {
         errors.expiryDate = "Invalid month!";
-      } else if (
-        expYear < currentYear ||
-        (expYear === currentYear && expMonth < currentMonth)
-      ) {
+      } else if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
         errors.expiryDate = "Card has expired!";
       }
     }
+
     if (!values.cvv) {
       errors.cvv = "CVV is required!";
-    } else if (values.cvv.length < 3 || values.cvv.length > 3) {
+    } else if (values.cvv.length !== 3) {
       errors.cvv = "CVV must be 3 digits!";
     }
+
     if (!values.nameOnCard) {
       errors.nameOnCard = "Name on card is required!";
     }
+
     return errors;
   };
 
-  console.log(user);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validate(formValues);
+    setFormErrors(errors);
+
     if (Object.keys(errors).length === 0) {
       const [expMonth, expYear] = formValues.expiryDate.split("/");
 
       const initialValues = {
-        user_id: user?.id, // Adjust according to your logic
-        email: user?.email, // Add other initial values here
-        // plan_id: user?.plan?.plan_id,
+        user_id: user?.id,
+        email: user?.email,
         plan_id: paymentDetails?.id,
         number: formValues?.cardNumber,
         exp_month: expMonth,
@@ -197,15 +136,10 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
           initialValues
         );
         if (response?.status === 200) {
-          console.log(response);
-          // Optionally, you can handle success response here
           setOpenSnackbar(true);
           setTimeout(() => {
             setShowPayment(false);
           }, 1500);
-          // Redirect to the subscription page
-        //  window.location.href = '/dashboard/company/subscription';
-        //  router.push('/dashboard/company/subscriptio'/)
         }
       } catch (error) {
         if (error.response) {
@@ -216,32 +150,20 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
         }
       }
     }
-
-    // const errors = validate(formValues);
-    // console.log('errorrr',errors);
-    // if (Object.keys(errors).length === 0) {
-    //   console.log(formValues);
-    //   // Process payment here
-    //   alert("Payment processing...");
-    // //   setShowOTP(true);
-    // } else {
-    //   setFormErrors(errors);
-    //   console.log('object');
-    // }
   };
 
   if (showOTP) {
     return <OTPVerification setShowOTPVerification={setShowOTP} />;
   }
+
   return (
     <Card sx={{ paddingBottom: "120px" }}>
-
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
         onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        style={{ top: '100px' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        style={{ top: "100px" }}
       >
         <MuiAlert
           elevation={6}
@@ -252,8 +174,6 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
           Purchase plan successful!!
         </MuiAlert>
       </Snackbar>
-
-
       <Box
         sx={{
           position: "relative",
@@ -267,25 +187,10 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
           zIndex: 5,
           display: "flex",
           justifyContent: "center",
-          alignItems: "center", 
+          alignItems: "center",
           textAlign: "center",
-          // "&::before": {
-          //   content: '""',
-          //   backgroundImage:
-          //     "linear-gradient(to left, rgba(77,39,63,0) 0%, #463b46 160%)",
-          //   position: "absolute",
-          //   top: 0,
-          //   left: 0,
-          //   bottom: 0,
-          //   right: 0,
-          //   zIndex: 7,
-          // },
         }}
       >
-        <Stack
-          className="Subscritption_box_stack_responsive"
-          sx={{ zIndex: 8, position: "absolute", left: "8em", top: "7em" }}
-        ></Stack>
         <CardContent
           className="dashboard_subscription_box_stack_responsive"
           sx={{
@@ -305,7 +210,6 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
             zIndex: 9,
           }}
         >
-          {/* <CardContentOverlay> */}
           <Stack spacing={4}>
             <Typography
               gutterBottom
@@ -317,13 +221,9 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
             >
               {paymentDetails.name}
             </Typography>
-            {/* <Typography variant="body1" component="p" color="common.white">
-              Choose the right plan made for you
-            </Typography> */}
           </Stack>
         </CardContent>
       </Box>
-
       <Container maxWidth="md">
         <Typography
           variant="h4"
@@ -341,30 +241,11 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
           }}
         >
           <CardContent>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              mb={2}
-            >
+            <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
               <CreditCardIcon fontSize="large" style={{ color: "#ff7533" }} />
-              {/* <AccountBalanceIcon fontSize="large" style={{ color: "#ff7533" }} /> */}
             </Box>
-
-            <form onSubmit={handleSubmit} Validate>
+            <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                {/* <Grid
-                      item
-                      xs={12}
-                      container
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <Typography variant="h6" gutterBottom>
-                        Selected Plan Amount:{paymentDetails.price}
-                      </Typography>
-                    </Grid> */}
-
                 <Grid item xs={12}>
                   <TextField
                     label="Card Number"
@@ -402,6 +283,11 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
                     variant="outlined"
                     fullWidth
                     name="cvv"
+                    inputProps={{
+                      maxLength: 3,
+                      inputMode: "numeric",
+                      pattern: "[0-9]*",
+                    }}
                     value={formValues?.cvv}
                     onChange={handleChange}
                     error={!!formErrors?.cvv}
@@ -420,7 +306,6 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
                     helperText={formErrors?.nameOnCard || " "}
                   />
                 </Grid>
-
                 <Grid item xs={12}>
                   <Button
                     type="submit"
@@ -431,11 +316,7 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
                       borderRadius: "8px",
                     }}
                     fullWidth
-                    // onClick={() => handlePaymentCheckout(elem)}
                   >
-                    {/* {isSubmitting
-                          ? "Processing..."
-                          :` */}
                     Get Started with ${paymentDetails.price}
                   </Button>
                 </Grid>
@@ -456,7 +337,4 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
 };
 
 export default CardPaymentForm;
-
-
-
 
