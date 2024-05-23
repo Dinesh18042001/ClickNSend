@@ -106,6 +106,8 @@ const ViewJobHistory = () => {
                   </Typography>
                 </Stack>
                 <Divider sx={{ my: 4 }} />
+{/* 
+for important notes */}
                 <Box>
                   <Typography
                     component="p"
@@ -113,6 +115,56 @@ const ViewJobHistory = () => {
                     fontWeight={500}
                     textAlign="center"
                     mb={2}
+                  >
+                   Important Note
+                  </Typography>
+                  <TableContainer
+                    sx={{
+                      borderRadius: "10px",
+                      border: "1px solid",
+                      borderColor: (theme) => theme.palette.primary.main,
+                    }}
+                  >
+                    <Table aria-label="simple table" sx={{ minWidth: "100%" }}>
+                      <TableHead>
+                        
+                      </TableHead>
+                      <TableBody>
+                        {jobDetail?.pickup &&
+                          jobDetail?.pickup?.length > 0 &&
+                          jobDetail?.pickup.map((item, index) => {
+                            return (
+                              <TableRow
+                                key={`jobDetail${index}`}
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                               
+                                <TableCell>
+                                  <Typography component="p" variant="body2">
+                                    {item?.item?.description}
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+
+
+                <Box>
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    fontWeight={500}
+                    textAlign="center"
+                    mb={2}
+                    mt={2}
                   >
                     Pickup Details
                   </Typography>
@@ -196,6 +248,7 @@ const ViewJobHistory = () => {
                     </Table>
                   </TableContainer>
                 </Box>
+
                 <Divider sx={{ my: 4 }} />
                 <Box>
                   <Typography
