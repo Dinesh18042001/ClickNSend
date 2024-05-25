@@ -42,7 +42,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) => {
+const DriverRegister = ({ formik, open, handleOpenClose,}) => {
   const VehicleTypeTruck = [
     {
       label: "7.5t",
