@@ -143,10 +143,10 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
       };
 
       try {
-        const response = await axiosInstance.post(
-          `api/auth/payment/purchase-plan/${user?.id}`,
-          initialValues
-        );
+        // const response = await axiosInstance.post(
+        //   `api/auth/payment/purchase-plan/${user?.id}`,
+        //   initialValues
+        // );
         const CustomerResponse = await axiosInstance.post(
           `api/auth/payment/customer-invoice-payment`,
           customerInitialValues
