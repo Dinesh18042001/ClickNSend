@@ -19,6 +19,7 @@ import { useAuthContext } from "@/auth/useAuthContext";
 import OTPVerification from "../subscription/OTPVerification";
 
 const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
+  console.log(paymentDetails,'object',setShowPayment)
   const { user } = useAuthContext();
   const router = useRouter();
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -337,4 +338,3 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
 };
 
 export default CardPaymentForm;
-

@@ -42,6 +42,7 @@ import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import Alert from "@mui/material/Alert";
 import React, { useState } from "react";
+import CardPaymentForm from '../paymentPage/CardPaymentForm'
 import CountUp from "react-countup";
 import CustomerDashboard from "../../customerDashboard";
 const DashboardJobPost = ({ formik }) => {
@@ -53,8 +54,10 @@ const DashboardJobPost = ({ formik }) => {
   const [open, setOpen] = React.useState(false);
   const [select, setSelect] = React.useState("new");
   const [loader, setLoader] = React.useState(false);
-
+  const [showPayment, setShowPayment] = useState(false);
   // Add for filter
+  const [paymentDetails, setPaymentDetails] = useState(null);
+
   const addressDetail = {
     address: [{ type: "pickup" }, { type: "delivery" }],
   };
@@ -86,10 +89,10 @@ const DashboardJobPost = ({ formik }) => {
     ).then(() => {});
   }, [page, pageSize, date]);
 
-  const handleCheckoutPayment = (item)  => {
-
-console.log('',item)
-
+  const handleCheckoutPayment = async (item)  => {
+    setPaymentDetails (item)
+console.log(paymentDetails,'aaaaaaaaaaaaaaaaaa',item)
+setShowPayment(true);
   };
 
 
@@ -97,9 +100,12 @@ console.log('',item)
     <React.Fragment>
       <Box py={3} pb={12}>
         <Container>
-          <Box py={5}>
+         
+          {!showPayment ? (
+            <>      
+            <Box py={5}>
             <DashboardCard jobPost={data?.length} />
-          </Box>
+          </Box>  
           <Box py={2}>
             {loader ? (
               <SkeletonLoader />
@@ -167,7 +173,6 @@ console.log('',item)
               </Grid>
             )}
           </Box>
-
           <Box py={2} sx={{ background: " " }}>
             <Grid container rowSpacing={0} justifyContent="center">
               {data && data?.length > 0 ? (
@@ -654,15 +659,15 @@ console.log('',item)
                                   alignItems: "flex-start",
                                 }}
                               >
-                                {/* Bid: <Iconify icon="bi:currency-pound" /> */}
+                                Bid: <Iconify icon="bi:currency-pound" />
                                 {item?.budget}
                               </Typography>
 
                               <Stack direction="row" spacing={2}>
                               {item?.bid_id &&
                                   item?.bid_id !== null &&
-                                  item?.status !== 1 &&  item?.is_paid === 0 &&  (
-                                    <Box>
+                                  item?.status === 2 &&  item?.is_paid === 0 &&  (
+                                    <Box> 
                                       <Button
                                         color="secondary"
                                         fullWidth
@@ -813,6 +818,13 @@ console.log('',item)
               </Box>
             )}
           </Box>
+          </>
+          ) : (
+        <CardPaymentForm
+          paymentDetails={paymentDetails}
+          setShowPayment={setShowPayment}
+        /> // Render the PaymentPage component when showPayment is true
+      )}
         </Container>
       </Box>
     </React.Fragment>

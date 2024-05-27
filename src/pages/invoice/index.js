@@ -20,10 +20,11 @@ import {
   MenuItem,
   Pagination
 } from "@mui/material";
-
+import axiosInstance from "@/utils/axios";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Header from "@/layout/primaryWeb/header";
 import Footer from "@/layout/primaryWeb/footer";
+import { useAuthContext } from "@/auth/useAuthContext";
 
 const InvoicePage = () => {
   const invoiceData = [
@@ -37,14 +38,14 @@ const InvoicePage = () => {
       status: "Pending"
     }
   ];
-
+  const { user } = useAuthContext();
   const [invoiceDate, setInvoiceDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [showEntries, setShowEntries] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-
+console.log('object123',user)
   // Handler for changing the invoice date
   const handleInvoiceDateChange = (event) => {
     setInvoiceDate(event.target.value);
@@ -91,13 +92,55 @@ const InvoicePage = () => {
     )
     .slice(indexOfFirstRow, indexOfLastRow);
 
+    const fetchdata = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/auth/invoice/number`
+        );
+        console.log("No data found in response.view_data",response);
+        if (response.status === 200) {
+         
+            console.log("No data found in response.view_data",response);
+          }  
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+  
+    React.useEffect(() => {
+      fetchdata();
+    }, []);
+
+    const fetchdataInvoiceList = async () => {
+      try {
+       
+        const response = await axiosInstance.get(
+          `/api/auth/invoice/list/${user?.id}/${user?.user_type}`
+        );
+        console.log("No data found in response.view_data",response);
+        if (response.status === 200) {
+         
+            console.log("No data found in response.view_data",response);
+          }  
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+  
+    React.useEffect(() => {
+      fetchdataInvoiceList();
+    }, []);
+  
+
+    // console.log("No data found in response.view_data",response);
+
   return (
     <div style={{ padding: "0 20px" }}>
       <div style={{ marginBottom: "100px" }}>
         <Header />
       </div>
       <Typography variant="h4" gutterBottom>
-        Invoices Page
+        Invoices Page 12
       </Typography>
 
       <Grid container spacing={2} style={{ marginBottom: "20px" }}>
@@ -108,6 +151,7 @@ const InvoicePage = () => {
               labelId="show-label"
               id="entries-select"
               value={showEntries}
+              InputLabelProps={{ shrink: true }}
               onChange={handleShowEntriesChange}
             >
               <MenuItem value={10}>10</MenuItem>

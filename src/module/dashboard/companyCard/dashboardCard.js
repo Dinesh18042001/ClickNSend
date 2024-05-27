@@ -789,7 +789,7 @@ const DashboardCard = () => {
             </Card>
           </Grid>
 
-          {isAuthenticated && user?.user_type === "company" && (
+          {isAuthenticated && user?.user_type === "company" && user?.profile?.company_type === "company" && (
             <Grid item md={3}>
               <Card
                 sx={{
@@ -830,7 +830,58 @@ const DashboardCard = () => {
 
                     <Box>
                       <Typography variant="h6" fontWeight={300}>
-                        Invoice
+                        Invoice 12
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
+
+        
+          {isAuthenticated && user?.user_type === "company" && user?.profile?.company_type === "driver" && (
+            <Grid item md={3}>
+              <Card
+                sx={{
+                  backgroundColor:
+                    router.pathname === "/dashboard/company/invoice"
+                      ? "#FECA3C"
+                      : "#FECA3C",
+                  border: "1px solid #FECA3C",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+                onClick={() => router.push("/dashboard/company/invoice")}
+              >
+                <CardContent>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-around"
+                    spacing={0}
+                    alignItems="center"
+                  >
+
+
+                    <Box
+                      sx={{
+                        backgroundColor:
+                          router.pathname === "/dashboard/company/invoice"
+                            ? "#ffd768"
+                            : "#ffd768",
+                      }}
+                      height="80px"
+                      p={2}
+                      width="80px"
+                      borderRadius="50%"
+                      component="div"
+                    >
+                      <Iconify icon="ic:sharp-receipt" width={48} />
+                    </Box>
+
+                    <Box>
+                      <Typography variant="h6" fontWeight={300}>
+                       Subscription
                       </Typography>
                     </Box>
                   </Stack>

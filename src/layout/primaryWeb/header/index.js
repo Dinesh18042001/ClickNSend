@@ -861,7 +861,7 @@ const Header = (props) => {
                         }}
                         onClick={() => handleMenuItemClick("invoice")}
                       >
-                        Invoice p
+                        Invoice
                       </MenuItem>
                     </Link>
 
