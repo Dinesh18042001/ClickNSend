@@ -659,7 +659,7 @@ setShowPayment(true);
                                   alignItems: "flex-start",
                                 }}
                               >
-                                Bid: <Iconify icon="bi:currency-pound" />
+                                {/* Bid: <Iconify icon="bi:currency-pound" /> */}
                                 {item?.budget}
                               </Typography>
 
