@@ -789,7 +789,7 @@ const DashboardCard = () => {
             </Card>
           </Grid>
 
-          {isAuthenticated && user?.user_type === "company" && user?.profile?.company_type === "company" && (
+          {isAuthenticated && user?.user_type === "company" && user?.profile?.company_type === "customer" && (
             <Grid item md={3}>
               <Card
                 sx={{
