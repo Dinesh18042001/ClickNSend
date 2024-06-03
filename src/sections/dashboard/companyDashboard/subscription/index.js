@@ -103,7 +103,7 @@ const SubscriptionsPage = () => {
                       color="common.white"
                       href="/"
                     >
-                      Home
+                      Home p
                     </Box>
                     <Box
                       component={Link}

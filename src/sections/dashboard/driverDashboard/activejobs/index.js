@@ -90,6 +90,7 @@ const DashboardJobPost = () => {
   const [reviewOpen, setReviewOpen] = React.useState(false);
   const handleReviewOpen = (id) => setReviewOpen(id);
   const handleReviewClose = () => setReviewOpen(false);
+  const [storeInvoiceNumber, setStoreInvoiceNumber] = React.useState();
 
   const [loader, setLoader] = React.useState(false);
 
@@ -153,7 +154,6 @@ const DashboardJobPost = () => {
       });
   };
 
-  // Start Job Api
   const startJobApi = async () => {
     await axiosInstance
       .post("api/auth/jobs/start-job", formData.values)
@@ -210,8 +210,120 @@ const DashboardJobPost = () => {
     formik.setFieldValue("user_id", user?.id);
   }, [user, user?.id]);
 
-  // Complete Job Api
+  React.useEffect(() => {
+    const fetchdata = async () => {
+      await axiosInstance
+        .get("api/auth/invoice/number")
+        .then((response) => {
+          if (response.status === 200) {
+            setStoreInvoiceNumber(response?.data) 
+          }
+        })
+        .catch((error) => {
+          const { response } = error;
+          console.log(error);
+        });
+    };
+  fetchdata();
+}, []);
+
+
+// The HandleAddSendInvoice function should accept a parameter to handle the selected items
+const HandleAddSendInvoices =  async (items) => {
+  items.created_by === 'customer' &&
+  await axiosInstance
+      .post("api/auth/invoice/add-send",
+      {
+        user_id: items?.user_id,
+        invoice_number: storeInvoiceNumber?.invoice_number,
+        job_id: items?.accept_bid?.job_id,
+        sign_image:'www.img.com'
+      },)
+      .then((response) => {
+        if (response.status === 200) {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                backdropFilter: "blur(8px)",
+                background: "#ff7533 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="success"
+            >
+              {response?.data?.message}
+            </Alert>,
+            {
+              variant: "success",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+console.log('data',data)
+console.log('storeInvoiceNumber1',storeInvoiceNumber)
+console.log('objectdataa',data)
+
+const HandleAddSendInvoice = async () => {
+      
+    // alert('customer  1') 
+    await axiosInstance
+      .post("api/auth/invoice/add-send",
+      {
+        user_id: '',
+        invoice_number: storeInvoiceNumber?.invoice_number,
+        job_id: '',
+        sign_image:'www.img.com'
+      },)
+      .then((response) => {
+        if (response.status === 200) {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                backdropFilter: "blur(8px)",
+                background: "#ff7533 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="success"
+            >
+              {response?.data?.message}
+            </Alert>,
+            {
+              variant: "success",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const completeJobApi = async () => {
+    // alert('customer  1') 
     await axiosInstance
       .post("api/auth/jobs/complete-job", formData.values)
       .then((response) => {
@@ -261,6 +373,7 @@ const DashboardJobPost = () => {
             }
           );
           handleClose(true);
+          HandleAddSendInvoice();
         }
       })
       .catch((error) => {
@@ -334,12 +447,6 @@ const DashboardJobPost = () => {
     },
   });
 
-  // useEffect(() => {
-  //   formik.setFieldValue("id", startOpen);
-  // }, [startOpen]);
-  // useEffect(() => {
-  //   formik.setFieldValue("driver_id", user?.id);
-  // }, [user, user?.id]);
   return (
     <React.Fragment>
       <Box py={3} pb={12}>
@@ -757,6 +864,7 @@ const DashboardJobPost = () => {
                                               elem?.bid_id
                                             );
                                             setConfirmOpen(true);
+                                            HandleAddSendInvoices(elem);
                                           }}
                                           sx={{
                                             fontWeight: 500,
@@ -776,17 +884,7 @@ const DashboardJobPost = () => {
                                         )} */}
                                       </>
                                     ) : elem.status === 2 ? (
-                                      <>
-                                        {elem.is_paid === 0 ? (
-                                          <Button
-                                            fullWidth
-                                            color="info"
-                                            variant="outlined"
-                                            disabled
-                                          >
-                                            Wait Please
-                                          </Button>
-                                        ) : (
+                        
                                           <Button
                                             color="success"
                                             fullWidth
@@ -807,8 +905,6 @@ const DashboardJobPost = () => {
                                           >
                                             Start Job
                                           </Button>
-                                        )}
-                                      </>
                                     ) : (
                                       <>
                                         <Button
@@ -1023,7 +1119,7 @@ const DashboardJobPost = () => {
                       fullWidth
                       variant="outlined"
                       onClick={() => {
-                        confirmJobApi();
+                         confirmJobApi();
                       }}
                     >
                       Yes

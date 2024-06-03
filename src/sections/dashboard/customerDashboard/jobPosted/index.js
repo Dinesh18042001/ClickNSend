@@ -42,7 +42,7 @@ import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import Alert from "@mui/material/Alert";
 import React, { useState } from "react";
-import CardPaymentForm from '../paymentPage/CardPaymentForm'
+import CardPaymentForm from "../paymentPage/CardPaymentForm";
 import CountUp from "react-countup";
 import CustomerDashboard from "../../customerDashboard";
 const DashboardJobPost = ({ formik }) => {
@@ -89,742 +89,774 @@ const DashboardJobPost = ({ formik }) => {
     ).then(() => {});
   }, [page, pageSize, date]);
 
-  const handleCheckoutPayment = async (item)  => {
-    setPaymentDetails (item)
-console.log(paymentDetails,'aaaaaaaaaaaaaaaaaa',item)
-setShowPayment(true);
+  const handleCheckoutPayment = async (item) => {
+    setPaymentDetails(item);
+    console.log(paymentDetails, "aaaaaaaaaaaaaaaaaa", item);
+    setShowPayment(true);
   };
-
 
   return (
     <React.Fragment>
       <Box py={3} pb={12}>
         <Container>
-         
           {!showPayment ? (
-            <>      
-            <Box py={5}>
-            <DashboardCard jobPost={data?.length} />
-          </Box>  
-          <Box py={2}>
-            {loader ? (
-              <SkeletonLoader />
-            ) : (
-              <Grid container spacing={2}>
-                <Grid item md={7}>
-                  <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography fontSize={28} fontWeight={600} color="primary">
-                      Job Posted By You
-                    </Typography>
-
-                    <Box
-                      borderRadius="50%"
-                      border="1px solid"
-                      borderColor={(theme) => theme.palette.primary.main}
-                      color={(theme) => theme.palette.primary.main}
-                      py={0.6}
-                      px={1.8}
-                    >
-                      <Typography
-                        fontSize="1.3rem"
-                        fontWeight={500}
-                        color="primary"
-                      >
-                        <CountUp
-                          start={0}
-                          duration={1}
-                          end={data?.length}
-                          enableScrollSpy={true}
-                          scrollSpyDelay={200}
-                        />
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </Grid>
-
-                <Grid item md={3}>
-                  <Box>
-                    <TextBox
-                      type="date"
-                      sx={{ mb: 0 }}
-                      size="small"
-                      fullWidth
-                      name={`date`}
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                    />
-                    {/* </Stack> */}
-                  </Box>
-                </Grid>
-                <Grid item md={2}>
-                  <Box>
-                    <Button
-                      startIcon={<Add />}
-                      variant="contained"
-                      fullWidth
-                      onClick={() =>
-                        router.push("/dashboard/customer/job_post_form/create")
-                      }
-                    >
-                      Add New Job
-                    </Button>
-                  </Box>
-                </Grid>
-              </Grid>
-            )}
-          </Box>
-          <Box py={2} sx={{ background: " " }}>
-            <Grid container rowSpacing={0} justifyContent="center">
-              {data && data?.length > 0 ? (
-                data.map((item, index) => {
-                  let productDetail =
-                    item?.items && item?.items?.length > 0 && item?.items[0];
-                  let addressDetail =
-                    item?.items && item?.items?.length > 0 && item?.items[0];
-                  return (
-                    <Grid item md={12} key={index}>
-                      <Card
-                        sx={{
-                          my: 2,
-                          borderWidth: "2px",
-                          ":hover": {
-                            borderColor: "#ff7534",
-                            transition: " all 0.3s ease-in-out",
-                          },
-                        }}
-                        variant="outlined"
-                      >
-                        <Stack
-                          direction="row"
-                          justifyContent="space-between"
-                          px={2}
-                          py={1.4}
-                          alignItems="center"
+            <>
+              <Box py={5}>
+                <DashboardCard jobPost={data?.length} />
+              </Box>
+              <Box py={2}>
+                {loader ? (
+                  <SkeletonLoader />
+                ) : (
+                  <Grid container spacing={2}>
+                    <Grid item md={7}>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography
+                          fontSize={28}
+                          fontWeight={600}
+                          color="primary"
                         >
-                          <Box sx={{ width: "90%" }}>
-                            <Typography
-                              color="common.black"
-                              fontSize={17}
-                              sx={{
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                cursor: "pointer",
-                              }}
-                              fontWeight={500}
-                              onClick={() =>
-                                router.push(
-                                  `/dashboard/customer/job_history/detail/${item.id}`
-                                )
-                              }
+                          Job Posted By You
+                        </Typography>
+
+                        <Box
+                          borderRadius="50%"
+                          border="1px solid"
+                          borderColor={(theme) => theme.palette.primary.main}
+                          color={(theme) => theme.palette.primary.main}
+                          py={0.6}
+                          px={1.8}
+                        >
+                          <Typography
+                            fontSize="1.3rem"
+                            fontWeight={500}
+                            color="primary"
+                          >
+                            <CountUp
+                              start={0}
+                              duration={1}
+                              end={data?.length}
+                              enableScrollSpy={true}
+                              scrollSpyDelay={200}
+                            />
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </Grid>
+
+                    <Grid item md={3}>
+                      <Box>
+                        <TextBox
+                          type="date"
+                          sx={{ mb: 0 }}
+                          size="small"
+                          fullWidth
+                          name={`date`}
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                        />
+                        {/* </Stack> */}
+                      </Box>
+                    </Grid>
+                    <Grid item md={2}>
+                      <Box>
+                        <Button
+                          startIcon={<Add />}
+                          variant="contained"
+                          fullWidth
+                          onClick={() =>
+                            router.push(
+                              "/dashboard/customer/job_post_form/create"
+                            )
+                          }
+                        >
+                          Add New Job
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                )}
+              </Box>
+              <Box py={2} sx={{ background: " " }}>
+                <Grid container rowSpacing={0} justifyContent="center">
+                  {data && data?.length > 0 ? (
+                    data.map((item, index) => {
+                      let productDetail =
+                        item?.items &&
+                        item?.items?.length > 0 &&
+                        item?.items[0];
+                      let addressDetail =
+                        item?.items &&
+                        item?.items?.length > 0 &&
+                        item?.items[0];
+                      return (
+                        <Grid item md={12} key={index}>
+                          <Card
+                            sx={{
+                              my: 2,
+                              borderWidth: "2px",
+                              ":hover": {
+                                borderColor: "#ff7534",
+                                transition: " all 0.3s ease-in-out",
+                              },
+                            }}
+                            variant="outlined"
+                          >
+                            <Stack
+                              direction="row"
+                              justifyContent="space-between"
+                              px={2}
+                              py={1.4}
+                              alignItems="center"
                             >
-                              {item?.name}
-                            </Typography>
-                          </Box>
-                          {item?.status <= 0 && (
-                            <Box>
-                              <DeleteModal
-                                params={{
-                                  user_id: user?.id,
-                                  job_id: item?.id,
-                                }}
-                              />
-                            </Box>
-                          )}
-                        </Stack>
-                        <Divider />
-                        <CardContent>
-                          <Grid container spacing={2} alignItems="start">
-                            <Grid item md={3}>
-                              <Stack direction="row" spacing={2} mb={2}>
-                                <Stack
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={0.6}
-                                >
-                                  <Stack alignItems="center">
-                                    <Iconify
-                                      icon="bx:layer"
-                                      color={(theme) =>
-                                        theme.palette.primary.main
-                                      }
-                                      width={22}
-                                    />
-                                  </Stack>
-                                  <Box>
-                                    <Typography fontSize={12} color="grey">
-                                      {item.items[0].product.material}
-                                    </Typography>
-                                  </Box>
-                                </Stack>
-                                <Stack
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={0.6}
-                                >
-                                  <Stack alignItems="center">
-                                    <Iconify
-                                      icon="gg:expand"
-                                      color={(theme) =>
-                                        theme.palette.primary.main
-                                      }
-                                      width={22}
-                                    />
-                                  </Stack>
-                                  <Box>
-                                    <Typography fontSize={12} color="grey">
-                                      {`${item.items[0].product.length}*${item.items[0].product.width}*${item.items[0].product.height}`}
-                                    </Typography>
-                                  </Box>
-                                </Stack>
-                                <Stack
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={0.6}
-                                >
-                                  <Stack alignItems="center">
-                                    <Iconify
-                                      icon="uil:weight"
-                                      color={(theme) =>
-                                        theme.palette.primary.main
-                                      }
-                                      width={22}
-                                    />
-                                  </Stack>
-                                  <Box>
-                                    <Typography fontSize={12} color="grey">
-                                      {item.items[0].product.quantity} Qty
-                                    </Typography>
-                                  </Box>
-                                </Stack>
-                              </Stack>
-                              <Stack direction="row" spacing={1}>
-                                {item.items.map((elem, index) => {
-                                  if (index > 2) {
-                                    return "";
+                              <Box sx={{ width: "90%" }}>
+                                <Typography
+                                  color="common.black"
+                                  fontSize={17}
+                                  sx={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    cursor: "pointer",
+                                  }}
+                                  fontWeight={500}
+                                  onClick={() =>
+                                    router.push(
+                                      `/dashboard/customer/job_history/detail/${item.id}`
+                                    )
                                   }
-                                  return (
-                                    <React.Fragment key={index}>
-                                      <Box
-                                        component="img"
-                                        alt={elem.product.image}
-                                        src={`${elem.product.base_url}${elem.product.image}`}
-                                        sx={{
-                                          width: "83px",
-                                          height: "59px",
-                                          border: "1px solid lightgrey",
-                                          objectFit: "cover",
-                                        }}
-                                      />
-                                    </React.Fragment>
-                                  );
-                                })}
-                              </Stack>
-                              <Box>
-                                <TextMaxLine
-                                  line={4}
-                                  component="p"
-                                  variant="body2"
                                 >
-                                  {item.description}
-                                </TextMaxLine>
-                              </Box>
-                            </Grid>
-                            <Grid item md={3}>
-                              <Box mb={4}>
-                                <Box>
-                                  <Typography fontSize={13} fontWeight={600}>
-                                    Pick up Date
-                                  </Typography>
-                                </Box>
-                                <Stack
-                                  direction="row"
-                                  spacing={1}
-                                  alignItems="center"
-                                >
-                                  <Box
-                                    sx={{
-                                      backgroundColor: "#FEE6BB",
-                                      width: "28px",
-                                      height: "28px",
-                                      borderRadius: "50%",
-                                      p: "5px",
-                                    }}
-                                  >
-                                    <Iconify
-                                      color={(theme) =>
-                                        theme.palette.primary.main
-                                      }
-                                      icon="majesticons:calendar-line"
-                                    />
-                                  </Box>
-                                  <Box>
-                                    <Typography
-                                      color="grey"
-                                      fontWeight={400}
-                                      fontSize={13}
-                                    >
-                                      {productDetail?.product?.pickup_date ||
-                                        "N/A"}
-                                    </Typography>
-                                  </Box>
-                                </Stack>
-                              </Box>
-
-                              <Box>
-                                <Typography fontSize={13} fontWeight={600}>
-                                  Pick up Time
+                                  {item?.name}
                                 </Typography>
                               </Box>
-                              <Stack
-                                direction="row"
-                                spacing={1}
-                                alignItems="center"
-                              >
-                                <Box
-                                  sx={{
-                                    backgroundColor: "#FEE6BB",
-                                    width: "28px",
-                                    height: "28px",
-                                    borderRadius: "50%",
-                                    p: "5px",
-                                  }}
-                                >
-                                  <Iconify
-                                    color={(theme) =>
-                                      theme.palette.primary.main
-                                    }
-                                    icon="majesticons:calendar-line"
-                                  />
-                                </Box>
+                              {item?.status <= 0 && (
                                 <Box>
-                                  <Typography
-                                    color="grey"
-                                    fontWeight={400}
-                                    fontSize={13}
-                                  >
-                                    {productDetail?.product?.pickup_time ||
-                                      "N/A"}
-                                  </Typography>
-                                </Box>
-                              </Stack>
-                            </Grid>
-                            <Grid item md={3}>
-                              <Box mb={4}>
-                                <Box>
-                                  <Typography fontSize={13} fontWeight={600}>
-                                    Delivery out Date
-                                  </Typography>
-                                </Box>
-                                <Stack
-                                  direction="row"
-                                  spacing={1}
-                                  alignItems="center"
-                                >
-                                  <Box
-                                    sx={{
-                                      backgroundColor: "#FEE6BB",
-                                      width: "28px",
-                                      height: "28px",
-                                      borderRadius: "50%",
-                                      p: "5px",
+                                  <DeleteModal
+                                    params={{
+                                      user_id: user?.id,
+                                      job_id: item?.id,
                                     }}
-                                  >
-                                    <Iconify
-                                      color={(theme) =>
-                                        theme.palette.primary.main
-                                      }
-                                      icon="majesticons:calendar-line"
-                                    />
-                                  </Box>
-                                  <Box>
-                                    <Typography
-                                      color="grey"
-                                      fontWeight={400}
-                                      fontSize={13}
-                                    >
-                                      {productDetail?.product?.drop_date ||
-                                        "N/A"}
-                                    </Typography>
-                                  </Box>
-                                </Stack>
-                              </Box>
-                              <Box>
-                                <Typography fontSize={13} fontWeight={600}>
-                                  Delivery out Time
-                                </Typography>
-                              </Box>
-                              <Stack
-                                direction="row"
-                                spacing={1}
-                                alignItems="center"
-                              >
-                                <Box
-                                  sx={{
-                                    backgroundColor: "#FEE6BB",
-                                    width: "28px",
-                                    height: "28px",
-                                    borderRadius: "50%",
-                                    p: "5px",
-                                  }}
-                                >
-                                  <Iconify
-                                    color={(theme) =>
-                                      theme.palette.primary.main
-                                    }
-                                    icon="majesticons:calendar-line"
                                   />
                                 </Box>
-
-                                <Box>
-                                  <Typography
-                                    color="grey"
-                                    fontWeight={400}
-                                    fontSize={13}
-                                  >
-                                    {productDetail?.product?.drop_time || "N/A"}
-                                  </Typography>
-                                </Box>
-                              </Stack>
-                            </Grid>
-
-                            {/* change this grid  */}
-
-                            <Grid item md={3}>
-                              <Timeline
-                                sx={{
-                                  [`& .${timelineItemClasses.root}:before`]: {
-                                    flex: 0,
-                                    padding: 0,
-                                  },
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                  }}
-                                >
-                                  {addressDetail?.address
-                                    .filter((ds) => ds.type === "pickup")
-                                    ?.map((addressItem, index) => (
-                                      <TimelineItem
-                                        sx={{
-                                          "&.MuiTimelineItem-root": {
-                                            minHeight: "50px",
-                                          },
-                                        }}
-                                      >
-                                        <TimelineSeparator>
-                                          <Iconify
-                                            color={(theme) =>
-                                              theme.palette.primary.main
-                                            }
-                                            width={30}
-                                            icon="carbon:location-star-filled"
-                                          />
-
-                                          <TimelineConnector
+                              )}
+                            </Stack>
+                            <Divider />
+                            <CardContent>
+                              <Grid container spacing={2} alignItems="start">
+                                <Grid item md={3}>
+                                  <Stack direction="row" spacing={2} mb={2}>
+                                    <Stack
+                                      direction="row"
+                                      alignItems="center"
+                                      spacing={0.6}
+                                    >
+                                      <Stack alignItems="center">
+                                        <Iconify
+                                          icon="bx:layer"
+                                          color={(theme) =>
+                                            theme.palette.primary.main
+                                          }
+                                          width={22}
+                                        />
+                                      </Stack>
+                                      <Box>
+                                        <Typography fontSize={12} color="grey">
+                                          {item.items[0].product.material}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                    <Stack
+                                      direction="row"
+                                      alignItems="center"
+                                      spacing={0.6}
+                                    >
+                                      <Stack alignItems="center">
+                                        <Iconify
+                                          icon="gg:expand"
+                                          color={(theme) =>
+                                            theme.palette.primary.main
+                                          }
+                                          width={22}
+                                        />
+                                      </Stack>
+                                      <Box>
+                                        <Typography fontSize={12} color="grey">
+                                          {`${item.items[0].product.length}*${item.items[0].product.width}*${item.items[0].product.height}`}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                    <Stack
+                                      direction="row"
+                                      alignItems="center"
+                                      spacing={0.6}
+                                    >
+                                      <Stack alignItems="center">
+                                        <Iconify
+                                          icon="uil:weight"
+                                          color={(theme) =>
+                                            theme.palette.primary.main
+                                          }
+                                          width={22}
+                                        />
+                                      </Stack>
+                                      <Box>
+                                        <Typography fontSize={12} color="grey">
+                                          {item.items[0].product.quantity} Qty
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                  </Stack>
+                                  <Stack direction="row" spacing={1}>
+                                    {item.items.map((elem, index) => {
+                                      if (index > 2) {
+                                        return "";
+                                      }
+                                      return (
+                                        <React.Fragment key={index}>
+                                          <Box
+                                            component="img"
+                                            alt={elem.product.image}
+                                            src={`${elem.product.base_url}${elem.product.image}`}
                                             sx={{
-                                              "&.MuiTimelineConnector-root": {
-                                                border: (theme) =>
-                                                  `1px solid ${alpha(
-                                                    theme.palette.common.black,
-                                                    0.6
-                                                  )}`,
-                                                width: "0px",
-                                                borderStyle: "dashed",
-                                                backgroundColor: "transparent",
-                                              },
+                                              width: "83px",
+                                              height: "59px",
+                                              border: "1px solid lightgrey",
+                                              objectFit: "cover",
                                             }}
                                           />
-                                        </TimelineSeparator>
-
-                                        {/* map the address hare */}
-
-                                        <TimelineContent
-                                          key={index}
-                                          sx={{ fontSize: 14, fontWeight: 600 }}
-                                        >
-                                          {addressItem.address}{" "}
-                                          <Typography
-                                            fontSize={10}
-                                            component="span"
-                                            color="primary"
-                                          >
-                                            {addressItem.type},
-                                          </Typography>
-                                        </TimelineContent>
-                                      </TimelineItem>
-                                    ))}
-                                </div>
-
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                  }}
-                                >
-                                  {addressDetail?.address
-                                    .filter((ds) => ds.type === "drop")
-                                    ?.map((addressItem, index) => (
-                                      <TimelineItem
-                                        key={index} // Remember to add a unique key prop when using map
+                                        </React.Fragment>
+                                      );
+                                    })}
+                                  </Stack>
+                                  <Box>
+                                    <TextMaxLine
+                                      line={4}
+                                      component="p"
+                                      variant="body2"
+                                    >
+                                      {item.description}
+                                    </TextMaxLine>
+                                  </Box>
+                                </Grid>
+                                <Grid item md={3}>
+                                  <Box mb={4}>
+                                    <Box>
+                                      <Typography
+                                        fontSize={13}
+                                        fontWeight={600}
+                                      >
+                                        Pick up Date
+                                      </Typography>
+                                    </Box>
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                    >
+                                      <Box
                                         sx={{
-                                          "&.MuiTimelineItem-root": {
-                                            minHeight: "50px",
-                                          },
+                                          backgroundColor: "#FEE6BB",
+                                          width: "28px",
+                                          height: "28px",
+                                          borderRadius: "50%",
+                                          p: "5px",
                                         }}
                                       >
-                                        <TimelineSeparator>
-                                          <Iconify
-                                            width={30}
-                                            icon="carbon:location-star-filled"
-                                          />
-                                        </TimelineSeparator>
-
-                                        <TimelineContent
-                                          sx={{ fontSize: 14, fontWeight: 600 }}
+                                        <Iconify
+                                          color={(theme) =>
+                                            theme.palette.primary.main
+                                          }
+                                          icon="majesticons:calendar-line"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <Typography
+                                          color="grey"
+                                          fontWeight={400}
+                                          fontSize={13}
                                         >
-                                          {addressItem.address}{" "}
-                                          {/* Use addressItem instead of addressDetail?.address[0] */}
-                                          <Typography
-                                            fontSize={10}
-                                            component="span"
-                                            color="primary"
-                                          >
-                                            {addressItem.type}{" "}
-                                            {/* Use addressItem instead of addressDetail?.address[0] */}
-                                          </Typography>
-                                        </TimelineContent>
-                                      </TimelineItem>
-                                    ))}
-                                </div>
-                              </Timeline>
-                              <Box mt={4}>
-                                <Box>
-                                  <Typography fontSize={13} fontWeight={600}>
-                                    Created At
-                                  </Typography>
-                                </Box>
-                                <Stack
-                                  direction="row"
-                                  spacing={1}
-                                  alignItems="center"
-                                >
-                                  <Box
-                                    sx={{
-                                      backgroundColor: "#FEE6BB",
-                                      width: "28px",
-                                      height: "28px",
-                                      borderRadius: "50%",
-                                      p: "5px",
-                                    }}
-                                  >
-                                    <Iconify
-                                      color={(theme) =>
-                                        theme.palette.primary.main
-                                      }
-                                      icon="ion:time"
-                                    />
+                                          {productDetail?.product
+                                            ?.pickup_date || "N/A"}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
                                   </Box>
+
                                   <Box>
-                                    <Typography
-                                      color="grey"
-                                      fontWeight={400}
-                                      fontSize={13}
-                                    >
-                                      {item?.created_at
-                                        ? moment(item?.created_at).format(
-                                            "DD MMM"
-                                          )
-                                        : "" || "N/A"}
+                                    <Typography fontSize={13} fontWeight={600}>
+                                      Pick up Time
                                     </Typography>
                                   </Box>
-                                </Stack>
-                              </Box>
-                            </Grid>
-                          </Grid>
-                          <Divider sx={{ my: 2 }} />
-                          <Box>
-                            <Stack
-                              className="customerBid_box_stack_responsive"
-                              direction="row"
-                              alignItems="center"
-                              justifyContent="space-between"
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "flex-start",
-                                }}
-                              >
-                                {/* Bid: <Iconify icon="bi:currency-pound" /> */}
-                                {item?.budget}
-                              </Typography>
-
-                              <Stack direction="row" spacing={2}>
-                              {item?.bid_id &&
-                                  item?.bid_id !== null &&
-                                  item?.status === 2 &&  item?.is_paid === 0 &&  (
-                                    <Box> 
-                                      <Button
-                                        color="secondary"
-                                        fullWidth
-                                        variant="contained"
-                                        onClick={() => handleCheckoutPayment(item)}
+                                  <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    alignItems="center"
+                                  >
+                                    <Box
+                                      sx={{
+                                        backgroundColor: "#FEE6BB",
+                                        width: "28px",
+                                        height: "28px",
+                                        borderRadius: "50%",
+                                        p: "5px",
+                                      }}
+                                    >
+                                      <Iconify
+                                        color={(theme) =>
+                                          theme.palette.primary.main
+                                        }
+                                        icon="majesticons:calendar-line"
+                                      />
+                                    </Box>
+                                    <Box>
+                                      <Typography
+                                        color="grey"
+                                        fontWeight={400}
+                                        fontSize={13}
+                                      >
+                                        {productDetail?.product?.pickup_time ||
+                                          "N/A"}
+                                      </Typography>
+                                    </Box>
+                                  </Stack>
+                                </Grid>
+                                <Grid item md={3}>
+                                  <Box mb={4}>
+                                    <Box>
+                                      <Typography
+                                        fontSize={13}
+                                        fontWeight={600}
+                                      >
+                                        Delivery out Date
+                                      </Typography>
+                                    </Box>
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                    >
+                                      <Box
                                         sx={{
-                                          fontWeight: 500,
+                                          backgroundColor: "#FEE6BB",
+                                          width: "28px",
+                                          height: "28px",
+                                          borderRadius: "50%",
+                                          p: "5px",
                                         }}
                                       >
-                                        Pay
-                                      </Button>
-                                    </Box>
-                                  )}
-                                <Box>
-                                  <Badge
-                                    badgeContent={item?.job_requests?.length}
-                                    color="secondary"
-                                    anchorOrigin={{
-                                      vertical: "top",
-                                      horizontal: "right",
-                                    }}
+                                        <Iconify
+                                          color={(theme) =>
+                                            theme.palette.primary.main
+                                          }
+                                          icon="majesticons:calendar-line"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <Typography
+                                          color="grey"
+                                          fontWeight={400}
+                                          fontSize={13}
+                                        >
+                                          {productDetail?.product?.drop_date ||
+                                            "N/A"}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                  </Box>
+                                  <Box>
+                                    <Typography fontSize={13} fontWeight={600}>
+                                      Delivery out Time
+                                    </Typography>
+                                  </Box>
+                                  <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    alignItems="center"
                                   >
-                                    <Button
-                                      sx={{ fontWeight: 500 }}
-                                      fullWidth
-                                      variant="contained"
-                                      startIcon={
-                                        <Iconify icon="ph:hand-fill" />
-                                      }
-                                      onClick={() =>
-                                        router.push(
-                                          `/dashboard/customer/driver_bid_list/${item.id}`
-                                        )
-                                      }
+                                    <Box
+                                      sx={{
+                                        backgroundColor: "#FEE6BB",
+                                        width: "28px",
+                                        height: "28px",
+                                        borderRadius: "50%",
+                                        p: "5px",
+                                      }}
                                     >
-                                      View Bids
-                                    </Button>
-                                  </Badge>
-                                </Box>
-                                <Box>
-                                  <Button
-                                    color="dark"
-                                    fullWidth
-                                    variant="outlined"
-                                    startIcon={
-                                      <Iconify icon="basil:edit-solid" />
-                                    }
-                                    onClick={() =>
-                                      router.push(
-                                        `/dashboard/customer/job_post_form/${item?.id}`
-                                      )
-                                    }
-                                    disabled={
-                                      item?.status === 1 ||
-                                      item?.status === 2 ||
-                                      item.status === 3 ||
-                                      item?.status === 4
-                                    }
+                                      <Iconify
+                                        color={(theme) =>
+                                          theme.palette.primary.main
+                                        }
+                                        icon="majesticons:calendar-line"
+                                      />
+                                    </Box>
+
+                                    <Box>
+                                      <Typography
+                                        color="grey"
+                                        fontWeight={400}
+                                        fontSize={13}
+                                      >
+                                        {productDetail?.product?.drop_time ||
+                                          "N/A"}
+                                      </Typography>
+                                    </Box>
+                                  </Stack>
+                                </Grid>
+
+                                {/* change this grid  */}
+
+                                <Grid item md={3}>
+                                  <Timeline
                                     sx={{
-                                      fontWeight: 500,
+                                      [`& .${timelineItemClasses.root}:before`]:
+                                        {
+                                          flex: 0,
+                                          padding: 0,
+                                        },
                                     }}
                                   >
-                                    Edit Job
-                                  </Button>
-                                </Box>
-                                {item?.bid_id &&
-                                  item?.bid_id !== null &&
-                                  item?.status !== 1 && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {addressDetail?.address
+                                        .filter((ds) => ds.type === "pickup")
+                                        ?.map((addressItem, index) => (
+                                          <TimelineItem
+                                            sx={{
+                                              "&.MuiTimelineItem-root": {
+                                                minHeight: "50px",
+                                              },
+                                            }}
+                                          >
+                                            <TimelineSeparator>
+                                              <Iconify
+                                                color={(theme) =>
+                                                  theme.palette.primary.main
+                                                }
+                                                width={30}
+                                                icon="carbon:location-star-filled"
+                                              />
+
+                                              <TimelineConnector
+                                                sx={{
+                                                  "&.MuiTimelineConnector-root":
+                                                    {
+                                                      border: (theme) =>
+                                                        `1px solid ${alpha(
+                                                          theme.palette.common
+                                                            .black,
+                                                          0.6
+                                                        )}`,
+                                                      width: "0px",
+                                                      borderStyle: "dashed",
+                                                      backgroundColor:
+                                                        "transparent",
+                                                    },
+                                                }}
+                                              />
+                                            </TimelineSeparator>
+
+                                            {/* map the address hare */}
+
+                                            <TimelineContent
+                                              key={index}
+                                              sx={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {addressItem.address}{" "}
+                                              <Typography
+                                                fontSize={10}
+                                                component="span"
+                                                color="primary"
+                                              >
+                                                {addressItem.type},
+                                              </Typography>
+                                            </TimelineContent>
+                                          </TimelineItem>
+                                        ))}
+                                    </div>
+
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {addressDetail?.address
+                                        .filter((ds) => ds.type === "drop")
+                                        ?.map((addressItem, index) => (
+                                          <TimelineItem
+                                            key={index} // Remember to add a unique key prop when using map
+                                            sx={{
+                                              "&.MuiTimelineItem-root": {
+                                                minHeight: "50px",
+                                              },
+                                            }}
+                                          >
+                                            <TimelineSeparator>
+                                              <Iconify
+                                                width={30}
+                                                icon="carbon:location-star-filled"
+                                              />
+                                            </TimelineSeparator>
+
+                                            <TimelineContent
+                                              sx={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {addressItem.address}{" "}
+                                              {/* Use addressItem instead of addressDetail?.address[0] */}
+                                              <Typography
+                                                fontSize={10}
+                                                component="span"
+                                                color="primary"
+                                              >
+                                                {addressItem.type}{" "}
+                                                {/* Use addressItem instead of addressDetail?.address[0] */}
+                                              </Typography>
+                                            </TimelineContent>
+                                          </TimelineItem>
+                                        ))}
+                                    </div>
+                                  </Timeline>
+                                  <Box mt={4}>
+                                    <Box>
+                                      <Typography
+                                        fontSize={13}
+                                        fontWeight={600}
+                                      >
+                                        Created At
+                                      </Typography>
+                                    </Box>
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                    >
+                                      <Box
+                                        sx={{
+                                          backgroundColor: "#FEE6BB",
+                                          width: "28px",
+                                          height: "28px",
+                                          borderRadius: "50%",
+                                          p: "5px",
+                                        }}
+                                      >
+                                        <Iconify
+                                          color={(theme) =>
+                                            theme.palette.primary.main
+                                          }
+                                          icon="ion:time"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <Typography
+                                          color="grey"
+                                          fontWeight={400}
+                                          fontSize={13}
+                                        >
+                                          {item?.created_at
+                                            ? moment(item?.created_at).format(
+                                                "DD MMM"
+                                              )
+                                            : "" || "N/A"}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                  </Box>
+                                </Grid>
+                              </Grid>
+                              <Divider sx={{ my: 2 }} />
+                              <Box>
+                                <Stack
+                                  className="customerBid_box_stack_responsive"
+                                  direction="row"
+                                  alignItems="center"
+                                  justifyContent="space-between"
+                                >
+                                  <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "flex-start",
+                                    }}
+                                  >
+                                    Bid: <Iconify icon="bi:currency-pound" />
+                                    {item?.budget}
+                                  </Typography>
+
+                                  <Stack direction="row" spacing={2}>
+                                    {item?.bid_id &&
+                                      item?.bid_id !== null &&
+                                      item?.status === 2 &&
+                                      item?.is_paid === 0 && (
+                                        <Box>
+                                          <Button
+                                            color="secondary"
+                                            fullWidth
+                                            variant="contained"
+                                            onClick={() =>
+                                              handleCheckoutPayment(item)
+                                            }
+                                            sx={{
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            Pay
+                                          </Button>
+                                         </Box>
+                                      )}
+                                    <Box>
+                                      <Badge
+                                        badgeContent={
+                                          item?.job_requests?.length
+                                        }
+                                        color="secondary"
+                                        anchorOrigin={{
+                                          vertical: "top",
+                                          horizontal: "right",
+                                        }}
+                                      >
+                                        <Button
+                                          sx={{ fontWeight: 500 }}
+                                          fullWidth
+                                          variant="contained"
+                                          startIcon={
+                                            <Iconify icon="ph:hand-fill" />
+                                          }
+                                          onClick={() =>
+                                            router.push(
+                                              `/dashboard/customer/driver_bid_list/${item.id}`
+                                            )
+                                          }
+                                        >
+                                          View Bids
+                                        </Button>
+                                      </Badge>
+                                    </Box>
                                     <Box>
                                       <Button
-                                        color="primary"
+                                        color="dark"
                                         fullWidth
                                         variant="outlined"
                                         startIcon={
-                                          <Iconify icon="mingcute:foot-fill" />
+                                          <Iconify icon="basil:edit-solid" />
                                         }
                                         onClick={() =>
                                           router.push(
-                                            `/dashboard/customer/track_job/${item.bid_id}/${item.id}`
+                                            `/dashboard/customer/job_post_form/${item?.id}`
                                           )
+                                        }
+                                        disabled={
+                                          item?.status === 1 ||
+                                          item?.status === 2 ||
+                                          item.status === 3 ||
+                                          item?.status === 4
                                         }
                                         sx={{
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Track Job
+                                        Edit Job
                                       </Button>
                                     </Box>
-                                  )}
+                                    {item?.bid_id &&
+                                      item?.bid_id !== null &&
+                                      item?.status !== 1 && (
+                                        <Box>
+                                          <Button
+                                            color="primary"
+                                            fullWidth
+                                            variant="outlined"
+                                            startIcon={
+                                              <Iconify icon="mingcute:foot-fill" />
+                                            }
+                                            onClick={() =>
+                                              router.push(
+                                                `/dashboard/customer/track_job/${item.bid_id}/${item.id}`
+                                              )
+                                            }
+                                            sx={{
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            Track Job
+                                          </Button>
+                                        </Box>
+                                      )}
+                                  </Stack>
+                                </Stack>
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      );
+                    })
+                  ) : (
+                    <Box my={4}>
+                      <Typography variant="h4">No Job Posted</Typography>
+                    </Box>
+                  )}
 
-                              </Stack>
-                            </Stack>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  );
-                })
-              ) : (
-                <Box my={4}>
-                  <Typography variant="h4">No Job Posted</Typography>
-                </Box>
-              )}
-
-              {/* )} */}
-            </Grid>
-            {data && data?.length > 0 && (
-              <Box>
-                <Stack alignItems="center" justifyContent="center">
-                  <Pagination
-                    count={pageCount}
-                    color="primary"
-                    page={page}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    renderItem={(item) => (
-                      <PaginationItem
-                        slots={{
-                          previous: () => {
-                            return (
-                              <Stack
-                                direction="row"
-                                spacing={0.5}
-                                alignItems="center"
-                              >
-                                <NavigateBeforeIcon />
-                              </Stack>
-                            );
-                          },
-                          next: () => {
-                            return (
-                              <Stack
-                                direction="row"
-                                spacing={0.5}
-                                alignItems="center"
-                              >
-                                <NavigateNextIcon />
-                              </Stack>
-                            );
-                          },
-                        }}
-                        {...item}
+                  {/* )} */}
+                </Grid>
+                {data && data?.length > 0 && (
+                  <Box>
+                    <Stack alignItems="center" justifyContent="center">
+                      <Pagination
+                        count={pageCount}
+                        color="primary"
+                        page={page}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        renderItem={(item) => (
+                          <PaginationItem
+                            slots={{
+                              previous: () => {
+                                return (
+                                  <Stack
+                                    direction="row"
+                                    spacing={0.5}
+                                    alignItems="center"
+                                  >
+                                    <NavigateBeforeIcon />
+                                  </Stack>
+                                );
+                              },
+                              next: () => {
+                                return (
+                                  <Stack
+                                    direction="row"
+                                    spacing={0.5}
+                                    alignItems="center"
+                                  >
+                                    <NavigateNextIcon />
+                                  </Stack>
+                                );
+                              },
+                            }}
+                            {...item}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </Stack>
+                    </Stack>
+                  </Box>
+                )}
               </Box>
-            )}
-          </Box>
-          </>
+            </>
           ) : (
-        <CardPaymentForm
-          paymentDetails={paymentDetails}
-          setShowPayment={setShowPayment}
-        /> // Render the PaymentPage component when showPayment is true
-      )}
+            <CardPaymentForm
+              paymentDetails={paymentDetails}
+              setShowPayment={setShowPayment}
+            /> // Render the PaymentPage component when showPayment is true
+          )}
         </Container>
       </Box>
     </React.Fragment>

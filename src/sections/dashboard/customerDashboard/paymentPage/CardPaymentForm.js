@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Container,
@@ -19,8 +18,8 @@ import axiosInstance from "@/utils/axios";
 import { useAuthContext } from "@/auth/useAuthContext";
 import OTPVerification from "../subscription/OTPVerification";
 
+
 const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
-  console.log(paymentDetails,'object',setShowPayment)
   const { user } = useAuthContext();
   const router = useRouter();
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -112,7 +111,6 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
 
     return errors;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validate(formValues);
@@ -121,38 +119,23 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
     if (Object.keys(errors).length === 0) {
       const [expMonth, expYear] = formValues.expiryDate.split("/");
 
-      const initialValues = {
-        user_id: user?.id,
-        email: user?.email,
-        plan_id: paymentDetails?.id,
-        number: formValues?.cardNumber,
-        exp_month: expMonth,
-        exp_year: expYear,
-        cvc: formValues?.cvv,
-        name: formValues?.nameOnCard,
-      };
+  
       const customerInitialValues = {
         user_id: user?.id,
-        invoice_id: user?.id,
+        invoice_id: paymentDetails?.invoice_id,
         email: user?.email,
-        // plan_id: paymentDetails?.id,
         number: formValues?.cardNumber,
-        exp_month: expMonth,
-        exp_year: expYear,
-        cvc: formValues?.cvv,
+        exp_month: Number(expMonth),
+        exp_year: Number(expYear),
+        cvc: Number(formValues?.cvv),
         name: formValues?.nameOnCard,
       };
-
       try {
-        // const response = await axiosInstance.post(
-        //   `api/auth/payment/purchase-plan/${user?.id}`,
-        //   initialValues
-        // );
         const CustomerResponse = await axiosInstance.post(
           `api/auth/payment/customer-invoice-payment`,
           customerInitialValues
         );
-        if (response?.status === 200) {
+        if (CustomerResponse?.status === 200) {
           setOpenSnackbar(true);
           setTimeout(() => {
             setShowPayment(false);

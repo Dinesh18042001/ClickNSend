@@ -1359,6 +1359,7 @@ const DashboardJobRequest = () => {
             <Grid container rowSpacing={0} justifyContent="center">
               {data && data?.length > 0 ? (
                 data.map((item, index) => {
+                  console.log('productDetailproductDetail',item)
                   let productDetail =
                     item?.items && item?.items?.length > 0 && item?.items[0];
                   let addressDetail =

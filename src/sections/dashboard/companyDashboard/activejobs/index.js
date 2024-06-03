@@ -79,8 +79,7 @@ const DashboardAddJob = () => {
   const handleReviewOpen = (id) => setReviewOpen(id);
   const handleReviewClose = () => setReviewOpen(false);
 
-  const [loader, setLoader] = React.useState(false);
-
+  const [storeInvoiceNumber, setStoreInvoiceNumber] = React.useState();
   const formData = useFormik({
     initialValues: {
       id: "",
@@ -141,14 +140,56 @@ const DashboardAddJob = () => {
     formik.setFieldValue("user_id", user?.id);
   }, [user, user?.id]);
 
+    React.useEffect(() => {
+      const fetchdata = async () => {
+        await axiosInstance
+          .get("api/auth/invoice/number")
+          .then((response) => {
+            if (response.status === 200) {
+              // succes
+              console.log('objectsetStoreInvoiceNumber',response)
+              setStoreInvoiceNumber(response?.data) 
+
+            }
+          })
+          .catch((error) => {
+            const { response } = error;
+            console.log(error);
+          });
+      };
+    fetchdata();
+  }, []);
+  console.log('storeInvoiceNumber2',storeInvoiceNumber)
+
   // Complete Job Api
   const completeJobApi = async () => {
+    alert('customer 3') 
     await axiosInstance
       .post("api/auth/jobs/complete-job", formData.values)
       .then((response) => {
         if (response.status === 200) {
-          setCompleteOpen(false);
-          setReviewOpen(true);
+          data.forEach((job) => {
+            if (job.created_by == 'customer') {
+              alert('customer 4') 
+              
+               axiosInstance
+                .post(
+                  "api/auth/invoice/add-send",
+                  {
+                    user_id: job.user_id,
+                    invoice_number: storeInvoiceNumber?.invoice_number,
+                    job_id: job.accept_bid.job_id,
+                    sign_image:'www.img.com'
+                  },
+                )
+                .then((invoiceResponse) => {
+                  console.log( "api/auth/invoice/add-send",invoiceResponse.data); // Handle the response as needed
+                })
+                .catch((error) => {
+                  console.error("Error sending invoice:", error);
+                });
+            }
+          });
           dispatch(
             getJobActive({
               user_id: user?.id,
@@ -191,7 +232,10 @@ const DashboardAddJob = () => {
               },
             }
           );
+
           handleClose(true);
+          setCompleteOpen(false);
+          setReviewOpen(true);
         }
       })
       .catch((error) => {

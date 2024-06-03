@@ -830,7 +830,7 @@ const DashboardCard = () => {
 
                     <Box>
                       <Typography variant="h6" fontWeight={300}>
-                        Invoice 12
+                        Invoice
                       </Typography>
                     </Box>
                   </Stack>

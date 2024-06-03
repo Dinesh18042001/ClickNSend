@@ -106,8 +106,7 @@ const ViewJobHistory = () => {
                   </Typography>
                 </Stack>
                 <Divider sx={{ my: 4 }} />
-{/* 
-for important notes */}
+    
                 <Box>
                   <Typography
                     component="p"

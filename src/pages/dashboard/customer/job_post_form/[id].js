@@ -209,7 +209,7 @@ const PostJob = () => {
 
     return errors;
   };
-
+  console.log('userDetails',user)
   const formik = useFormik({
     initialValues: {
       user_id: user?.id,
@@ -329,7 +329,7 @@ const PostJob = () => {
             setFieldValue("items", JSON.parse(values?.items));
             const { response } = error;
             if (response.status === 422) {
-              console.log("response", response.data.error);
+              // console.log("response", response.data.error);
               // eslint-disable-next-line no-unused-vars
               for (const [key] of Object.entries(values)) {
                 if (response.data.error[key]) {
@@ -439,7 +439,7 @@ const PostJob = () => {
               setFieldValue("items", JSON.parse(values?.items));
               const { response } = error;
               if (response.status === 422) {
-                console.log("response", response.data.error);
+                // console.log("response", response.data.error);
                 // eslint-disable-next-line no-unused-vars
                 for (const [key] of Object.entries(values)) {
                   if (response.data.error[key]) {
@@ -490,7 +490,7 @@ const PostJob = () => {
     formik.setFieldValue("items", [...(formik.values.items || []), product]);
   };
   const removesAddress = (productIndex,id) => {
-    console.log(formik.values.items[productIndex].address,id,"sdfa")
+    // console.log(formik.values.items[productIndex].address,id,"sdfa")
     // Clone the current items to avoid direct state mutation
     const updatedItems = [...formik.values.items];
     const product = updatedItems[productIndex];
@@ -601,7 +601,7 @@ const PostJob = () => {
     }
   }, [id]);
 
-  console.log("formik", formik);
+  // console.log("formik", formik);
 
   return (
     <AuthGuard>
