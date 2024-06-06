@@ -231,28 +231,20 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
     },
     validate: (values) => {},
     onSubmit: async (values) => {
-      console.log("formik.values formik.values formik.values :", formik.values);
+      // console.log("formik.values formik.values formik.values :", formik.values.mobile);
 
       try {
         let newPhoneNumber = formik?.values?.mobile?.replace(/^0+/, "");
-        console.log(newPhoneNumber);
-
+        console.log('newPhoneNumber',newPhoneNumber);
         const url = "/api/user/send-otp";
         const formData = {
-
-        // email: `${selectedCoutry}${newPhoneNumber}`,
-
-        // for otp validation 17/5
-
-        email: `${newPhoneNumber}`,
-        dial_code: `${selectedCoutry}`  ,
-        type: "mobile",
-        logged: "no",
-
+          dial_code: `${selectedCoutry}`,
+          type: "mobile",
+          logged: "no",
         };
 
         const response = await axiosInstance.post(url, formData);
-        console.log("response API :",response?.status);
+        // console.log("response API :", values?.mobile);
 
         if (response?.status === 200) {
           // Handle successful response
@@ -270,6 +262,7 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
               icon={false}
               severity="success"
             >
+            
               {response?.data?.message}
             </Alert>,
             {
@@ -351,15 +344,11 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
         }
         // Handle any errors that occurred during the request
       }
-
-
-
     },
   });
 
   const handleValitateLoginOTP = async () => {
     const mobileValue = `${selectedCoutry}${formik.values.mobile}`;
-  
     const formData = {
       email: formik.values.mobile,
       otp: formik?.values?.otp,
@@ -797,7 +786,6 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
                         <Button
                           variant="contained"
                           color="primary"
-
                           disabled={isButtonDisabled || formik.values.mobile.length !== 11} // Set disabled state
                           sx={{ width: "100px", marginLeft: "10px" }}
                           onClick={() => {
@@ -909,7 +897,7 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
                   )}
 
                   {formik.values.user_type === "company" ? (
-                    
+
                     <Box>
                       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                         {/* Company Certificate */}

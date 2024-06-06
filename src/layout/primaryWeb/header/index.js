@@ -486,22 +486,22 @@ const Header = (props) => {
                       pr: 1,
                       borderBottom: (theme) =>
                         router.asPath ===
-                        `#`
+                        `/dashboard/driver/job_history`
                           ? "2px solid"
                           : "none",
                       color: (theme) =>
                         router.asPath ===
-                        `#`
+                        `/dashboard/driver/job_history`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderColor: (theme) =>
                         router.asPath ===
-                        `#`
+                        `/dashboard/driver/job_history`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderBottom:
                         router.asPath ===
-                        `#`
+                        `/dashboard/driver/job_history`
                           ? "2px solid"
                           : "",
                       ...theme.typography.subtitle2,
@@ -509,7 +509,7 @@ const Header = (props) => {
                       fontSize: "1rem",
                     }}
                     component={Link}
-                    href={`#`}
+                    href={`/dashboard/driver/job_history`}
                   >
                     View Jobs
                   </Typography>
@@ -861,10 +861,10 @@ const Header = (props) => {
                         }}
                         onClick={() => handleMenuItemClick("invoice")}
                       >
-                        Invoice p
+                        Invoice
                       </MenuItem>
                     </Link>
-
+                    { user?.user_type == "driver"  && 
                     <Link
                       href="/StripeConnectionPage"
                       passHref
@@ -883,7 +883,7 @@ const Header = (props) => {
                         Stripe Connection
                       </MenuItem>
                     </Link>
-
+                  }
                     <Link
                       href="/payment"
                       passHref

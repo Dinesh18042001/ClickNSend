@@ -19,8 +19,8 @@ import { useAuthContext } from "@/auth/useAuthContext";
 import OTPVerification from "../subscription/OTPVerification";
 
 
-const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
-  console.log('company paymentDetails',paymentDetails);
+const CardPaymentForm = ({customerInvoiceAndSubscription, paymentDetails, setShowPayment }) => {
+  console.log('customerInvoiceAndSubscription customerInvoiceAndSubscription',customerInvoiceAndSubscription,paymentDetails);
 
   const { user } = useAuthContext();
   const router = useRouter();
@@ -132,11 +132,32 @@ const CardPaymentForm = ({ paymentDetails, setShowPayment }) => {
         cvc: Number(formValues?.cvv),
         name: formValues?.nameOnCard,
       };
+
+      const customerInitialValuesSubscription = {
+        user_id: user?.id,
+        plan_id: paymentDetails?.id,
+        email: user?.email,
+        number: formValues?.cardNumber,
+        exp_month: Number(expMonth),
+        exp_year: Number(expYear),
+        cvc: Number(formValues?.cvv),
+        name: formValues?.nameOnCard,
+      };
       try {
-        const CustomerResponse = await axiosInstance.post(
-          `api/auth/payment/company-invoice-payment`,
-          customerInitialValues
-        );
+        let CustomerResponse;
+
+        if (customerInvoiceAndSubscription === 'companySubscriptionPlan') {
+          CustomerResponse = await axiosInstance.post(
+            `api/auth/payment/purchase-plan/${user?.id}`,
+            customerInitialValuesSubscription
+          );
+        } else if (customerInvoiceAndSubscription === 'companyInvoicePayment') {
+          CustomerResponse = await axiosInstance.post(
+            `api/auth/payment/company-invoice-payment`,
+            customerInitialValues
+          );
+        }
+        
         if (CustomerResponse?.status === 200) {
           setOpenSnackbar(true);
           setTimeout(() => {

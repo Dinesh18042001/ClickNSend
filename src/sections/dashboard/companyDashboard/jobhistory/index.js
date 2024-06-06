@@ -39,7 +39,6 @@ const JobHistory = ({ formik }) => {
   const [select, setSelect] = React.useState("new");
   const [search, setSearch] = React.useState("");
   const [date, setDate] = React.useState("");
-
   const handlePageChange = (event, value) => {
     dispatch(setJobHistoryPage(value));
   };
@@ -47,12 +46,14 @@ const JobHistory = ({ formik }) => {
   React.useEffect(() => {
     dispatch(
       getJobHistory({
-        user_id: user?.id,type:user?.user_type  ,lat:0,long:0,
+        user_id: user?.id,
+        type:user?.user_type  ,lat:0,long:0,
         search: search,
         date: date ? moment(date).format("YYYY-MM-DD h:mm:ss") : "",
       })
     );
   }, [page, pageSize, date, search]);
+  console.log('handlePageChange',data);
 
   return (
     <React.Fragment>
@@ -75,7 +76,7 @@ const JobHistory = ({ formik }) => {
                       fontWeight={600}
                       color="primary"
                     >
-                      Job History
+                      Job History 2ew3sw
                     </Typography>
 
                     <Box

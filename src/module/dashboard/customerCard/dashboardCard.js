@@ -31,7 +31,7 @@ const DashboardCard = ({ jobPost }) => {
     jobDelete,
   } = useSelector((state) => state.customerJob);
 
-
+console.log('state user',user)
   const handlePageChange = (event, value) => {
     dispatch(setJobPostPage(value));
   };

@@ -57,7 +57,6 @@ const DashboardJobPost = ({ formik }) => {
   const [showPayment, setShowPayment] = useState(false);
   // Add for filter
   const [paymentDetails, setPaymentDetails] = useState(null);
-
   const addressDetail = {
     address: [{ type: "pickup" }, { type: "delivery" }],
   };
@@ -91,7 +90,6 @@ const DashboardJobPost = ({ formik }) => {
 
   const handleCheckoutPayment = async (item) => {
     setPaymentDetails(item);
-    console.log(paymentDetails, "aaaaaaaaaaaaaaaaaa", item);
     setShowPayment(true);
   };
 

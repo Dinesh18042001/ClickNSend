@@ -230,7 +230,7 @@ const InvoicePage = () => {
 
   const indexOfLastRow = currentPage * showEntries;
   const indexOfFirstRow = indexOfLastRow - showEntries;
-  const currentRows = dataArray
+  const currentRows = data
     .filter((item) =>
       Object.values(item).some((value) =>
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
@@ -374,6 +374,7 @@ const InvoicePage = () => {
       </Typography>
       </>  ) : (
             <CardPaymentForm
+              customerInvoiceAndSubscription={'companyInvoicePayment'}
               paymentDetails={paymentDetails}
               setShowPayment={setShowPayment}
             /> // Render the PaymentPage component when showPayment is true

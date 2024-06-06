@@ -163,7 +163,6 @@ const DashboardAddJob = () => {
 
   // Complete Job Api
   const completeJobApi = async () => {
-    alert('customer 3') 
     await axiosInstance
       .post("api/auth/jobs/complete-job", formData.values)
       .then((response) => {
@@ -325,7 +324,7 @@ const DashboardAddJob = () => {
                     fontWeight={600}
                     color="primary"
                   >
-                    Active Jobs
+                    Active Jobs 12
                   </Typography>
 
                   <Box

@@ -25,12 +25,13 @@ const SubscriptionsPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [showPayment, setShowPayment] = useState(false);
   // API FETCH LIST
   const fetchdata = async (type = "company") => {
     setLoading(true);
-    const statusShowPlan = 1;
+    const statusShowPlan = 1 ;
     await axiosInstance
       .get(`/api/auth/master/plan/list/${type}/${statusShowPlan}`)
       .then((response) => {
@@ -50,60 +51,52 @@ const SubscriptionsPage = () => {
   }, []);
 
   const handleCheckout = async (elem) => {
-    setPaymentDetails(elem);
+    setPaymentDetails(elem)
     console.log("Selected Plan: ", elem);
-    setShowPayment(true);
+    setShowPayment(true); 
   };
 
   return (
     <React.Fragment>
-      {!showPayment ? (
-        <Box sx={{ backgroundColor: "#f5f5f5", pb: 6 }}>
-          {loading ? (
-            <>
-              <Container>
-                <SkeletonLoader />
-              </Container>
-            </>
-          ) : (
-            <>
-              <Box
-                sx={{
-                  position: "relative",
-                  overflow: "hidden",
-                  width: "100%",
-                  height: { lg: "550px", md: "550px", sm: "100%", xs: "100%" },
-                  backgroundImage: `url("/banner/banner.png")`,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right center",
-                  zIndex: 5,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "center",
-                }}
-              >
-                <Stack
-                  className="Subscritption_box_stack_responsive"
-                  sx={{
-                    zIndex: 8,
-                    position: "absolute",
-                    left: "8em",
-                    top: "6em",
-                  }}
-                >
-                  <Breadcrumbs
-                    aria-label="breadcrumb"
-                    sx={{ color: "common.white" }}
-                  >
-                    <Box
-                      component={Link}
-                      sx={{ textDecoration: "none" }}
-                      color="common.white"
-                      href="/"
-                    >
-                      Home p
+     {!showPayment ? (
+      <Box sx={{ backgroundColor: "#f5f5f5", pb: 6 }}>
+        {loading ? (
+          <>
+            <Container>
+              <SkeletonLoader />
+            </Container>
+          </>
+        ) : (
+          <>
+          <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          width: "100%",
+          height: { lg: "550px", md: "550px", sm: "100%", xs: "100%" },
+          backgroundImage: `url("/banner/banner.png")`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right center",
+          zIndex: 5,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <Stack
+        className="Subscritption_box_stack_responsive"
+          sx={{ zIndex: 8, position: "absolute", left: "8em", top: "6em" }}
+        >
+          <Breadcrumbs aria-label="breadcrumb" sx={{ color: "common.white" }}>
+            <Box
+              component={Link}
+              sx={{ textDecoration: "none" }}
+              color="common.white"
+              href="/"
+            >
+                      Home
                     </Box>
                     <Box
                       component={Link}
@@ -345,6 +338,7 @@ const SubscriptionsPage = () => {
         </Box>
       ) : (
         <CardPaymentForm
+        customerInvoiceAndSubscription={'companySubscriptionPlan'}
           paymentDetails={paymentDetails}
           setShowPayment={setShowPayment}
         /> // Render the PaymentPage component when showPayment is true
