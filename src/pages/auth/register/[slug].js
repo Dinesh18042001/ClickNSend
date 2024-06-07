@@ -15,6 +15,7 @@ const DriverPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] =React.useState(false);
+  // const [OTPSubmitVerifed, setOTPSubmitVerified] = React.useState(false);
 
   
   const handleOpenClose = () => {
@@ -104,57 +105,7 @@ const DriverPage = () => {
       ) {
         errors.password_confirmation = "Password didn't match.";
       }
-      // if (values?.user_type === "driver") {
-      //   if (!values.profile_img) {
-      //     errors.profile_img = "Driver Photo is required";
-      //   }
-      //   if (!values.licence_front) {
-      //     errors.licence_front = "Driver Licence is required";
-      //   }
-      //   if (!values.licence_back) {
-      //     errors.licence_back = "Driver Licence is required";
-      //   }
-      //   if (!values.address_proof) {
-      //     errors.address_proof = "Address proof is required";
-      //   }
-      //   if (!values.insurance_cert) {
-      //     errors.insurance_cert = "Insurance Certificate is required";
-      //   }
-      //   if (!values.transit_cert) {
-      //     errors.transit_cert = "Transit Certificate is required";
-      //   }
-      //   if (!values.liability_cert) {
-      //     errors.liability_cert = "Liability Certificate is required";
-      //   }
-      //   if (!values.vehicle_cert) {
-      //     errors.vehicle_cert = "Vehicle Certificate is required";
-      //   }
-      //   if (!values.v5c_cert) {
-      //     errors.v5c_cert = "V5C Certificate is required";
-      //   }
-      //   if (!values.dvia_cert) {
-      //     errors.dvia_cert = "Dvia Certificate is required";
-      //   }
-      //   if (!values.nationality_cert) {
-      //     errors.nationality_cert = "Nationality Proof is required";
-      //   }
 
-      //   if (
-      //     !values.profile_img ||
-      //     !values.licence_front ||
-      //     !values.licence_back ||
-      //     !values.address_proof ||
-      //     !values.insurance_cert ||
-      //     !values.transit_cert ||
-      //     !values.liability_cert ||
-      //     !values.vehicle_cert ||
-      //     !values.v5c_cert ||
-      //     !values.dvia_cert ||
-      //     !values.nationality_cert
-      //   ) {
-      //     errors.document = "Document is required";
-      //   }
-      // }
 
       if (values?.user_type === "company") {
         if (!values.company_certificate) {
@@ -175,6 +126,36 @@ const DriverPage = () => {
       return errors;
     },
     onSubmit: async (values, { setErrors }) => {
+
+      // if (!OTPSubmitVerified) {
+      //   enqueueSnackbar(
+      //     <Alert
+      //       style={{
+      //         width: '100%',
+      //         padding: '30px',
+      //         backdropFilter: 'blur(8px)',
+      //         background: '#ffe9d5',
+      //         fontSize: '19px',
+      //         fontWeight: 800,
+      //         lineHeight: '30px',
+      //       }}
+      //       icon={false}
+      //       severity="error"
+      //     >
+      //       Please verify your number.
+      //     </Alert>,
+      //     {
+      //       variant: 'error',
+      //       anchorOrigin: {
+      //         vertical: 'top',
+      //         horizontal: 'center',
+      //       },
+      //     }
+      //   );
+      //   return;
+      // }
+
+      
       setLoading(true); 
       let url, formData;
       
@@ -189,6 +170,7 @@ const DriverPage = () => {
         driverFormData.append("password", values?.password);
         driverFormData.append("driver_type", values?.driver_type);
         driverFormData.append("register_type", 'web');
+        driverFormData.append("company_type", 'driver');
         driverFormData.append(
           "password_confirmation",
           values?.password_confirmation
@@ -212,7 +194,7 @@ const DriverPage = () => {
         formDatas.append("user_type", values?.user_type);
         formDatas.append("email", values?.email);
         formDatas.append("mobile", values?.mobile);
-        customerData.append("company_type", 'company');
+        formDatas.append("company_type", 'driver');
         formDatas.append("term", values?.term);
         formDatas.append("password", values?.password);
         formDatas.append(
@@ -224,7 +206,7 @@ const DriverPage = () => {
         formData = formDatas;
       }
       await axiosInstance
-        .post(url, formData, { setErrors })
+        .post(url, formData)
         .then((response) => {
           setLoading(false);
           if (response?.status === 200) {
@@ -333,6 +315,7 @@ const DriverPage = () => {
         open={open}
         handleOpenClose={handleOpenClose}
         formik={formik}
+      // setOTPSubmitVerified={setOTPSubmitVerified}
       />
         {loading && (
         <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -347,6 +330,7 @@ DriverPage.getLayout = function getLayout(page) {
   return <PrimaryWebLayout>{page}</PrimaryWebLayout>;
 };
 export default DriverPage;
+
 
 
 
