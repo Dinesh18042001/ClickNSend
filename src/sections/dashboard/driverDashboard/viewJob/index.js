@@ -106,7 +106,6 @@ const ViewJobHistory = () => {
                   </Typography>
                 </Stack>
                 <Divider sx={{ my: 4 }} />
-    
                 <Box>
                   <Typography
                     component="p"
@@ -247,7 +246,6 @@ const ViewJobHistory = () => {
                     </Table>
                   </TableContainer>
                 </Box>
-
                 <Divider sx={{ my: 4 }} />
                 <Box>
                   <Typography

@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
   Grid,
   TextField,
   FormControl,
@@ -16,7 +17,6 @@ import {
   Select,
   Box,
   MenuItem,
-  Button,
   Pagination
 } from "@mui/material";
 import axiosInstance from "@/utils/axios";
@@ -134,7 +134,6 @@ const InvoicePage = () => {
 
   const fetchDataInvoiceList = async () => {
     try {
-      console.log("userrr", user);
       const userType =
         user?.user_type == "company"
           ? user?.profile?.company_type
@@ -156,6 +155,8 @@ const InvoicePage = () => {
   useEffect(() => {
     fetchDataInvoiceList();
   }, [user]);
+
+  console.log('dataaaaa',data)
 
   const viewInvoice = async (id) => {
     try {
@@ -250,7 +251,7 @@ const InvoicePage = () => {
   
     };
 
-    console.log("An error [paymentDetails, :",paymentDetails );
+    console.log("User.....",user );
 
 
   return (
@@ -323,30 +324,34 @@ const InvoicePage = () => {
               <TableCell>Job ID</TableCell>
               <TableCell>Job Title</TableCell>
               <TableCell>Invoice Date</TableCell>
-              <TableCell>Due Date</TableCell>
+             { user?.user_type === "company" && user?.profile?.company_type === "customer" && <TableCell>Due Date</TableCell>  }
               <TableCell>Status</TableCell>
               {/* <TableCell>Action</TableCell> */}
               <TableCell>amount</TableCell>
-              <TableCell>late amount</TableCell>
+              { user?.user_type === "company" && user?.profile?.company_type === "customer" &&  <TableCell>late amount</TableCell> }
+              <TableCell>Action </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentRows.map((row, index) => (
+            { currentRows.length > 0  ? 
+            <>{ currentRows.map((row, index) => (
 
               <TableRow key={index}>
                 <TableCell>{indexOfFirstRow + index + 1}</TableCell>
                 <TableCell>{row.invoice_number}</TableCell>
                 <TableCell>{row.job_id}</TableCell>
                 <TableCell>{row.job.name}</TableCell>
-                <TableCell > <Button   variant="contained"
+                <TableCell >   { user?.user_type === "company" && user?.profile?.company_type === "customer" ?  <Button   variant="contained"
                     color="primary"
-                    onClick={() =>  handleClickCompanyPayment(row)} >{new Date(row.created_at).toLocaleDateString()} Before</Button> </TableCell>
-                <TableCell> <Button   variant="contained"
+                    onClick={() =>  handleClickCompanyPayment(row)} >{new Date(row.created_at).toLocaleDateString()} Before</Button> : <> {new Date(row.created_at).toLocaleDateString()} </> } </TableCell>
+
+
+               { user?.user_type === "company" && user?.profile?.company_type === "customer" &&    <TableCell> <Button   variant="contained"
                     color="primary"
-                    onClick={() =>  handleClickCompanyPayment(row)} >{calculateDueDate(row.created_at)} After</Button> </TableCell>
+                    onClick={() =>  handleClickCompanyPayment(row)} >{calculateDueDate(row.created_at)} After</Button> </TableCell> }
                 <TableCell>{row.job.status}</TableCell>
                 <TableCell>{row.amount}</TableCell>
-                <TableCell>
+                { user?.user_type === "company" && user?.profile?.company_type === "customer" &&     <TableCell>
                   {/* <Button
                     variant="contained"
                     color="primary"
@@ -363,9 +368,26 @@ const InvoicePage = () => {
                   >
                     Send Invoice
                   </Button> */}
-                </TableCell>
+                </TableCell> }
+                <TableCell style={{display:'flex',justifyContent:"center",alignItems:'center'}}><Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => viewInvoice(row.id)}
+                  >
+                    View Invoice
+                  </Button> <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => sendInvoice(row.id)}
+                    style={{ marginLeft: 8 }}
+                  >
+                    Send Invoice
+                  </Button>   </TableCell>
               </TableRow>
-            ))}
+              ))} </> : <>
+              <h1 style={{display:'flex',justifyContent:'center',alignItems:'center',paddingTop:'30px',fontWeight:'700',color:'#000',fontSize:'20px'}}> No Data Found </h1>
+            </>}
+           
           </TableBody>
         </Table>
       </TableContainer>

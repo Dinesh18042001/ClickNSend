@@ -76,7 +76,7 @@ const JobHistory = ({ formik }) => {
                       fontWeight={600}
                       color="primary"
                     >
-                      Job History 2ew3sw
+                      Job History
                     </Typography>
 
                     <Box

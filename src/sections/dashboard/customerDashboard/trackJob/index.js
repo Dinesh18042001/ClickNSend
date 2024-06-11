@@ -16,8 +16,10 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import Iconify from "@/components/iconify/Iconify";
-
+import { useSnackbar } from "notistack";
+import Alert from "@mui/material/Alert";
 const TrackJob = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
   const { query } = useRouter();
   const { slug } = query;
@@ -27,8 +29,8 @@ const TrackJob = () => {
   const [mapData, setMapData] = React.useState([]);
 
   const initialValues = {
-    bid_id: bid_id,
-    user_id: user?.id,
+    bid_id:Number(bid_id),
+    user_id: Number(user?.id),
     job_id: job_id,
   };
   const fetchTrackJob = async () => {
@@ -43,15 +45,42 @@ const TrackJob = () => {
           );
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => { 
+        // setError (error)
+        enqueueSnackbar(
+          <Alert
+            style={{
+              width: "100%",
+              padding: "20px",
+              backdropFilter: "blur(8px)",
+              background: "#ff7533 ",
+              fontSize: "19px",
+              fontWeight: 800,
+              lineHeight: "30px"
+            }}
+            icon={false}
+            severity="success"
+          >
+            {error.response.data.error}
+          </Alert>,
+          {
+            variant: "success",
+            iconVariant: true,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "center",
+            },
+          }
+        );
+      }
+        );
   };
   useEffect(() => {
     if (bid_id && job_id && user?.id) {
       fetchTrackJob();
     }
-  }, [bid_id, job_id, user?.id]);
+  }, [bid_id]);
 
-  console.log("queryquery", query);
 
   React.useEffect(() => {
     let newArray = [];

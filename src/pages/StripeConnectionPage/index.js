@@ -85,7 +85,6 @@ const StripePage = () => {
           .then((response) => {
             if (response.status === 200) {
               // setCreateAccountData(response);
-              console.log("handleClickStripeAccountConnectLink", response);
               window.location.reload();
             }
           })
@@ -97,14 +96,11 @@ const StripePage = () => {
   };
 
   const handleClickStripeAccountLoginLink = async () => {
-    alert('handleClickStripeAccountLoginLink')
     if (
       stripeConnectData?.details &&
       stripeConnectData?.details?.charges_enabled == true
     ) {
       if (stripeConnectData?.details?.login_link == null) {
-    alert('stripeConnectData?.details?.connect_link === null')
-
         await axiosInstance
           .get(
             `api/auth/payment/login-link/${user.id}
@@ -112,18 +108,19 @@ const StripePage = () => {
           )
           .then((response) => {
             if (response.status === 200) {
-              // setCreateAccountData(response);
-              console.log("handleClickStripeAccountLoginLink", response);
               window.location.reload();
             }
           })
           .catch((error) => console.log(error));
       } else {
-    alert('window.location.href = stripeConnectData.details.login_link;')
         window.location.href = stripeConnectData.details.login_link;
       }
     }
   };
+  console.log(
+    "stripeConnectData?.details?.connect_link",
+    stripeConnectData?.details?.connect_link === ""
+  );
 
   return (
     <>
@@ -134,8 +131,27 @@ const StripePage = () => {
             variant="h3"
             sx={{ textAlign: "center", color: "#fff", marginTop: "80px" }}
           >
-            Woohoo!!! Your Payment Gateway is Now Active.
+            {stripeConnectData?.details?.connect_link &&
+            stripeConnectData?.details?.login_link
+              ? "Woohoo!!! Your Payment Gateway is Now Active."
+              : "Please login your stripe account"}
           </Typography>
+          <p
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "16px",
+              fontWeight: "550",
+              color: "white",
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            {stripeConnectData?.details?.connect_link &&
+            stripeConnectData?.details?.login_link
+              ? "Congratulations on successfully connecting your Stripe account! You've now unlocked a world of possibilities for your online business"
+              : "Signing in to your Stripe account is a simple process that grants you access to a comprehensive suite of tools for managing online payments."}{" "}
+          </p>
         </Box>
         <Container
           sx={{
@@ -154,11 +170,16 @@ const StripePage = () => {
             Additional Information:
           </Typography>
           <Typography variant="body1" sx={{ textAlign: "center", mt: 2 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla felis
-            nisl, commodo eu vestibulum non, commodo a ligula. In hac habitasse
-            platea dictumst. Maecenas non condimentum massa. Aenean lobortis
-            euismod justo, ac dictum lorem vestibulum eget. Proin aliquam eget
-            ipsum eu feugiat.
+            {stripeConnectData?.details?.connect_link &&
+            stripeConnectData?.details?.login_link
+              ? `You will gain access to a powerful suite of tools and features designed to streamline your online payment processes. From the moment you log in, you will be greeted by a user-friendly dashboard that provides a comprehensive overview of your financial activities. Monitor real-time transactions, manage customer profiles, and track payouts to your bank account with ease. Customize your payment settings to suit your business needs, whether you are accepting payments from around the corner or around the globe`
+              : `We are excited to help you get started with accepting payments online
+            through Stripe, a leading payment processing platform known for its
+            security, global reach, ease of use, and comprehensive tools. Visit
+            Stripe support documentation for detailed guides and
+            troubleshooting, and contact Stripe customer service if you have
+            any questions. With Stripe, you can efficiently manage your payment
+            processes and grow your business with confidence`}
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             {stripeConnectData?.details &&
@@ -194,54 +215,52 @@ const StripePage = () => {
                 onClick={() => {
                   handleClickConnectStripe();
                 }}
-              >
-                Create account on Stripe
-              </Button>
+              > Create account on Stripe</Button>)}
+        </Box>
+
+        {stripeConnectData?.details?.connect_link &&
+                  stripeConnectData?.details?.login_link && (
+        <TableContainer sx={{ mt: 5 }}>
+         <Table>
+           <TableHead>
+             <TableRow>
+               <TableCell>Name</TableCell>
+               <TableCell>Email</TableCell>
+               <TableCell>Status</TableCell>
+               <TableCell>Action</TableCell>
+             </TableRow>
+           </TableHead>
+           <TableBody>
+             {/* Example row */}
+             <TableRow>
+               <TableCell>John Doe</TableCell>
+               <TableCell>john@example.com</TableCell>
+               <TableCell>Primary</TableCell>
+               <TableCell>
+                 <IconButton
+                   aria-label="actions"
+                   aria-controls="actions-menu"
+                   aria-haspopup="true"
+                   // onClick={handleClick}
+                 >
+                   <MoreVertIcon />
+                 </IconButton>
+                 <Menu
+                   id="actions-menu"
+                   anchorEl={anchorEl}
+                   open={Boolean(anchorEl)}
+                   onClose={handleClose}
+                 >
+                   <MenuItem onClick={handleClose}>Remove</MenuItem>
+                    <MenuItem onClick={handleClose}>Make Primary</MenuItem>
+                  </Menu>
+                </TableCell>
+              </TableRow>
+              {/* Add more rows as needed */}
+            </TableBody>
+          </Table>
+        </TableContainer>
             )}
-          </Box>
-
-          {/* Table */}
-
-          <TableContainer sx={{ mt: 5 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {/* Example row */}
-                <TableRow>
-                  <TableCell>John Doe</TableCell>
-                  <TableCell>john@example.com</TableCell>
-                  <TableCell>Primary</TableCell>
-                  <TableCell>
-                    <IconButton
-                      aria-label="actions"
-                      aria-controls="actions-menu"
-                      aria-haspopup="true"
-                      // onClick={handleClick}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                      id="actions-menu"
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                    >
-                      <MenuItem onClick={handleClose}>Remove</MenuItem>
-                      <MenuItem onClick={handleClose}>Make Primary</MenuItem>
-                    </Menu>
-                  </TableCell>
-                </TableRow>
-                {/* Add more rows as needed */}
-              </TableBody>
-            </Table>
-          </TableContainer>
         </Container>
       </div>
       <Footer />

@@ -93,291 +93,280 @@ const DashboardJobPost = ({ formik }) => {
     setShowPayment(true);
   };
 
+
   return (
     <React.Fragment>
       <Box py={3} pb={12}>
         <Container>
           {!showPayment ? (
             <>
-              <Box py={5}>
-                <DashboardCard jobPost={data?.length} />
-              </Box>
-              <Box py={2}>
-                {loader ? (
-                  <SkeletonLoader />
-                ) : (
-                  <Grid container spacing={2}>
-                    <Grid item md={7}>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography
-                          fontSize={28}
-                          fontWeight={600}
-                          color="primary"
-                        >
-                          Job Posted By You
-                        </Typography>
+          <Box py={5}>
+            <DashboardCard jobPost={data?.length} />
+          </Box>
+          <Box py={2}>
+            {loader ? (
+              <SkeletonLoader />
+            ) : (
+              <Grid container spacing={2}>
+                <Grid item md={7}>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography fontSize={28} fontWeight={600} color="primary">
+                      Job Posted By You
+                    </Typography>
 
-                        <Box
-                          borderRadius="50%"
-                          border="1px solid"
-                          borderColor={(theme) => theme.palette.primary.main}
-                          color={(theme) => theme.palette.primary.main}
-                          py={0.6}
-                          px={1.8}
-                        >
-                          <Typography
-                            fontSize="1.3rem"
-                            fontWeight={500}
-                            color="primary"
-                          >
-                            <CountUp
-                              start={0}
-                              duration={1}
-                              end={data?.length}
-                              enableScrollSpy={true}
-                              scrollSpyDelay={200}
-                            />
-                          </Typography>
-                        </Box>
-                      </Stack>
-                    </Grid>
-
-                    <Grid item md={3}>
-                      <Box>
-                        <TextBox
-                          type="date"
-                          sx={{ mb: 0 }}
-                          size="small"
-                          fullWidth
-                          name={`date`}
-                          value={date}
-                          onChange={(e) => setDate(e.target.value)}
+                    <Box
+                      borderRadius="50%"
+                      border="1px solid"
+                      borderColor={(theme) => theme.palette.primary.main}
+                      color={(theme) => theme.palette.primary.main}
+                      py={0.6}
+                      px={1.8}
+                    >
+                      <Typography
+                        fontSize="1.3rem"
+                        fontWeight={500}
+                        color="primary"
+                      >
+                        <CountUp
+                          start={0}
+                          duration={1}
+                          end={data?.length}
+                          enableScrollSpy={true}
+                          scrollSpyDelay={200}
                         />
-                        {/* </Stack> */}
-                      </Box>
-                    </Grid>
-                    <Grid item md={2}>
-                      <Box>
-                        <Button
-                          startIcon={<Add />}
-                          variant="contained"
-                          fullWidth
-                          onClick={() =>
-                            router.push(
-                              "/dashboard/customer/job_post_form/create"
-                            )
-                          }
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Grid>
+
+                <Grid item md={3}>
+                  <Box>
+                    <TextBox
+                      type="date"
+                      sx={{ mb: 0 }}
+                      size="small"
+                      fullWidth
+                      name={`date`}
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+                    {/* </Stack> */}
+                  </Box>
+                </Grid>
+                <Grid item md={2}>
+                  <Box>
+                    <Button
+                      startIcon={<Add />}
+                      variant="contained"
+                      fullWidth
+                      onClick={() =>
+                        router.push("/dashboard/customer/job_post_form/create")
+                      }
+                    >
+                      Add New Job
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
+            )}
+          </Box>
+
+          <Box py={2} sx={{ background: " " }}>
+            <Grid container rowSpacing={0} justifyContent="center">
+              {data && data?.length > 0 ? (
+                data.map((item, index) => {
+                  let productDetail =
+                    item?.items && item?.items?.length > 0 && item?.items[0];
+                  let addressDetail =
+                    item?.items && item?.items?.length > 0 && item?.items[0];
+                  return (
+                    <Grid item md={12} key={index}>
+                      <Card
+                        sx={{
+                          my: 2,
+                          borderWidth: "2px",
+                          ":hover": {
+                            borderColor: "#ff7534",
+                            transition: " all 0.3s ease-in-out",
+                          },
+                        }}
+                        variant="outlined"
+                      >
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          px={2}
+                          py={1.4}
+                          alignItems="center"
                         >
-                          Add New Job
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                )}
-              </Box>
-              <Box py={2} sx={{ background: " " }}>
-                <Grid container rowSpacing={0} justifyContent="center">
-                  {data && data?.length > 0 ? (
-                    data.map((item, index) => {
-                      let productDetail =
-                        item?.items &&
-                        item?.items?.length > 0 &&
-                        item?.items[0];
-                      let addressDetail =
-                        item?.items &&
-                        item?.items?.length > 0 &&
-                        item?.items[0];
-                      return (
-                        <Grid item md={12} key={index}>
-                          <Card
-                            sx={{
-                              my: 2,
-                              borderWidth: "2px",
-                              ":hover": {
-                                borderColor: "#ff7534",
-                                transition: " all 0.3s ease-in-out",
-                              },
-                            }}
-                            variant="outlined"
-                          >
-                            <Stack
-                              direction="row"
-                              justifyContent="space-between"
-                              px={2}
-                              py={1.4}
-                              alignItems="center"
+                          <Box sx={{ width: "90%" }}>
+                            <Typography
+                              color="common.black"
+                              fontSize={17}
+                              sx={{
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                cursor: "pointer",
+                              }}
+                              fontWeight={500}
+                              onClick={() =>
+                                router.push(
+                                  `/dashboard/customer/job_history/detail/${item.id}`
+                                )
+                              }
                             >
-                              <Box sx={{ width: "90%" }}>
-                                <Typography
-                                  color="common.black"
-                                  fontSize={17}
-                                  sx={{
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    cursor: "pointer",
-                                  }}
-                                  fontWeight={500}
-                                  onClick={() =>
-                                    router.push(
-                                      `/dashboard/customer/job_history/detail/${item.id}`
-                                    )
-                                  }
+                              {item?.name}
+                            </Typography>
+                          </Box>
+                          {item?.status <= 0 && (
+                            <Box>
+                              <DeleteModal
+                                params={{
+                                  user_id: user?.id,
+                                  job_id: item?.id,
+                                }}
+                              />
+                            </Box>
+                          )}
+                        </Stack>
+                        <Divider />
+                        <CardContent>
+                          <Grid container spacing={2} alignItems="start">
+                            <Grid item md={3}>
+                              <Stack direction="row" spacing={2} mb={2}>
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={0.6}
                                 >
-                                  {item?.name}
-                                </Typography>
-                              </Box>
-                              {item?.status <= 0 && (
-                                <Box>
-                                  <DeleteModal
-                                    params={{
-                                      user_id: user?.id,
-                                      job_id: item?.id,
-                                    }}
-                                  />
-                                </Box>
-                              )}
-                            </Stack>
-                            <Divider />
-                            <CardContent>
-                              <Grid container spacing={2} alignItems="start">
-                                <Grid item md={3}>
-                                  <Stack direction="row" spacing={2} mb={2}>
-                                    <Stack
-                                      direction="row"
-                                      alignItems="center"
-                                      spacing={0.6}
-                                    >
-                                      <Stack alignItems="center">
-                                        <Iconify
-                                          icon="bx:layer"
-                                          color={(theme) =>
-                                            theme.palette.primary.main
-                                          }
-                                          width={22}
-                                        />
-                                      </Stack>
-                                      <Box>
-                                        <Typography fontSize={12} color="grey">
-                                          {item.items[0].product.material}
-                                        </Typography>
-                                      </Box>
-                                    </Stack>
-                                    <Stack
-                                      direction="row"
-                                      alignItems="center"
-                                      spacing={0.6}
-                                    >
-                                      <Stack alignItems="center">
-                                        <Iconify
-                                          icon="gg:expand"
-                                          color={(theme) =>
-                                            theme.palette.primary.main
-                                          }
-                                          width={22}
-                                        />
-                                      </Stack>
-                                      <Box>
-                                        <Typography fontSize={12} color="grey">
-                                          {`${item.items[0].product.length}*${item.items[0].product.width}*${item.items[0].product.height}`}
-                                        </Typography>
-                                      </Box>
-                                    </Stack>
-                                    <Stack
-                                      direction="row"
-                                      alignItems="center"
-                                      spacing={0.6}
-                                    >
-                                      <Stack alignItems="center">
-                                        <Iconify
-                                          icon="uil:weight"
-                                          color={(theme) =>
-                                            theme.palette.primary.main
-                                          }
-                                          width={22}
-                                        />
-                                      </Stack>
-                                      <Box>
-                                        <Typography fontSize={12} color="grey">
-                                          {item.items[0].product.quantity} Qty
-                                        </Typography>
-                                      </Box>
-                                    </Stack>
-                                  </Stack>
-                                  <Stack direction="row" spacing={1}>
-                                    {item.items.map((elem, index) => {
-                                      if (index > 2) {
-                                        return "";
+                                  <Stack alignItems="center">
+                                    <Iconify
+                                      icon="bx:layer"
+                                      color={(theme) =>
+                                        theme.palette.primary.main
                                       }
-                                      return (
-                                        <React.Fragment key={index}>
-                                          <Box
-                                            component="img"
-                                            alt={elem.product.image}
-                                            src={`${elem.product.base_url}${elem.product.image}`}
-                                            sx={{
-                                              width: "83px",
-                                              height: "59px",
-                                              border: "1px solid lightgrey",
-                                              objectFit: "cover",
-                                            }}
-                                          />
-                                        </React.Fragment>
-                                      );
-                                    })}
+                                      width={22}
+                                    />
                                   </Stack>
                                   <Box>
-                                    <TextMaxLine
-                                      line={4}
-                                      component="p"
-                                      variant="body2"
-                                    >
-                                      {item.description}
-                                    </TextMaxLine>
+                                    <Typography fontSize={12} color="grey">
+                                      {item.items[0].product.material}
+                                    </Typography>
                                   </Box>
-                                </Grid>
-                                <Grid item md={3}>
-                                  <Box mb={4}>
-                                    <Box>
-                                      <Typography
-                                        fontSize={13}
-                                        fontWeight={600}
-                                      >
-                                        Pick up Date
-                                      </Typography>
-                                    </Box>
-                                    <Stack
-                                      direction="row"
-                                      spacing={1}
-                                      alignItems="center"
-                                    >
+                                </Stack>
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={0.6}
+                                >
+                                  <Stack alignItems="center">
+                                    <Iconify
+                                      icon="gg:expand"
+                                      color={(theme) =>
+                                        theme.palette.primary.main
+                                      }
+                                      width={22}
+                                    />
+                                  </Stack>
+                                  <Box>
+                                    <Typography fontSize={12} color="grey">
+                                      {`${item.items[0].product.length}*${item.items[0].product.width}*${item.items[0].product.height}`}
+                                    </Typography>
+                                  </Box>
+                                </Stack>
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={0.6}
+                                >
+                                  <Stack alignItems="center">
+                                    <Iconify
+                                      icon="uil:weight"
+                                      color={(theme) =>
+                                        theme.palette.primary.main
+                                      }
+                                      width={22}
+                                    />
+                                  </Stack>
+                                  <Box>
+                                    <Typography fontSize={12} color="grey">
+                                      {item.items[0].product.quantity} Qty
+                                    </Typography>
+                                  </Box>
+                                </Stack>
+                              </Stack>
+                              <Stack direction="row" spacing={1}>
+                                {item.items.map((elem, index) => {
+                                  if (index > 2) {
+                                    return "";
+                                  }
+                                  return (
+                                    <React.Fragment key={index}>
                                       <Box
+                                        component="img"
+                                        alt={elem.product.image}
+                                        src={`${elem.product.base_url}${elem.product.image}`}
                                         sx={{
-                                          backgroundColor: "#FEE6BB",
-                                          width: "28px",
-                                          height: "28px",
-                                          borderRadius: "50%",
-                                          p: "5px",
+                                          width: "83px",
+                                          height: "59px",
+                                          border: "1px solid lightgrey",
+                                          objectFit: "cover",
                                         }}
-                                      >
-                                        <Iconify
-                                          color={(theme) =>
-                                            theme.palette.primary.main
-                                          }
-                                          icon="majesticons:calendar-line"
-                                        />
-                                      </Box>
-                                      <Box>
-                                        <Typography
-                                          color="grey"
-                                          fontWeight={400}
-                                          fontSize={13}
-                                        >
-                                          {productDetail?.product
-                                            ?.pickup_date || "N/A"}
-                                        </Typography>
-                                      </Box>
-                                    </Stack>
+                                      />
+                                    </React.Fragment>
+                                  );
+                                })}
+                              </Stack>
+                              <Box>
+                                <TextMaxLine
+                                  line={4}
+                                  component="p"
+                                  variant="body2"
+                                >
+                                  {item.description}
+                                </TextMaxLine>
+                              </Box>
+                            </Grid>
+                            <Grid item md={3}>
+                              <Box mb={4}>
+                                <Box>
+                                  <Typography fontSize={13} fontWeight={600}>
+                                    Pick up Date
+                                  </Typography>
+                                </Box>
+                                <Stack
+                                  direction="row"
+                                  spacing={1}
+                                  alignItems="center"
+                                >
+                                  <Box
+                                    sx={{
+                                      backgroundColor: "#FEE6BB",
+                                      width: "28px",
+                                      height: "28px",
+                                      borderRadius: "50%",
+                                      p: "5px",
+                                    }}
+                                  >
+                                    <Iconify
+                                      color={(theme) =>
+                                        theme.palette.primary.main
+                                      }
+                                      icon="majesticons:calendar-line"
+                                    />
                                   </Box>
+                                  <Box>
+                                    <Typography
+                                      color="grey"
+                                      fontWeight={400}
+                                      fontSize={13}
+                                    >
+                                      {productDetail?.product?.pickup_date ||
+                                        "N/A"}
+                                    </Typography>
+                                  </Box>
+                                </Stack>
+                              </Box>
 
                                   <Box>
                                     <Typography fontSize={13} fontWeight={600}>
@@ -693,7 +682,7 @@ const DashboardJobPost = ({ formik }) => {
                                     {item?.bid_id &&
                                       item?.bid_id !== null &&
                                       item?.status === 2 &&
-                                      item?.is_paid === 0 && (
+                                      item?.is_paid === 0 &&  user?.user_type == 'customer' && (
                                         <Box>
                                           <Button
                                             color="secondary"

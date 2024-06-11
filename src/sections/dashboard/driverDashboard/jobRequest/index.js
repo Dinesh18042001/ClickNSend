@@ -1159,7 +1159,6 @@ const DashboardJobRequest = () => {
     );
   }, [page]);
 
-  console.log("pagepage", page);
 
   const getData = async () => {
     // setLoader(true);
@@ -1359,7 +1358,6 @@ const DashboardJobRequest = () => {
             <Grid container rowSpacing={0} justifyContent="center">
               {data && data?.length > 0 ? (
                 data.map((item, index) => {
-                  console.log('productDetailproductDetail',item)
                   let productDetail =
                     item?.items && item?.items?.length > 0 && item?.items[0];
                   let addressDetail =
@@ -1398,11 +1396,9 @@ const DashboardJobRequest = () => {
                                     }}
                                     fontWeight={500}
                                   >
-                                    {/* {item?.description} */}
                                     {item.name}
                                   </Typography>
                                 </Box>
-                                
                               </Stack>
 
                               <Divider />

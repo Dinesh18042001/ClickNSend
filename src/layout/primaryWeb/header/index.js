@@ -300,7 +300,7 @@ const Header = (props) => {
                     href={
                       user?.user_type === "driver"
                         ? `/dashboard/${user?.user_type}/active_jobs`
-                        : `/dashboard/${user?.user_type}`
+                        : `/dashboard/${user?.user_type}/job_history`
                     }
                   >
                     Dashboard
@@ -374,7 +374,8 @@ const Header = (props) => {
                         : `/dashboard/${user?.user_type}`
                     }
                   >
-                    Dashboard
+                    ..0.00.........
+                    ................................................................................................................................................................................................................................0..........................0
                   </Typography>
                 ))} */}
 
@@ -412,7 +413,7 @@ const Header = (props) => {
                 
 
               {isAuthenticated &&
-                (user?.user_type == "company" ? (
+                (user?.user_type == "company"  && user?.profile?.company_type === 'driver' ? (
                   <Typography
                     sx={{
                       mx: 1.5,
@@ -437,6 +438,34 @@ const Header = (props) => {
                     href={`#`}
                   >
                     Job list
+                  </Typography>
+                ) : null)}
+                {isAuthenticated &&
+                (user?.user_type == "company"  && user?.profile?.company_type === 'customer' ? (
+                  <Typography
+                    sx={{
+                      mx: 1.5,
+                      pr: 1,
+                      borderBottom: (theme) =>
+                        router.asPath ===  `/dashboard/company/job_history` ? "2px solid" : "none",
+                      color: (theme) =>
+                        router.asPath ===  `/dashboard/company/job_history`
+                          ? theme.palette.primary.main
+                          : theme.palette.text.primary,
+                      borderColor: (theme) =>
+                        router.asPath ===  `/dashboard/company/job_history`
+                          ? theme.palette.primary.main
+                          : theme.palette.text.primary,
+                      borderBottom:
+                        router.asPath ===  `/dashboard/company/job_history` ? "2px solid" : "",
+                      ...theme.typography.subtitle2,
+                      textDecoration: "none",
+                      fontSize: "1rem",
+                    }}
+                    component={Link}
+                    href={ `/dashboard/company/job_history`}
+                  >
+                   Active Jobs
                   </Typography>
                 ) : null)}
 
@@ -486,22 +515,22 @@ const Header = (props) => {
                       pr: 1,
                       borderBottom: (theme) =>
                         router.asPath ===
-                        `/dashboard/driver/job_history`
+                        `/dashboard/driver/job_request`
                           ? "2px solid"
                           : "none",
                       color: (theme) =>
                         router.asPath ===
-                        `/dashboard/driver/job_history`
+                        `/dashboard/driver/job_request`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderColor: (theme) =>
                         router.asPath ===
-                        `/dashboard/driver/job_history`
+                        `/dashboard/driver/job_request`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderBottom:
                         router.asPath ===
-                        `/dashboard/driver/job_history`
+                        `/dashboard/driver/job_request`
                           ? "2px solid"
                           : "",
                       ...theme.typography.subtitle2,
@@ -509,7 +538,7 @@ const Header = (props) => {
                       fontSize: "1rem",
                     }}
                     component={Link}
-                    href={`/dashboard/driver/job_history`}
+                    href={`/dashboard/driver/job_request`}
                   >
                     View Jobs
                   </Typography>
@@ -901,7 +930,7 @@ const Header = (props) => {
                       </MenuItem>
                     </Link>
                     <Link
-                      href="/account"
+                     href={`/${user?.user_type}/profile`}
                       passHref
                       style={{ textDecoration: "none" }}
                     >

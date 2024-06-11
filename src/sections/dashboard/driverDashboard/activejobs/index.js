@@ -93,11 +93,20 @@ const DashboardJobPost = () => {
   const [storeInvoiceNumber, setStoreInvoiceNumber] = React.useState();
 
   const [loader, setLoader] = React.useState(false);
-
+console.log(user);
   const formData = useFormik({
     initialValues: {
       id: "",
       driver_id: user?.id,
+    },
+  });
+
+  const formDataInvoice = useFormik({
+    initialValues: {
+      // user_id: items?.user_id,
+        invoice_number: storeInvoiceNumber?.invoice_number,
+        // job_id: items?.accept_bid?.job_id,
+        sign_image:'www.img.com'
     },
   });
 
@@ -225,20 +234,14 @@ const DashboardJobPost = () => {
         });
     };
   fetchdata();
+  HandleAddSendInvoices();
 }, []);
 
-
-// The HandleAddSendInvoice function should accept a parameter to handle the selected items
-const HandleAddSendInvoices =  async (items) => {
-  items.created_by === 'customer' &&
+const HandleAddSendInvoices =  async () => {
+console.log('formDataInvoice.values formDataInvoice.values',formDataInvoice.values);
+  // items.created_by === 'company' &&
   await axiosInstance
-      .post("api/auth/invoice/add-send",
-      {
-        user_id: items?.user_id,
-        invoice_number: storeInvoiceNumber?.invoice_number,
-        job_id: items?.accept_bid?.job_id,
-        sign_image:'www.img.com'
-      },)
+      .post("api/auth/invoice/add-send",formDataInvoice.values)
       .then((response) => {
         if (response.status === 200) {
           enqueueSnackbar(
@@ -273,63 +276,56 @@ const HandleAddSendInvoices =  async (items) => {
       });
 }
 
-console.log('data',data)
-console.log('storeInvoiceNumber1',storeInvoiceNumber)
-console.log('objectdataa',data)
-
-const HandleAddSendInvoice = async () => {
-      
-    // alert('customer  1') 
-    await axiosInstance
-      .post("api/auth/invoice/add-send",
-      {
-        user_id: '',
-        invoice_number: storeInvoiceNumber?.invoice_number,
-        job_id: '',
-        sign_image:'www.img.com'
-      },)
-      .then((response) => {
-        if (response.status === 200) {
-          enqueueSnackbar(
-            <Alert
-              style={{
-                width: "100%",
-                padding: "30px",
-                backdropFilter: "blur(8px)",
-                background: "#ff7533 ",
-                fontSize: "19px",
-                fontWeight: 800,
-                lineHeight: "30px",
-              }}
-              icon={false}
-              severity="success"
-            >
-              {response?.data?.message}
-            </Alert>,
-            {
-              variant: "success",
-              iconVariant: true,
-              anchorOrigin: {
-                vertical: "top",
-                horizontal: "center",
-              },
-            }
-          );
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
+// const HandleAddSendInvoice = async () => {
+//     await axiosInstance
+//       .post("api/auth/invoice/add-send",
+//       {
+//         user_id: '',
+//         invoice_number: storeInvoiceNumber?.invoice_number,
+//         job_id: '',
+//         sign_image:'www.img.com'
+//       },)
+//       .then((response) => {
+//         if (response.status === 200) {
+//           enqueueSnackbar(
+//             <Alert
+//               style={{
+//                 width: "100%",
+//                 padding: "30px",
+//                 backdropFilter: "blur(8px)",
+//                 background: "#ff7533 ",
+//                 fontSize: "19px",
+//                 fontWeight: 800,
+//                 lineHeight: "30px",
+//               }}
+//               icon={false}
+//               severity="success"
+//             >
+//               {response?.data?.message}
+//             </Alert>,
+//             {
+//               variant: "success",
+//               iconVariant: true,
+//               anchorOrigin: {
+//                 vertical: "top",
+//                 horizontal: "center",
+//               },
+//             }
+//           );
+//         }
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   };
+  
   const completeJobApi = async () => {
-    // alert('customer  1') 
+console.log('aaaaaa',formData.values);
     await axiosInstance
-      .post("api/auth/jobs/complete-job", formData.values)
+      .post("api/auth/jobs/complete--job", formData.values)
       .then((response) => {
         if (response.status === 200) {
           setCompleteOpen(false);
-          setReviewOpen(true);
           dispatch(
             getJobActive({
               user_id: user?.id,
@@ -372,15 +368,23 @@ const HandleAddSendInvoice = async () => {
               },
             }
           );
+          setTimeout(() => {
+            alert('Hellllllo')
+            HandleAddSendInvoices();
+          }, 3000);
           handleClose(true);
-          HandleAddSendInvoice();
+          setReviewOpen(true);
+         
         }
       })
       .catch((error) => {
         console.log(error);
+        setTimeout(() => {
+          alert('Hellllllo')
+          HandleAddSendInvoices();
+        }, 3000);
       });
   };
-
   const formik = useFormik({
     initialValues: {
       job_id: "",
@@ -447,6 +451,12 @@ const HandleAddSendInvoice = async () => {
     },
   });
 
+  // useEffect(() => {
+  //   formik.setFieldValue("id", startOpen);
+  // }, [startOpen]);
+  // useEffect(() => {
+  //   formik.setFieldValue("driver_id", user?.id);
+  // }, [user, user?.id]);
   return (
     <React.Fragment>
       <Box py={3} pb={12}>
@@ -864,7 +874,7 @@ const HandleAddSendInvoice = async () => {
                                               elem?.bid_id
                                             );
                                             setConfirmOpen(true);
-                                            HandleAddSendInvoices(elem);
+                                            // HandleAddSendInvoices(elem);
                                           }}
                                           sx={{
                                             fontWeight: 500,
@@ -884,7 +894,17 @@ const HandleAddSendInvoice = async () => {
                                         )} */}
                                       </>
                                     ) : elem.status === 2 ? (
-                        
+                                      <>
+                                        {elem.is_paid === 0 &&  elem?.created_by == 'customer' ? (
+                                          <Button
+                                            fullWidth
+                                            color="info"
+                                            variant="outlined"
+                                            disabled
+                                          >
+                                            Wait Please
+                                          </Button>
+                                        ) : (
                                           <Button
                                             color="success"
                                             fullWidth
@@ -893,6 +913,7 @@ const HandleAddSendInvoice = async () => {
                                               <Iconify icon="icon-park:check-correct" />
                                             }
                                             onClick={() => {
+                                              // HandleAddSendInvoices(elem);
                                               formData.setFieldValue(
                                                 "id",
                                                 elem?.bid_id
@@ -903,8 +924,10 @@ const HandleAddSendInvoice = async () => {
                                               fontWeight: 500,
                                             }}
                                           >
-                                            Start Job
+                                            Start Job p
                                           </Button>
+                                        )}
+                                      </>
                                     ) : (
                                       <>
                                         <Button
@@ -916,6 +939,7 @@ const HandleAddSendInvoice = async () => {
                                             <Iconify icon="carbon:task-complete" />
                                           }
                                           onClick={() => {
+                                            HandleAddSendInvoices(elem);
                                             formData.setFieldValue(
                                               "id",
                                               elem?.bid_id
@@ -945,7 +969,7 @@ const HandleAddSendInvoice = async () => {
                                     Give Review
                                   </Button>
                                 </Box> */}
-                                  {elem?.status != 0 && elem?.status != 1 && (
+                                  {elem?.status != 0 && elem?.status != 1 && elem?.is_paid == 1  && (
                                     <Box>
                                       <Button
                                         color="secondary"
@@ -1119,7 +1143,7 @@ const HandleAddSendInvoice = async () => {
                       fullWidth
                       variant="outlined"
                       onClick={() => {
-                         confirmJobApi();
+                        confirmJobApi();
                       }}
                     >
                       Yes
@@ -1179,6 +1203,7 @@ const HandleAddSendInvoice = async () => {
                       variant="outlined"
                       onClick={() => {
                         handleStartClose();
+                        // HandleAddSendInvoices();
                       }}
                     >
                       No

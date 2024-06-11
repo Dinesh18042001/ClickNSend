@@ -19,7 +19,7 @@ const PostJob = () => {
   const { user } = useAuthContext();
   const { value, setValue } = useContext(StepperContext);
   const isLastStep = value === 3 - 1;
-// console.log
+
   const PickupAddress = {
     address: "",
     lat: 0,
@@ -213,7 +213,7 @@ const PostJob = () => {
   const formik = useFormik({
     initialValues: {
       user_id: user?.id,
-      created_by: "customer",
+      created_by: user?.user_type ,
       name: "",
       vehicle: 0,
       vehical_type: 0,
@@ -249,7 +249,7 @@ const PostJob = () => {
     },
     onSubmit: async (values, { setErrors, setFieldValue }) => {
       let url, method;
-
+console.log('values values',values)
       if (id === "create") {
         url = "/api/auth/jobs/add";
         method = "POST";

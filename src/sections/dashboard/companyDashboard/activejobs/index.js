@@ -146,10 +146,7 @@ const DashboardAddJob = () => {
           .get("api/auth/invoice/number")
           .then((response) => {
             if (response.status === 200) {
-              // succes
-              console.log('objectsetStoreInvoiceNumber',response)
               setStoreInvoiceNumber(response?.data) 
-
             }
           })
           .catch((error) => {
@@ -159,36 +156,37 @@ const DashboardAddJob = () => {
       };
     fetchdata();
   }, []);
-  console.log('storeInvoiceNumber2',storeInvoiceNumber)
-
+  
   // Complete Job Api
   const completeJobApi = async () => {
     await axiosInstance
       .post("api/auth/jobs/complete-job", formData.values)
       .then((response) => {
         if (response.status === 200) {
-          data.forEach((job) => {
-            if (job.created_by == 'customer') {
-              alert('customer 4') 
+          setCompleteOpen(false);
+          setReviewOpen(true);
+          // data.forEach((job) => {
+          //   if (job.created_by == 'customer') {
+          //     alert('customer 4') 
               
-               axiosInstance
-                .post(
-                  "api/auth/invoice/add-send",
-                  {
-                    user_id: job.user_id,
-                    invoice_number: storeInvoiceNumber?.invoice_number,
-                    job_id: job.accept_bid.job_id,
-                    sign_image:'www.img.com'
-                  },
-                )
-                .then((invoiceResponse) => {
-                  console.log( "api/auth/invoice/add-send",invoiceResponse.data); // Handle the response as needed
-                })
-                .catch((error) => {
-                  console.error("Error sending invoice:", error);
-                });
-            }
-          });
+          //      axiosInstance
+          //       .post(
+          //         "api/auth/invoice/add-send",
+          //         {
+          //           user_id: job.user_id,
+          //           invoice_number: storeInvoiceNumber?.invoice_number,
+          //           job_id: job.accept_bid.job_id,
+          //           sign_image:'www.img.com'
+          //         },
+          //       )
+          //       .then((invoiceResponse) => {
+          //         console.log( "api/auth/invoice/add-send",invoiceResponse.data); // Handle the response as needed
+          //       })
+          //       .catch((error) => {
+          //         console.error("Error sending invoice:", error);
+          //       });
+          //   }
+          // });
           dispatch(
             getJobActive({
               user_id: user?.id,
@@ -231,10 +229,8 @@ const DashboardAddJob = () => {
               },
             }
           );
-
           handleClose(true);
-          setCompleteOpen(false);
-          setReviewOpen(true);
+          
         }
       })
       .catch((error) => {
@@ -324,7 +320,7 @@ const DashboardAddJob = () => {
                     fontWeight={600}
                     color="primary"
                   >
-                    Active Jobs 12
+                    Active Jobs
                   </Typography>
 
                   <Box
