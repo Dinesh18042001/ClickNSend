@@ -42,7 +42,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) => {
+const DriverRegister = ({ formik, open, handleOpenClose }) => {
   const VehicleTypeTruck = [
     {
       label: "7.5t",
@@ -123,6 +123,7 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
     },
   ];
   const { enqueueSnackbar } = useSnackbar();
+  const [verifyedNumber, setVerifyedNumber] = React.useState(false);
 
   const [vehicle, setVehicle] = React.useState([]);
   const router = useRouter();
@@ -231,13 +232,15 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
     },
     validate: (values) => {},
     onSubmit: async (values) => {
-      // console.log("formik.values formik.values formik.values :", formik.values.mobile);
+      console.log("formik.values formik.values formik.values :", formik.values.mobile);
 
       try {
         let newPhoneNumber = formik?.values?.mobile?.replace(/^0+/, "");
-        console.log('newPhoneNumber',newPhoneNumber);
+        console.log(newPhoneNumber);
+
         const url = "/api/user/send-otp";
         const formData = {
+          email: `${newPhoneNumber}`,
           dial_code: `${selectedCoutry}`,
           type: "mobile",
           logged: "no",
@@ -348,7 +351,6 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
   });
 
   const handleValitateLoginOTP = async () => {
-    const mobileValue = `${selectedCoutry}${formik.values.mobile}`;
     const formData = {
       email: formik.values.mobile,
       otp: formik?.values?.otp,
@@ -383,6 +385,7 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
             },
           }
         );
+        setVerifyedNumber(true);
         setShowResend(false);
         setOpens(false); // Open the dialog when response status is 200
         setValidateOTP(false);
@@ -1160,6 +1163,8 @@ const DriverRegister = ({ formik, open, handleOpenClose,setOTPSubmitVerified }) 
                         fullWidth
                         variant="contained"
                         color="primary"
+                      disabled={!verifyedNumber}
+
                       >
                         <Typography px="1.5em">Register Now</Typography>
                       </Button>

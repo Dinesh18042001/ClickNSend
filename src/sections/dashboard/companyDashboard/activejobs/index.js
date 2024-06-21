@@ -230,7 +230,6 @@ const DashboardAddJob = () => {
             }
           );
           handleClose(true);
-          
         }
       })
       .catch((error) => {

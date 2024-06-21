@@ -29,6 +29,7 @@ const MyProfilePage = () => {
       user_type: "company",
       email: "",
       mobile: "",
+      address: "",
       // profile_img: "",
       profile_img_url: "",
       company_certificate: "",
@@ -38,20 +39,33 @@ const MyProfilePage = () => {
     },
     validate: (values) => {},
     onSubmit: async (values) => {
-      let formData = new FormData();
-      formData.append("user_type", values?.user_type);
-      formData.append("user_name", values?.user_name);
-      formData.append("email", values?.email);
-      formData.append("mobile", values?.mobile);
-      // formData.append("profile_img", values?.profile_img);
-      formData.append("company_certificate", values?.company_certificate);
-      formData.append("company_vat", values?.company_vat);
+      let profileFormData = new FormData();
+      profileFormData.append("user_type", values?.user_type);
+      profileFormData.append("user_name", values?.user_name);
+      profileFormData.append("email", values?.email);
+      profileFormData.append("mobile", values?.mobile);
+      // profileFormData.append("profile_img", values?.profile_img);
+      profileFormData.append("company_certificate", values?.company_certificate);
+      profileFormData.append("company_vat", values?.company_vat);
 
-      await axiosInstance
-        .post(`/api/auth/profile/update-company-profile/${user?.id}`, formData)
-        .then((response) => {
-          if (response?.status === 200) {
-            enqueueSnackbar(
+      
+      const addressFormData = new FormData();
+      addressFormData.append("address", values.address);
+      addressFormData.append("state", values.state);
+      addressFormData.append("city", values.city);
+      addressFormData.append("zip_code", values.zip_code);
+      addressFormData.append("lat", values.lat);
+      addressFormData.append("long", values.long);
+
+      try {
+        const [profileResponse, addressResponse] = await Promise.all([
+          axiosInstance.post(`/api/auth/profile/update-company-profile/${user?.id}`, profileFormData),
+          axiosInstance.post(`/api/auth/profile/update-address/${user?.id}`, addressFormData),
+        ]);
+        console.log('addressFormData', addressFormData, 'profileResponse', profileResponse);
+  
+        if (profileResponse?.status === 200) {
+          enqueueSnackbar(
             <Alert
               style={{
                 width: "100%",
@@ -65,7 +79,7 @@ const MyProfilePage = () => {
               icon={false}
               severity="success"
             >
-              {response?.data?.message}
+              {profileResponse?.data?.message}
             </Alert>,
             {
               variant: "success",
@@ -76,76 +90,127 @@ const MyProfilePage = () => {
               },
             }
           );
-            getProfile();
-          } else {
-             // error
-        enqueueSnackbar(
-          <Alert
-            style={{
-              width: "100%",
-              padding: "30px",
-              filter: blur("8px"),
-              background: "#ffe9d5 ",
-              fontSize: "19px",
-              fontWeight: 800,
-              lineHeight: "30px",
-            }}
-            icon={false}
-            severity="error"
-          >
-            {response?.data?.error}
-          </Alert>,
-          {
-            variant: "error",
-            iconVariant: true,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "center",
-            },
-          }
-        );
-          }
-        })
-        .catch((error) => {
-          const { response } = error;
-          if (response.status === 422) {
-            console.log("response", response.data.error);
-            // eslint-disable-next-line no-unused-vars
-            for (const [key] of Object.entries(values)) {
-              if (response.data.error[key]) {
-                setErrors({ [key]: response.data.error[key][0] });
-              }
+        } else {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                filter: blur("8px"),
+                background: "#ffe9d5 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="error"
+            >
+              {profileResponse?.data?.error}
+            </Alert>,
+            {
+              variant: "error",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+  
+        if (addressResponse?.status === 200) {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                backdropFilter: "blur(8px)",
+                background: "#ff7533 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px"
+              }}
+              icon={false}
+              severity="success"
+            >
+              {addressResponse?.data?.message}
+            </Alert>,
+            {
+              variant: "success",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        } else {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                filter: blur("8px"),
+                background: "#ffe9d5 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="error"
+            >
+              {addressResponse?.data?.error}
+            </Alert>,
+            {
+              variant: "error",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+  
+        getProfile();
+      } catch (error) {
+        const { response } = error;
+        if (response?.status === 422) {
+          console.log("response", response.data.error);
+          for (const [key] of Object.entries(values)) {
+            if (response.data.error[key]) {
+              setErrors({ [key]: response.data.error[key][0] });
             }
           }
-          if (response?.data?.status === 406) {
-             // error
-        enqueueSnackbar(
-          <Alert
-            style={{
-              width: "100%",
-              padding: "30px",
-              filter: blur("8px"),
-              background: "#ffe9d5 ",
-              fontSize: "19px",
-              fontWeight: 800,
-              lineHeight: "30px",
-            }}
-            icon={false}
-            severity="error"
-          >
-            {response?.data?.error}
-          </Alert>,
-          {
-            variant: "error",
-            iconVariant: true,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "center",
-            },
-          }
-        );
-          }
-        });
+        }
+        if (response?.data?.status === 406) {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                filter: blur("8px"),
+                background: "#ffe9d5 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="error"
+            >
+              {response?.data?.error}
+            </Alert>,
+            {
+              variant: "error",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+      }
     },
   });
 
@@ -171,6 +236,8 @@ const MyProfilePage = () => {
             "profile_img_url",
             `${newData?.profile?.base_url}${newData?.profile?.profile_img}`
           );
+          formik.setFieldValue("address", newData?.profile?.address);
+
           formik.setFieldValue("plan", newData?.plan?.plan_name);
           formik.setFieldValue(
             "company_certificate",

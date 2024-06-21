@@ -290,32 +290,40 @@ const Profile = ({ data, formik, loader, Content = null }) => {
                                 </Box>
 
                                 <Box
-                                  sx={{
-                                    dispaly: "flex !important",
-                                    flexDirection: "row-reverse !important",
-                                  }}
-                                  py={2}
-                                >
-                                  <TextBox
-                                    size="small"
-                                    fullWidth
-                                    label="Address"
-                                    name="address"
-                                    value={formik?.values?.address}
-                                    onChange={formik.handleChange}
-                                    endIcon={
-                                      <Iconify
-                                        sx={{
-                                          fontWeight: 500,
-                                          border: "none",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={handleClick}
-                                        icon="basil:edit-solid"
-                                      />
-                                    }
-                                  />
-                                </Box>
+  sx={{
+    display: "flex !important",
+    flexDirection: "row-reverse !important",
+  }}
+  py={2}
+  onSubmit={formik.handleSubmit}
+>
+  <GoogleAutocomplete
+    size="small"
+    fullWidth
+    labelname="Address" // Should be "labelName" instead of "labelname"
+    name="address"
+    value={formik?.values?.address}
+    onChange={(e) => {
+                                      formik.setFieldValue(
+                                        `address`,
+                                        e
+                                      );
+                                    }}
+    onSelect={(address, lat, long) => {
+      console.log("onSelect:", address, lat, long);
+      formik.setFieldValue("address", address);
+      formik.setFieldValue("lat", lat); // Set lat if needed
+      formik.setFieldValue("long", long); // Set long if needed
+    }}
+    endIcon={
+      <IconButton
+        onClick={() => formik.setFieldValue("address", "")}
+      >
+        <Close fontSize="small" />
+      </IconButton>
+    }
+  />
+</Box>
 
                                 <Modal
                                   open={isModalOpen}
@@ -420,6 +428,7 @@ const Profile = ({ data, formik, loader, Content = null }) => {
                                       fullWidth
                                       variant="contained"
                                       type="submit"
+                                      onClick={handleCloseModal}
                                     >
                                       Update Profile
                                     </Button>

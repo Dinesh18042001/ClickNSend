@@ -1159,6 +1159,7 @@ const DashboardJobRequest = () => {
     );
   }, [page]);
 
+  console.log("pagepage", page);
 
   const getData = async () => {
     // setLoader(true);
@@ -1365,7 +1366,7 @@ const DashboardJobRequest = () => {
 
                   return (
                     <React.Fragment key={index}>
-                      {isCheckedDocument ? (
+                      {!isCheckedDocument ? (
                         <Grid container rowSpacing={0}>
                           <Grid item md={12}>
                             <Card

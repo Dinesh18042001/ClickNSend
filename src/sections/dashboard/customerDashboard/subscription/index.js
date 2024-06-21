@@ -22,8 +22,10 @@ import PaymentPage from "./paymentPage";
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useState,useEffect } from "react";
 import CardPaymentForm from '../paymentPage/CardPaymentForm'
-
+import { useAuthContext } from "@/auth/useAuthContext";
 const SubscriptionsPage = () => {
+  const { user } = useAuthContext();
+  const activePlan = user?.plan
   const [hover, setHover] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -210,6 +212,7 @@ const SubscriptionsPage = () => {
                   {data &&
                     data?.length > 0 &&
                     data.map((elem, index) => {
+                      const isActivePlan = activePlan.plan_id === plan.id;
                       return (
                         <Grid item md={4} key={index}>
                           <Card
@@ -338,15 +341,26 @@ const SubscriptionsPage = () => {
                                 </Box>
 
                                 <Stack alignItems="center">
+                                {isActivePlan ? (
                                   <Button
                                     fullWidth
                                     variant="contained"
                                     width="min-content"
                                     sx={{ px: 5 }}
-                                    onClick={() => handleCheckout(elem)}
+                                      // onClick={() => handleCheckout(plan)}
                                   >
-                                    GET STARTED
+                                    Activate Plan
                                   </Button>
+                                  ) : (
+                                    <Button
+                                      fullWidth
+                                      variant="contained"
+                                      sx={{ px: 5 }}
+                                      onClick={() => handleCheckout(plan)}
+                                    >
+                                      Get Started
+                                    </Button>
+                                  )}
                                 </Stack>
                               </Stack>
                             </CardContent>

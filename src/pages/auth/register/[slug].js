@@ -374,7 +374,7 @@ const DriverPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] =React.useState(false);
-  const [OTPSubmitVerifed, setOTPSubmitVerified] = React.useState(false);
+  // const [OTPSubmitVerifed, setOTPSubmitVerified] = React.useState(false);
 
   
   const handleOpenClose = () => {
@@ -486,38 +486,10 @@ const DriverPage = () => {
     },
     onSubmit: async (values, { setErrors }) => {
 
-      if (!OTPSubmitVerified) {
-        enqueueSnackbar(
-          <Alert
-            style={{
-              width: '100%',
-              padding: '30px',
-              backdropFilter: 'blur(8px)',
-              background: '#ffe9d5',
-              fontSize: '19px',
-              fontWeight: 800,
-              lineHeight: '30px',
-            }}
-            icon={false}
-            severity="error"
-          >
-            Please verify your number.
-          </Alert>,
-          {
-            variant: 'error',
-            anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'center',
-            },
-          }
-        );
-        return;
-      }
-
       
       setLoading(true); 
       let url, formData;
-      
+      let newPhoneNumber = values?.mobile?.replace(/^0+/, "");
       if (values.user_type === "driver") {
         url = "api/user/driver-register";
         let driverFormData = new FormData();
@@ -674,7 +646,6 @@ const DriverPage = () => {
         open={open}
         handleOpenClose={handleOpenClose}
         formik={formik}
-      setOTPSubmitVerified={setOTPSubmitVerified}
       />
         {loading && (
         <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>

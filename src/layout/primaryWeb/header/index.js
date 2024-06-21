@@ -387,24 +387,24 @@ const Header = (props) => {
                       mx: 1.5,
                       pr: 1,
                       borderBottom: (theme) =>
-                        router.asPath === `#` ? "2px solid" : "none",
+                        router.asPath === `/dashboard/customer/job_posted` ? "2px solid" : "none",
 
                       color: (theme) =>
-                        router.asPath === `#`
+                        router.asPath === `/dashboard/customer/job_posted`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderColor: (theme) =>
-                        router.asPath === `#`
+                        router.asPath === `/dashboard/customer/job_posted`
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
                       borderBottom:
-                        router.asPath === `#` ? "2px solid" : "",
+                        router.asPath === `/dashboard/customer/job_posted` ? "2px solid" : "",
                       ...theme.typography.subtitle2,
                       textDecoration: "none",
                       fontSize: "1rem",
                     }}
                     component={Link}
-                    href={`#`}
+                    href={`/dashboard/customer/job_posted`}
                   >
                     Active Jobs
                   </Typography>
@@ -690,7 +690,7 @@ const Header = (props) => {
                 </Typography>
               ) : null )}
 
-{/* {isAuthenticated && 
+{isAuthenticated && 
               (user?.user_type == "company" ? (
                 <Typography
                   sx={{
@@ -724,12 +724,12 @@ const Header = (props) => {
                   component={Link}
                   href={`/dashboard/${user?.user_type}/subscription`}
                 >
-                  Invoice
+                  Subscription
                 </Typography>
-              ) : null )} */}
+              ) : null )}
 
               {isAuthenticated && 
-              (user?.user_type == "company" ? (
+              (user?.user_type == "company" && user?.company_id  === '0' ? (
                 <Typography
                   sx={{
                     // mx: 1.5,
@@ -835,7 +835,52 @@ const Header = (props) => {
                   </Button>
                 </div>
               )}
-              {isAuthenticated && (
+              {/* {isAuthenticated && (
+                <>
+                  <Box
+                    direction="row"
+                    // spacing={0.5}
+                    alignItems="center"
+                    sx={{ cursor: "pointer" }}
+                    onClick={handleClick}
+                  >
+
+                    <SettingsIcon
+                      style={{
+                        marginTop: "8px",
+                        marginLeft: "10px",
+                        fontSize: "32px",
+                      }}
+                    />
+                  </Box>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        paddingTop: "10px",
+                      }}
+                    >
+                      <Button
+                        sx={{ width: "140px" }}
+                        variant="contained"
+                        onClick={handleAuth}
+                      >
+                        {isAuthenticated ? "Log Out" : "Log in"}
+                      </Button>
+                    </div>
+
+                         
+                  </Menu>{" "}
+                </>
+              )} */}
+
+{isAuthenticated && (
                 <>
                   <Box
                     direction="row"
@@ -893,32 +938,32 @@ const Header = (props) => {
                         Invoice
                       </MenuItem>
                     </Link>
-                    { user?.user_type == "driver"  && 
-                    <Link
-                      href="/StripeConnectionPage"
-                      passHref
-                      style={{ textDecoration: "none" }}
-                    >
-                      <MenuItem
-                        sx={{
-                          color: "#212b36",
-                          fontWeight: "500",
-                          lineHeight: "1.5",
-                        }}
-                        onClick={() =>
-                          handleMenuItemClick("StripeConnectionPage")
-                        }
+                    {user?.user_type == "driver" && (
+                      <Link
+                        href="/StripeConnectionPage"
+                        passHref
+                        style={{ textDecoration: "none" }}
                       >
-                        Stripe Connection
-                      </MenuItem>
-                    </Link>
-                  }
+                        <MenuItem
+                          sx={{
+                            color: "#212b36",
+                            fontWeight: "500",
+                            lineHeight: "1.5",
+                          }}
+                          onClick={() =>
+                            handleMenuItemClick("StripeConnectionPage")
+                          }
+                        >
+                          Stripe Connection
+                        </MenuItem>
+                      </Link>
+                    )}
                     <Link
                       href="/payment"
                       passHref
                       style={{ textDecoration: "none" }}
                     >
-                      <MenuItem
+                      {/* <MenuItem
                         sx={{
                           color: "#212b36",
                           fontWeight: "500",
@@ -927,10 +972,10 @@ const Header = (props) => {
                         onClick={() => handleMenuItemClick("payment")}
                       >
                         Pending payment
-                      </MenuItem>
+                      </MenuItem> */}
                     </Link>
                     <Link
-                     href={`/${user?.user_type}/profile`}
+                      href={`/${user?.user_type}/profile`}
                       passHref
                       style={{ textDecoration: "none" }}
                     >

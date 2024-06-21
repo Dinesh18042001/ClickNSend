@@ -27,6 +27,7 @@ const MyProfilePage = () => {
   const formik = useFormik({
     initialValues: {
       user_name: "",
+      address: "",
       user_type: "driver",
       email: "",
       mobile: "",
@@ -60,30 +61,45 @@ const MyProfilePage = () => {
     },
     validate: (values) => {},
     onSubmit: async (values) => {
-      let formData = new FormData();
-      formData.append("user_name", values?.user_name);
-      formData.append("user_type", values?.user_type);
-      formData.append("email", values?.email);
-      formData.append("mobile", values?.mobile);
-      formData.append("profile_img", values?.profile_img);
-      formData.append("plan_name", values?.plan_name);
-      formData.append("licence_front", values?.licence_front);
-      formData.append("licence_back", values?.licence_back);
-      formData.append("address_proof", values?.address_proof);
-      formData.append("insurance_cert", values?.insurance_cert);
-      formData.append("transit_cert", values?.transit_cert);
-      formData.append("liability_cert", values?.liability_cert);
-      formData.append("vehicle_cert", values?.vehicle_cert);
-      formData.append("v5c_cert", values?.v5c_cert);
-      formData.append("dvia_cert", values?.dvia_cert);
-      formData.append("nationality_cert", values?.nationality_cert);
-      formData = formData;
-
-      await axiosInstance
-        .post(`/api/auth/profile/update-driver-profile/${user?.id}`, formData)
-        .then((response) => {
-          if (response?.status === 200) {
-            enqueueSnackbar(
+      console.log('values values', values);
+  
+      let profileFormData = new FormData();
+      profileFormData.append("user_name", values?.user_name);
+      profileFormData.append("user_type", values?.user_type);
+      profileFormData.append("email", values?.email);
+      profileFormData.append("mobile", values?.mobile);
+      profileFormData.append("profile_img", values?.profile_img);
+      profileFormData.append("plan_name", values?.plan_name);
+      profileFormData.append("licence_front", values?.licence_front);
+      profileFormData.append("licence_back", values?.licence_back);
+      profileFormData.append("address_proof", values?.address_proof);
+      profileFormData.append("insurance_cert", values?.insurance_cert);
+      profileFormData.append("transit_cert", values?.transit_cert);
+      profileFormData.append("liability_cert", values?.liability_cert);
+      profileFormData.append("vehicle_cert", values?.vehicle_cert);
+      profileFormData.append("v5c_cert", values?.v5c_cert);
+      profileFormData.append("dvia_cert", values?.dvia_cert);
+      profileFormData.append("nationality_cert", values?.nationality_cert);
+  
+      const addressFormData = new FormData();
+      addressFormData.append("address", values.address);
+      addressFormData.append("state", values.state);
+      addressFormData.append("city", values.city);
+      addressFormData.append("zip_code", values.zip_code);
+      addressFormData.append("lat", values.lat);
+      addressFormData.append("long", values.long);
+  
+      console.log(profileFormData, 'addressFormData', addressFormData);
+  
+      try {
+        const [profileResponse, addressResponse] = await Promise.all([
+          axiosInstance.post(`/api/auth/profile/update-driver-profile/${user?.id}`, profileFormData),
+          axiosInstance.post(`/api/auth/profile/update-address/${user?.id}`, addressFormData),
+        ]);
+        console.log('addressFormData', addressFormData, 'profileResponse', profileResponse);
+  
+        if (profileResponse?.status === 200) {
+          enqueueSnackbar(
             <Alert
               style={{
                 width: "100%",
@@ -97,7 +113,7 @@ const MyProfilePage = () => {
               icon={false}
               severity="success"
             >
-              {response?.data?.message}
+              {profileResponse?.data?.message}
             </Alert>,
             {
               variant: "success",
@@ -108,78 +124,130 @@ const MyProfilePage = () => {
               },
             }
           );
-            getProfile();
-          } else {
-             // error
-        enqueueSnackbar(
-          <Alert
-            style={{
-              width: "100%",
-              padding: "30px",
-              filter: blur("8px"),
-              background: "#ffe9d5 ",
-              fontSize: "19px",
-              fontWeight: 800,
-              lineHeight: "30px",
-            }}
-            icon={false}
-            severity="error"
-          >
-            {response?.data?.error}
-          </Alert>,
-          {
-            variant: "error",
-            iconVariant: true,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "center",
-            },
-          }
-        );
-          }
-        })
-        .catch((error) => {
-          const { response } = error;
-          if (response.status === 422) {
-            console.log("response", response.data.error);
-            // eslint-disable-next-line no-unused-vars
-            for (const [key] of Object.entries(values)) {
-              if (response.data.error[key]) {
-                setErrors({ [key]: response.data.error[key][0] });
-              }
+        } else {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                filter: blur("8px"),
+                background: "#ffe9d5 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="error"
+            >
+              {profileResponse?.data?.error}
+            </Alert>,
+            {
+              variant: "error",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+  
+        if (addressResponse?.status === 200) {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                backdropFilter: "blur(8px)",
+                background: "#ff7533 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px"
+              }}
+              icon={false}
+              severity="success"
+            >
+              {addressResponse?.data?.message}
+            </Alert>,
+            {
+              variant: "success",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        } else {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                filter: blur("8px"),
+                background: "#ffe9d5 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="error"
+            >
+              {addressResponse?.data?.error}
+            </Alert>,
+            {
+              variant: "error",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+  
+        getProfile();
+      } catch (error) {
+        const { response } = error;
+        if (response?.status === 422) {
+          console.log("response", response.data.error);
+          for (const [key] of Object.entries(values)) {
+            if (response.data.error[key]) {
+              setErrors({ [key]: response.data.error[key][0] });
             }
           }
-          if (response?.data?.status === 406) {
-             // error
-        enqueueSnackbar(
-          <Alert
-            style={{
-              width: "100%",
-              padding: "30px",
-              filter: blur("8px"),
-              background: "#ffe9d5 ",
-              fontSize: "19px",
-              fontWeight: 800,
-              lineHeight: "30px",
-            }}
-            icon={false}
-            severity="error"
-          >
-            {response?.data?.error}
-          </Alert>,
-          {
-            variant: "error",
-            iconVariant: true,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "center",
-            },
-          }
-        );
-          }
-        });
+        }
+        if (response?.data?.status === 406) {
+          enqueueSnackbar(
+            <Alert
+              style={{
+                width: "100%",
+                padding: "30px",
+                filter: blur("8px"),
+                background: "#ffe9d5 ",
+                fontSize: "19px",
+                fontWeight: 800,
+                lineHeight: "30px",
+              }}
+              icon={false}
+              severity="error"
+            >
+              {response?.data?.error}
+            </Alert>,
+            {
+              variant: "error",
+              iconVariant: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+            }
+          );
+        }
+      }
     },
   });
+  
 
   async function getProfile() {
     setLoader(true);
@@ -198,7 +266,7 @@ const MyProfilePage = () => {
           formik.setFieldValue("mobile", newData?.mobile);
 
           formik.setFieldValue("plan_name", newData?.plan_name);
-
+          formik.setFieldValue("address", newData?.profile?.address);
           formik.setFieldValue(
             "profile_img_url",
             `${newData?.profile?.base_url}${newData?.profile?.profile_img}`
@@ -302,8 +370,6 @@ const MyProfilePage = () => {
   React.useEffect(() => {
     getProfile();
   }, [user, user?.id]);
-
-  // console.log("formik.values.licence_front", formik.values.licence_front.name)                                   
 
   const Content = () => {
     return (

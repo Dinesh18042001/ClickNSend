@@ -57,6 +57,7 @@ const DashboardJobPost = ({ formik }) => {
   const [showPayment, setShowPayment] = useState(false);
   // Add for filter
   const [paymentDetails, setPaymentDetails] = useState(null);
+  const address =  user?.profile?.address
   const addressDetail = {
     address: [{ type: "pickup" }, { type: "delivery" }],
   };
@@ -92,7 +93,13 @@ const DashboardJobPost = ({ formik }) => {
     setPaymentDetails(item);
     setShowPayment(true);
   };
-
+  const handleAddNewJob = () => {
+    if (!address || address.trim() === "") {
+      router.push("/customer/profile");
+    } else {
+      router.push("/dashboard/customer/job_post_form/create");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -159,9 +166,7 @@ const DashboardJobPost = ({ formik }) => {
                       startIcon={<Add />}
                       variant="contained"
                       fullWidth
-                      onClick={() =>
-                        router.push("/dashboard/customer/job_post_form/create")
-                      }
+                      onClick={handleAddNewJob}
                     >
                       Add New Job
                     </Button>
@@ -175,6 +180,8 @@ const DashboardJobPost = ({ formik }) => {
             <Grid container rowSpacing={0} justifyContent="center">
               {data && data?.length > 0 ? (
                 data.map((item, index) => {
+                  console.log('item item item', item)
+
                   let productDetail =
                     item?.items && item?.items?.length > 0 && item?.items[0];
                   let addressDetail =
@@ -667,6 +674,8 @@ const DashboardJobPost = ({ formik }) => {
                                   alignItems="center"
                                   justifyContent="space-between"
                                 >
+
+                                  
                                   <Typography
                                     variant="subtitle2"
                                     sx={{
@@ -675,8 +684,11 @@ const DashboardJobPost = ({ formik }) => {
                                     }}
                                   >
                                     Bid: <Iconify icon="bi:currency-pound" />
-                                    {item?.budget}
+                                    {item?.bid_id &&
+    item?.bid_id !== null &&
+    item?.job_requests[0]?.ammount}
                                   </Typography>
+                                 
 
                                   <Stack direction="row" spacing={2}>
                                     {item?.bid_id &&
@@ -701,8 +713,8 @@ const DashboardJobPost = ({ formik }) => {
                                       )}
                                     <Box>
                                       <Badge
-                                        badgeContent={
-                                          item?.job_requests?.length
+                                    badgeContent={
+item?.job_requests?.length
                                         }
                                         color="secondary"
                                         anchorOrigin={{
@@ -754,48 +766,47 @@ const DashboardJobPost = ({ formik }) => {
                                       </Button>
                                     </Box>
                                     {item?.bid_id &&
-                                      item?.bid_id !== null &&
-                                      item?.status !== 1 && (
-                                        <Box>
-                                          <Button
-                                            color="primary"
-                                            fullWidth
-                                            variant="outlined"
-                                            startIcon={
-                                              <Iconify icon="mingcute:foot-fill" />
-                                            }
-                                            onClick={() =>
-                                              router.push(
-                                                `/dashboard/customer/track_job/${item.bid_id}/${item.id}`
-                                              )
-                                            }
-                                            sx={{
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            Track Job
-                                          </Button>
-                                        </Box>
-                                      )}
-                                  </Stack>
-                                </Stack>
-                              </Box>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      );
-                    })
-                  ) : (
-                    <Box my={4}>
-                      <Typography variant="h4">No Job Posted</Typography>
-                    </Box>
-                  )}
+                                  item?.bid_id !== null && item?.status !== 1 && item?.is_paid == 1 && (
+                                    <Box>
+                                      <Button
+                                        color="primary"
+                                        fullWidth
+                                        variant="outlined"
+                                        startIcon={
+                                          <Iconify icon="mingcute:foot-fill" />
+                                        }
+                                        onClick={() =>
+                                          router.push(
+                                            `/dashboard/customer/track_job/${item.bid_id}/${item.id}`
+                                          )
+                                        }
+                                        sx={{
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Track Job
+                                      </Button>
+                                    </Box>
+                                  )}
+                              </Stack>
+                            </Stack>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })
+              ) : (
+                <Box my={4}>
+                  <Typography variant="h4">No Job Posted</Typography>
+                </Box>
+              )}
 
-                  {/* )} */}
-                </Grid>
-                {data && data?.length > 0 && (
-                  <Box>
-                    <Stack alignItems="center" justifyContent="center">
+              {/* )} */}
+            </Grid>
+            {data && data?.length > 0 && (
+              <Box>
+                <Stack alignItems="center" justifyContent="center">
                       <Pagination
                         count={pageCount}
                         color="primary"
@@ -835,15 +846,15 @@ const DashboardJobPost = ({ formik }) => {
                       />
                     </Stack>
                   </Box>
-                )}
-              </Box>
-            </>
-          ) : (
-            <CardPaymentForm
-              paymentDetails={paymentDetails}
-              setShowPayment={setShowPayment}
-            /> // Render the PaymentPage component when showPayment is true
-          )}
+       )}
+     </Box>
+  </>
+) : (
+  <CardPaymentForm
+    paymentDetails={paymentDetails}
+    setShowPayment={setShowPayment}
+  /> // Render the PaymentPage component when showPayment is true
+)}
         </Container>
       </Box>
     </React.Fragment>

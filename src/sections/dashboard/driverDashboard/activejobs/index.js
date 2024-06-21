@@ -92,21 +92,12 @@ const DashboardJobPost = () => {
   const handleReviewClose = () => setReviewOpen(false);
   const [storeInvoiceNumber, setStoreInvoiceNumber] = React.useState();
 
-  const [loader, setLoader] = React.useState(false);
-console.log(user);
+  const [addItemInvoiceData, setAddItemInvoiceData] = React.useState([]);
+
   const formData = useFormik({
     initialValues: {
       id: "",
       driver_id: user?.id,
-    },
-  });
-
-  const formDataInvoice = useFormik({
-    initialValues: {
-      // user_id: items?.user_id,
-        invoice_number: storeInvoiceNumber?.invoice_number,
-        // job_id: items?.accept_bid?.job_id,
-        sign_image:'www.img.com'
     },
   });
 
@@ -163,6 +154,7 @@ console.log(user);
       });
   };
 
+  // Start Job Api
   const startJobApi = async () => {
     await axiosInstance
       .post("api/auth/jobs/start-job", formData.values)
@@ -220,6 +212,7 @@ console.log(user);
   }, [user, user?.id]);
 
   React.useEffect(() => {
+
     const fetchdata = async () => {
       await axiosInstance
         .get("api/auth/invoice/number")
@@ -234,47 +227,53 @@ console.log(user);
         });
     };
   fetchdata();
-  HandleAddSendInvoices();
 }, []);
 
-const HandleAddSendInvoices =  async () => {
-console.log('formDataInvoice.values formDataInvoice.values',formDataInvoice.values);
-  // items.created_by === 'company' &&
-  await axiosInstance
-      .post("api/auth/invoice/add-send",formDataInvoice.values)
-      .then((response) => {
-        if (response.status === 200) {
-          enqueueSnackbar(
-            <Alert
-              style={{
-                width: "100%",
-                padding: "30px",
-                backdropFilter: "blur(8px)",
-                background: "#ff7533 ",
-                fontSize: "19px",
-                fontWeight: 800,
-                lineHeight: "30px",
-              }}
-              icon={false}
-              severity="success"
-            >
-              {response?.data?.message}
-            </Alert>,
-            {
-              variant: "success",
-              iconVariant: true,
-              anchorOrigin: {
-                vertical: "top",
-                horizontal: "center",
-              },
-            }
-          );
+// useEffect ( ()  => {
+  const HandleAddSendInvoices =  async () => {
+    const initialValues =  {
+          user_id: addItemInvoiceData?.user_id,
+            invoice_number: storeInvoiceNumber?.invoice_number,
+            job_id: addItemInvoiceData.id,
+            sign_image:'www.img.com'
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
+      await axiosInstance
+          .post("api/auth/invoice/add-send",initialValues)
+          .then((response) => {
+            if (response.status === 200) {
+              enqueueSnackbar(
+                <Alert
+                  style={{
+                    width: "100%",
+                    padding: "30px",
+                    backdropFilter: "blur(8px)",
+                    background: "#ff7533 ",
+                    fontSize: "19px",
+                    fontWeight: 800,
+                    lineHeight: "30px",
+                  }}
+                  icon={false}
+                  severity="success"
+                >
+                  {response?.data?.message}
+                </Alert>,
+                {
+                  variant: "success",
+                  iconVariant: true,
+                  anchorOrigin: {
+                    vertical: "top",
+                    horizontal: "center",
+                  },
+                }
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }
+    
+// },[reviewOpen] )
 
 // const HandleAddSendInvoice = async () => {
 //     await axiosInstance
@@ -322,10 +321,12 @@ console.log('formDataInvoice.values formDataInvoice.values',formDataInvoice.valu
   const completeJobApi = async () => {
 console.log('aaaaaa',formData.values);
     await axiosInstance
-      .post("api/auth/jobs/complete--job", formData.values)
+      .post("api/auth/jobs/complete-job", formData.values)
       .then((response) => {
         if (response.status === 200) {
           setCompleteOpen(false);
+          setReviewOpen(true);
+    handleReviewOpen(true);
           dispatch(
             getJobActive({
               user_id: user?.id,
@@ -368,23 +369,16 @@ console.log('aaaaaa',formData.values);
               },
             }
           );
-          setTimeout(() => {
-            alert('Hellllllo')
-            HandleAddSendInvoices();
-          }, 3000);
           handleClose(true);
-          setReviewOpen(true);
+         
          
         }
       })
       .catch((error) => {
         console.log(error);
-        setTimeout(() => {
-          alert('Hellllllo')
-          HandleAddSendInvoices();
-        }, 3000);
       });
   };
+
   const formik = useFormik({
     initialValues: {
       job_id: "",
@@ -407,6 +401,7 @@ console.log('aaaaaa',formData.values);
       await axiosInstance
         .post("api/auth/rating/add", formik.values)
         .then((response) => {
+          HandleAddSendInvoices()
           if (response.status === 200) {
             setReviewOpen(false);
             enqueueSnackbar(
@@ -874,7 +869,6 @@ console.log('aaaaaa',formData.values);
                                               elem?.bid_id
                                             );
                                             setConfirmOpen(true);
-                                            // HandleAddSendInvoices(elem);
                                           }}
                                           sx={{
                                             fontWeight: 500,
@@ -895,16 +889,16 @@ console.log('aaaaaa',formData.values);
                                       </>
                                     ) : elem.status === 2 ? (
                                       <>
-                                        {elem.is_paid === 0 &&  elem?.created_by == 'customer' ? (
+                                         {elem.is_paid === 0 &&  elem?.created_by == 'customer' ? (
                                           <Button
                                             fullWidth
                                             color="info"
                                             variant="outlined"
                                             disabled
                                           >
-                                            Wait Please
+                                            Wait For Payment
                                           </Button>
-                                        ) : (
+                                        ) : ( 
                                           <Button
                                             color="success"
                                             fullWidth
@@ -913,7 +907,6 @@ console.log('aaaaaa',formData.values);
                                               <Iconify icon="icon-park:check-correct" />
                                             }
                                             onClick={() => {
-                                              // HandleAddSendInvoices(elem);
                                               formData.setFieldValue(
                                                 "id",
                                                 elem?.bid_id
@@ -924,9 +917,9 @@ console.log('aaaaaa',formData.values);
                                               fontWeight: 500,
                                             }}
                                           >
-                                            Start Job p
+                                            Start Job
                                           </Button>
-                                        )}
+                                          ) }
                                       </>
                                     ) : (
                                       <>
@@ -939,7 +932,7 @@ console.log('aaaaaa',formData.values);
                                             <Iconify icon="carbon:task-complete" />
                                           }
                                           onClick={() => {
-                                            HandleAddSendInvoices(elem);
+                                            // HandleAddSendInvoices();
                                             formData.setFieldValue(
                                               "id",
                                               elem?.bid_id
@@ -949,6 +942,7 @@ console.log('aaaaaa',formData.values);
                                               elem?.id
                                             );
                                             setCompleteOpen(true);
+                                            setAddItemInvoiceData(elem);
                                           }}
                                         >
                                           Complete Job
@@ -1203,7 +1197,6 @@ console.log('aaaaaa',formData.values);
                       variant="outlined"
                       onClick={() => {
                         handleStartClose();
-                        // HandleAddSendInvoices();
                       }}
                     >
                       No

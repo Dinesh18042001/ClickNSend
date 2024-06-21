@@ -60,7 +60,7 @@ const PostJob = () => {
 
     values?.items &&
       values?.items?.length > 0 &&
-      values?.items.forEach((element, elementIndex) => {
+      values?.items?.forEach((element, elementIndex) => {
         itemObject["product"] = {};
 
         if (element?.address?.length) {
@@ -213,7 +213,7 @@ const PostJob = () => {
   const formik = useFormik({
     initialValues: {
       user_id: user?.id,
-      created_by: user?.user_type ,
+      created_by: "customer",
       name: "",
       vehicle: 0,
       vehical_type: 0,

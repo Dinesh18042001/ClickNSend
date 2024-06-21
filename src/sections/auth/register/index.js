@@ -46,7 +46,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const Register = ({ formik, open, handleOpenClose }) => {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-
+  const [verifyedNumber, setVerifyedNumber] = React.useState(false);
   const [opens, setOpens] = React.useState(false);
   const [value, setValue] = React.useState();
 
@@ -69,7 +69,6 @@ const Register = ({ formik, open, handleOpenClose }) => {
 
   const [validateOTP, setValidateOTP] = React.useState(true);
   const [successMessage, setSuccessMessage] = React.useState(false);
-
   const [selectedCoutry, setSelectedCountry] = React.useState();
 
   useEffect(()=>{
@@ -169,15 +168,14 @@ const Register = ({ formik, open, handleOpenClose }) => {
 
         // for otp validation 17/5
 
-        email: `${newPhoneNumber}`,
-        dial_code: `${selectedCoutry}`  ,
-        type: "mobile",
-        logged: "no",
-
+          email: `${newPhoneNumber}`,
+          dial_code: `${selectedCoutry}`,
+          type: "mobile",
+          logged: "no",
         };
 
         const response = await axiosInstance.post(url, formData);
-        console.log("response API :",response?.status);
+        // console.log("response API :", values?.mobile);
 
         if (response?.status === 200) {
           // Handle successful response
@@ -292,8 +290,8 @@ const Register = ({ formik, open, handleOpenClose }) => {
     // );
 
     const formData = {
-      email: mobileValue,
-      otp: formik?.values?.otp,
+      email: formik.values.mobile,
+      otp: formik.values.otp,
     };
     const apiEndpoint = "api/user/validate-otp";
     try {
@@ -329,6 +327,7 @@ const Register = ({ formik, open, handleOpenClose }) => {
             },
           }
         );
+        setVerifyedNumber(true);
         setShowResend(false);
         setOpens(false);  // Open the dialog when response status is 200
         setValidateOTP(false);
@@ -694,6 +693,23 @@ const Register = ({ formik, open, handleOpenClose }) => {
                       />
                     </div>
 
+                    {/* <TextBox
+                      variant="standard"
+                      fullWidth
+                      name="mobile"
+                      label="Contact Number"
+                      value={formik.values.mobile}
+                      onChange={(e) => {
+                        const cleanedValue = e.target.value
+                          .replace(/\D/gm, "")
+                          .slice(0, 11);
+                        formik.setFieldValue("mobile", cleanedValue);
+                      }}
+                      helperText={formik.touched.mobile && formik.errors.mobile}
+                      placeholder={"Enter Your Contact Number"}
+                      size={"small"}
+                    /> */}
+
                     <TextBox
                       variant="standard"
                       fullWidth
@@ -740,7 +756,6 @@ const Register = ({ formik, open, handleOpenClose }) => {
                         <Button
                           variant="contained"
                           color="primary"
-
                           disabled={isButtonDisabled || formik.values.mobile.length !== 11} // Set disabled state
                           sx={{ width: "100px", marginLeft: "10px" }}
                           onClick={() => {
@@ -757,9 +772,8 @@ const Register = ({ formik, open, handleOpenClose }) => {
                         </Button>
                       </Box>
                     }
+                    
                   </Box>
-
-
 
                   <Box>
                     <PasswordBox
@@ -1050,6 +1064,7 @@ const Register = ({ formik, open, handleOpenClose }) => {
                       variant="contained"
                       type="submit"
                       color="primary"
+                      disabled={!verifyedNumber}
                     >
                       Sign up
                     </Button>
@@ -1164,7 +1179,7 @@ const Register = ({ formik, open, handleOpenClose }) => {
                     component="span"
                     fontWeight={500}
                     sx={{ cursor: "pointer", fontSize: "15px" }}
-                    onClick={handleReSendLoginOTP1}
+                    onClick={handleReSendLoginOTP}
                   >
                     Resend OTP
                   </Typography>

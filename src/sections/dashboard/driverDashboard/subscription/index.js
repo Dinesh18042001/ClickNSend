@@ -227,14 +227,16 @@ import Iconify from "@/components/iconify";
 import SkeletonLoader from "@/components/skeleton";
 import axiosInstance from "@/utils/axios";
 import CardPaymentForm from "../../companyDashboard/paymentPage/CardPaymentForm";
-
+import { useAuthContext } from "@/auth/useAuthContext";
 const SubscriptionsPage = () => {
+  const { user } = useAuthContext();
+  const activePlan = user?.plan
   const [hover, setHover] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [showPayment, setShowPayment] = useState(false);
-
+  
   // Fetch subscription plans data
   const fetchData = async (type = "driver") => {
     setLoading(true);
@@ -347,7 +349,7 @@ const SubscriptionsPage = () => {
                       color="white"
                       variant="h2"
                     >
-                      Our Subscription Plans 222223
+                      Our Subscription Plans
                     </Typography>
                     <Typography
                       variant="body1"
@@ -372,8 +374,7 @@ const SubscriptionsPage = () => {
                     {data &&
                       data?.length > 0 &&
                       data.map((plan, index) => {
-                        {/* const isActive = activePlans.includes(plan.id); // Check if the plan is active */}
-
+                        const isActivePlan = activePlan.plan_id === plan.id;
                         return (
                           <Grid item md={4} key={index}>
                             <Card
@@ -471,14 +472,25 @@ const SubscriptionsPage = () => {
                                       ACTIVE
                                     </Button>
                                   ) : ( */}
+                                  {isActivePlan ? (
+                                    <Button
+                                      fullWidth
+                                      variant="contained"
+                                      sx={{ px: 5 }}
+                                      // onClick={() => handleCheckout(plan)}
+                                    >
+                                      Activate Plan
+                                    </Button>
+                                  ) : (
                                     <Button
                                       fullWidth
                                       variant="contained"
                                       sx={{ px: 5 }}
                                       onClick={() => handleCheckout(plan)}
                                     >
-                                      GET STARTED
+                                      Get Started
                                     </Button>
+                                  )}
                                   {/* )} */}
                                 </Stack>
                               </CardContent>

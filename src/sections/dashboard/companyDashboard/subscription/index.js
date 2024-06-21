@@ -19,8 +19,10 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import CardPaymentForm from '../paymentPage/CardPaymentForm'
-
+import { useAuthContext } from "@/auth/useAuthContext";
 const SubscriptionsPage = () => {
+  const { user } = useAuthContext();
+  const activePlan = user?.plan
   const [hover, setHover] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -164,6 +166,7 @@ const SubscriptionsPage = () => {
                   {data &&
                     data?.length > 0 &&
                     data.map((elem, index) => {
+                      const isActivePlan = activePlan?.plan_id === elem.id;
                       return (
                         <Grid item md={4} key={index}>
                           <Card
@@ -292,15 +295,25 @@ const SubscriptionsPage = () => {
                                 </Box>
 
                                 <Stack alignItems="center">
-                                  <Button
-                                    fullWidth
-                                    variant="contained"
-                                    width="min-content"
-                                    sx={{ px: 5 }}
-                                    onClick={() => handleCheckout(elem)}
-                                  >
-                                    GET STARTED
-                                  </Button>
+                                {isActivePlan ? (
+                                    <Button
+                                      fullWidth
+                                      variant="contained"
+                                      sx={{ px: 5 }}
+                                      // onClick={() => handleCheckout(plan)}
+                                    >
+                                      Activate Plan
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      fullWidth
+                                      variant="contained"
+                                      sx={{ px: 5 }}
+                                      onClick={() => handleCheckout(elem)}
+                                    >
+                                      Get Started
+                                    </Button>
+                                  )}
                                 </Stack>
                               </Stack>
                             </CardContent>
